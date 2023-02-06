@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "XacThucEmail";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+@model int
+
+<div class="container" style="padding-top:90px">
+    <div class="sign-up__form">
+        @using (Html.BeginForm(new {code = Model}))
+        {
+            <div class="sign-up__content">
+                <h2 class="sign-up__title">Xác nhận email</h2>
+                <input class="sign-up__inp" type="text" name="MaXacNhan" style=" text-transform: none;" placeholder="Mã xác nhận" /><h6 class="text-danger">@ViewData["LoiXacNhan"]</h6>
+                <div class="sign-up__buttons" style="padding-left:170px">
+                    <button class="btn btn--signin" type="submit" style="text-align:center">Xác nhận</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+

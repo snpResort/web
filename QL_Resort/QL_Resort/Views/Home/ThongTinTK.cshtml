@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "ThongTinTK";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+@model dynamic
+<div class="container" style="padding-top:90px">
+    <div class="sign-up__form" style="width: 80%; height: 600px">
+        @*@using (Html.BeginForm())
+            {*@
+
+        <div class="sign-up__content" style="font-size:20px">
+            <h2 class="sign-up__title" style="text-align: center">Thông Tin Cá Nhân</h2>
+            <div class="row">
+                <div class="col-md-6" style="padding-left:70px">
+                    <label>Họ tên:  &nbsp</label><br />
+                    <label>Giới tính:  &nbsp</label><br />
+                    <label>Email:  &nbsp</label><br />
+                    <label>Ngày sinh:  &nbsp</label><br />
+                    <label>CCCD:  &nbsp</label><br />
+                    <label>Số điện thoại:  &nbsp</label><br />
+                    <label>Địa chỉ:  &nbsp</label><br />
+                    <label>Mã thành viên:  &nbsp</label><br />
+                </div>
+                <div class="col-md-6">
+                    <label>@Model.Info.HoTen</label><br />
+                    <label>@(Model.Info.GioiTinh? "Nam": "Nữ")</label><br />
+                    <label>@Model.Info.Email</label><br />
+                    <label>@(Model.Info.NgaySinh.ToString("dd/MM/yyyy"))</label><br />
+                    <label>@Model.Info.CanCuoc</label><br />
+                    <label>@Model.Info.Sdt</label><br />
+                    <label>@Model.Info.DiaChi</label><br />
+                    <label>@Model.Info.Id_tk</label><br />
+                </div>
+            </div>
+            <div class="sign-up__buttons" style="padding-left:200px; padding-top:100px">
+                <button class="btn btn--signin" type="submit" style="text-align:center">Cập nhật</button>
+            </div>
+        </div>
+
+
+

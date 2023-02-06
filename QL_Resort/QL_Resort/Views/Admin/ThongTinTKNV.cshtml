@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "ThongTinTKNV";
+    Layout = "~/Views/Shared/_LayoutQL.cshtml";
+}
+@model dynamic
+<div class="container" style="padding-top:100px">
+    <div class="sign-up__form__Info">
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary(true)
+            {
+                <div class="sign-up__content">
+                    <h2 class="sign-up__title" style="text-align:center">Thông Tin Tài Khoản Nhân Viên</h2>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <input class="sign-up__inp" type="text" name="username" style=" text-transform: none" placeholder="Tên đăng nhập" style="width:100%; margin:auto" /> <h6 class="text-danger">@ViewData["LoiUser"]</h6><br />
+                            <input class="sign-up__inp" type="password" name="Pass" style=" text-transform: none" placeholder="Mật khẩu" style="width:100%; margin:auto" /><h6 class="text-danger">@ViewData["LoiPass"]</h6><br /><br />
+                            <select style="width:100%; margin:auto" name="tenquyen">
+                                @foreach (var item in Model.Quyens)
+                                {
+                                    <option value="@item.TenQuyen">@item.TenQuyen</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-7">
+                            <input class="sign-up__inp" type="text" name="Hoten" style=" text-transform: none" placeholder="Họ và tên" style="width:100%; margin:auto" /><h6 class="text-danger">@ViewData["Loihoten"]</h6><br />
+                            <input class="sign-up__inp" type="date" name="Ngaysinh" style=" text-transform: none" placeholder="Ngày sinh" style="width:100%; margin:auto" /><h6 class="text-danger">@ViewData["Loingaysinh"]</h6><br />
+                            <input class="sign-up__inp" type="text" name="cccd" style=" text-transform: none" placeholder="CCCD" style="width:100%; margin:auto" /><br />
+                            <input class="sign-up__inp" type="email" name="Email" style=" text-transform: none" placeholder="Email" style="width:100%; margin:auto" /><h6 class="text-danger">@ViewData["LoiEmail"]</h6><br />
+                            <input class="sign-up__inp" type="text" name="sdt" style=" text-transform: none" placeholder="Số điện thoại" style="width:100%; margin:auto" /><h6 class="text-danger">@ViewData["LoiSdt"]</h6><br />
+                            <input class="sign-up__inp" type="text" name="diachi" style=" text-transform: none" placeholder="Địa chỉ" style="width:100%; margin:auto" /><h6 class="text-danger">@ViewData["Loidiachi"]</h6><br /><br />
+                            <div>
+                                <input type="radio" name="GioiTinh" value="Nam" checked>&nbsp;&nbsp;Nam
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="GioiTinh" value="Nữ">&nbsp;&nbsp;Nữ
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="GioiTinh" value="Khác">&nbsp;&nbsp;Khác
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sign-up__buttons" style="text-align: center; padding-left: 380px; padding-bottom: 20px">
+                    <button class="btn btn--signin" type="submit" style="text-align:center; width:200px; ">Tạo Tài Khoản</button>
+                </div>
+            }
+        }
+        </div>
+    </div>
+

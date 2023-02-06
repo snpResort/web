@@ -1,0 +1,489 @@
+﻿<!DOCTYPE html>
+@model dynamic
+@using QL_Resort.Models
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="icon" href="~/Asset/image/logo1.png" type="~/Asset/image/png">
+    @*<title>Resort Moonlight</title>*@
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/Asset/css/bootstrap.css">
+    <link rel="stylesheet" href="~/Asset//vendors/linericon/style.css">
+    <link rel="stylesheet" href="~/Asset/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Asset/vendors/owl-carousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Asset/vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="~/Asset/vendors/nice-select/css/nice-select.css">
+    <link rel="stylesheet" href="~/Asset/vendors/owl-carousel/owl.carousel.min.css">
+
+    <!-- main css -->
+    <link rel="stylesheet" href="~/Asset/css/style.css">
+    <link rel="stylesheet" href="~/Asset/css/responsive.css">
+</head>
+<body>
+    <!--================Header Area =================-->
+    <header class="header_area">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <a class="navbar-brand logo_h" href="/Admin/">
+                    <img src="https://raw.githubusercontent.com/snpResort/images/main/logo.png" alt="" height="100" width="100">&nbsp&nbspMOONLIGHT
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav menu_nav ml-auto">
+                        <li class="nav-item active"><a class="nav-link" href="/Admin/">Trang Chủ</a></li>
+                        <li class="nav-item submenu dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Quản Lý</a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item quyenLT quyenQLKD"><a class="nav-link" href="blog.html">Phòng</a></li>
+                                <li class="nav-item quyenLT quyenQLKD"><a class="nav-link" href="blog-single.html">Dịch Vụ</a></li>
+                                <li class="nav-item quyenQLKD"><a class="nav-link" href="blog-single.html">Khách Hàng</a></li>
+                                <li class="nav-item quyenQLNS"><a class="nav-link" href="/Admin/QLTaiKhoan">Nhân Viên</a></li>
+                                <li class="nav-item quyenLT quyenQLKD"><a class="nav-link" href="blog-single.html">Hoá Đơn</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item quyenQLKD"><a class="nav-link" href="#">Thống kê</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Giới Thiệu</a></li>
+                        <li class="nav-item submenu dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i></a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item"><a class="nav-link" href="/Admin/ThongTinTKNV">Tạo Tài Khoản NV</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Thông Tin Tài Khoản</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-sign-out"></i></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!--================Header Area =================-->
+    <!--================Banner Area =================-->
+    <section class="banner_area">
+        <div class="booking_table d_flex align-items-center">
+            <div class="overlay bg-parallax" data-stellar-ratio="0.9" data-stellar-vertical-offset="0" data-background=""></div>
+            <div class="container">
+                <div class="banner_content text-center">
+                    <h6>Away from monotonous life</h6>
+                    <h2>Relax Your Mind</h2>
+                    <p>If you are looking at blank cassettes on the web, you may be very confused at the<br> difference in price. You may see some for as low as $.17 each.</p>
+                    <a href="#" class="btn theme_btn button_hover">Get Started</a>
+                </div>
+            </div>
+        </div>
+        <div class="hotel_booking_area position">
+            <div class="container">
+                <div class="hotel_booking_table">
+                    <div class="col-md-3">
+                        <h2>Book<br> Your Room</h2>
+                    </div>
+                    <div class="col-md-9">
+                        @using (Html.BeginForm("TimKiem", "Admin"))
+                        {
+                            <div class="boking_table">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="book_tabel_item">
+                                            <div class="input-group wide" style="height:40px">
+                                                <input type="number" name="SLNL" min="0" placeholder="Số Lượng Người Lớn" style="width:200px" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="book_tabel_item">
+                                            <div class="input-group">
+                                                <div class="input-group wide" style="height:40px">
+                                                    <input type="number" name="SLTE" min="0" placeholder="Số Lượng Trẻ Em" style="width:200px" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="book_tabel_item">
+                                            @*<a class="book_now_btn button_hover" href="/Phong/TimKiem">Tìm kiếm</a>*@
+                                            <button class="book_now_btn button_hove" style="border-radius:10px" type="submit">Tìm Kiếm</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================Banner Area =================-->
+    <!-----------------Begin Main---------------------->
+
+    <div>
+        <section class="accomodation_area section_gap">
+            <div class="container">
+                <div class="section_title text-center">
+                    <h2 class="title_color" style="text-align:center">--------------DANH SÁCH CÁC LOẠI PHÒNG--------------</h2>
+                </div>
+                <table class="table" style="width:100%; margin:auto; border:hidden">
+                    <tr style="border-bottom:1px solid black">
+                        <th>LOẠI PHÒNG</th>
+                        <th>GIÁ</th>
+                        <th>SL NGƯỜI LỚN</th>
+                        <th>SL TRẺ EM</th>
+                        <th style="text-align:center" colspan="3">CHỨC NĂNG</th>
+                    </tr>
+                    @foreach(var item in Model.LoaiPhong)
+                    {
+                    <tr>
+                        <td>@item.TenLoai</td>
+                        <td>@item.Gia</td>
+                        <td>@item.SoLuongNguoiLon</td>
+                        <td>@item.SoLuongTreEm</td>
+                        <td style="text-align:center"><a class="btn theme_btn" style="background-color:limegreen">Check</a></td>
+                    </tr>
+                    }
+                </table>
+            </div>
+        </section>
+
+        @*<section class="testimonial_area section_gap">
+                <div class="container">
+                    <div class="section_title text-center">
+                        <h2 class="title_color" style="text-align:center">-----------------Danh Sách Loại Phòng-----------------</h2>
+                    </div>
+                    <div id="myCarousel" class="carousel slide border" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img class="d-block w-100" src="https://snpresort.github.io/images/LoaiPhong/std1.jpg" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="https://snpresort.github.io/images/LoaiPhong/sup2.jpg" alt="">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="https://snpresort.github.io/images/LoaiPhong/sut1.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>*@
+
+
+        <!--================ Accomodation Area  =================-->
+        <!--================ Facilities Area  =================-->
+        <section class="facilities_area section_gap">
+            <div class="overlay bg-parallax" data-stellar-ratio="0.8" data-stellar-vertical-offset="0" data-background="">
+            </div>
+            <div class="container">
+                <div class="section_title text-center">
+                    <h2 class="title_w">Moonlight Resort</h2>
+                    <p>Who are in extremely love with eco friendly system.</p>
+                </div>
+                <div class="row mb_30">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="facilities_item">
+                            <h4 class="sec_h4"><i class="lnr lnr-dinner"></i>Nhà hàng</h4>
+                            <p>Usage of the Internet is becoming more common due to rapid advancement of technology and power.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="facilities_item">
+                            <h4 class="sec_h4"><i class="lnr lnr-bicycle"></i>Sports</h4>
+                            <p>Usage of the Internet is becoming more common due to rapid advancement of technology and power.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="facilities_item">
+                            <h4 class="sec_h4"><i class="lnr lnr-shirt"></i>Hồ bơi</h4>
+                            <p>Usage of the Internet is becoming more common due to rapid advancement of technology and power.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="facilities_item">
+                            <h4 class="sec_h4"><i class="lnr lnr-car"></i>Thuê xe</h4>
+                            <p>Usage of the Internet is becoming more common due to rapid advancement of technology and power.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="facilities_item">
+                            <h4 class="sec_h4"><i class="lnr lnr-heart-pulse"></i>Gym</h4>
+                            <p>Usage of the Internet is becoming more common due to rapid advancement of technology and power.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="facilities_item">
+                            <h4 class="sec_h4"><i class="lnr lnr-coffee-cup"></i>Spa</h4>
+                            <p>Usage of the Internet is becoming more common due to rapid advancement of technology and power.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================ Facilities Area  =================-->
+        <!--================ About History Area  =================-->
+
+        <section class="about_history_area section_gap container">
+            <div class="row">
+                <div class="col-md-6" style="color:white">
+                    <div class="content" style="padding-bottom:20px">
+                        <h2>Liên Hệ</h2>
+                        <p style="color:black ;font-size:16px;">Vui lòng liên hệ trực tiếp với chúng tôi nếu bạn có bất kỳ thắc mắc nào về chỗ ở. Chúng tôi rất thích có bạn ở lại với chúng tôi!</p>
+                    </div>
+                    <div>
+                        <img src="https://lanrung.com.vn/wp-content/themes/flatsome-child/assets/images/icon_address.png">
+                        <a style="color:black;class=" title" style="font-size:22px">Moonlight Resort</a>
+                        <p style="font-size:16px; color: black;padding-top:10px">140 Lê Trọng Tấn, Phường Tây Thành, Quận Tân Phú, Thành Phố Hồ Chí Minh</p>
+                    </div>
+                    <div>
+                        <br />
+                        <img src="https://lanrung.com.vn/wp-content/themes/flatsome-child/assets/images/icon_phone.png">
+                        <a style="font-size:16px"><a href="tel:036 241 7182" style="color:black">036 241 7182</a></a>
+                        <p><a href="tel:"></a></p>
+                    </div>
+                    <div>
+                        <br />
+                        <img src="https://lanrung.com.vn/wp-content/themes/flatsome-child/assets/images/icon_email.png">
+                        <a style="font-size:16px"><a href="mailto:nalethuy@gmail.com" style="color:black">moonlightresort@gmail.com</a></a>
+                        <p><a href="mailto:"></a></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d26940.121005368186!2d106.6327545107033!3d10.82193654981788!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752be27d8b4f4d%3A0x92dcba2950430867!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBDw7RuZyBuZ2hp4buHcCBUaOG7sWMgcGjhuqltIFRQLkhDTQ!5e0!3m2!1svi!2sus!4v1669121756186!5m2!1svi!2sus" width="100%" height="500px" style="border:0; position:absolute; border-radius:10px" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!--================ About History Area  =================-->
+        <!--================ Testimonial Area  =================-->
+        <section class="testimonial_area section_gap">
+            <div class="container">
+                <div class="section_title text-center">
+                    <h2 class="title_color">Testimonial from our Clients</h2>
+                    <p>The French Revolution constituted for the conscience of the dominant aristocratic class a fall from </p>
+                </div>
+                <div class="testimonial_slider owl-carousel">
+                    <div class="media testimonial_item">
+                        <img class="rounded-circle" src="~/Asset/image/testtimonial-1.jpg" alt="">
+                        <div class="media-body">
+                            <p>As conscious traveling Paupers we must always be concerned about our dear Mother Earth. If you think about it, you travel across her face, and She is the </p>
+                            <a href="#"><h4 class="sec_h4">Fanny Spencer</h4></a>
+                            <div class="star">
+                                <a href="#"><i class="fa fa-star"></i></a>
+                                <a href="#"><i class="fa fa-star"></i></a>
+                                <a href="#"><i class="fa fa-star"></i></a>
+                                <a href="#"><i class="fa fa-star"></i></a>
+                                <a href="#"><i class="fa fa-star-half-o"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="media testimonial_item">
+                        <img class="rounded-circle" src="~/Asset/image/testtimonial-1.jpg" alt="">
+                        <div class="media-body">
+                            <p>As conscious traveling Paupers we must always be concerned about our dear Mother Earth. If you think about it, you travel across her face, and She is the </p>
+                            <a href="#"><h4 class="sec_h4">Fanny Spencer</h4></a>
+                            <div class="star">
+                                <a href="#"><i class="fa fa-star"></i></a>
+                                <a href="#"><i class="fa fa-star"></i></a>
+                                <a href="#"><i class="fa fa-star"></i></a>
+                                <a href="#"><i class="fa fa-star"></i></a>
+                                <a href="#"><i class="fa fa-star-half-o"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="media testimonial_item">
+                        <img class="rounded-circle" src="~/Asset/image/testtimonial-1.jpg" alt="">
+                        <div class="media-body">
+                            <p>As conscious traveling Paupers we must always be concerned about our dear Mother Earth. If you think about it, you travel across her face, and She is the </p>
+                            <a href="#"><h4 class="sec_h4">Fanny Spencer</h4></a>
+                            <div class="star">
+                                <a href="#"><i class="fa fa-star"></i></a>
+                                <a href="#"><i class="fa fa-star"></i></a>
+                                <a href="#"><i class="fa fa-star"></i></a>
+                                <a href="#"><i class="fa fa-star"></i></a>
+                                <a href="#"><i class="fa fa-star-half-o"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="media testimonial_item">
+                        <img class="rounded-circle" src="~/Asset/image/testtimonial-1.jpg" alt="">
+                        <div class="media-body">
+                            <p>As conscious traveling Paupers we must always be concerned about our dear Mother Earth. If you think about it, you travel across her face, and She is the </p>
+                            <a href="#"><h4 class="sec_h4">Fanny Spencer</h4></a>
+                            <div class="star">
+                                <a href="#"><i class="fa fa-star"></i></a>
+                                <a href="#"><i class="fa fa-star"></i></a>
+                                <a href="#"><i class="fa fa-star"></i></a>
+                                <a href="#"><i class="fa fa-star"></i></a>
+                                <a href="#"><i class="fa fa-star-half-o"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================ Testimonial Area  =================-->
+        <!--================ Latest Blog Area  =================-->
+        <section class="latest_blog_area section_gap">
+            <div class="container">
+                <div class="section_title text-center">
+                    <h2 class="title_color">latest posts from blog</h2>
+                    <p>The French Revolution constituted for the conscience of the dominant aristocratic class a fall from </p>
+                </div>
+                <div class="row mb_30">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-recent-blog-post">
+                            <div class="thumb">
+                                <img class="img-fluid" src="~/Asset/image/blog/blog-1.jpg" alt="post">
+                            </div>
+                            <div class="details">
+                                <div class="tags">
+                                    <a href="#" class="button_hover tag_btn">Travel</a>
+                                    <a href="#" class="button_hover tag_btn">Life Style</a>
+                                </div>
+                                <a href="#"><h4 class="sec_h4">Low Cost Advertising</h4></a>
+                                <p>Acres of Diamonds… you’ve read the famous story, or at least had it related to you. A farmer.</p>
+                                <h6 class="date title_color">31st January,2018</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-recent-blog-post">
+                            <div class="thumb">
+                                <img class="img-fluid" src="~/Asset/image/blog/blog-2.jpg" alt="post">
+                            </div>
+                            <div class="details">
+                                <div class="tags">
+                                    <a href="#" class="button_hover tag_btn">Travel</a>
+                                    <a href="#" class="button_hover tag_btn">Life Style</a>
+                                </div>
+                                <a href="#"><h4 class="sec_h4">Creative Outdoor Ads</h4></a>
+                                <p>Self-doubt and fear interfere with our ability to achieve or set goals. Self-doubt and fear are</p>
+                                <h6 class="date title_color">31st January,2018</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-recent-blog-post">
+                            <div class="thumb">
+                                <img class="img-fluid" src="~/Asset/image/blog/blog-3.jpg" alt="post">
+                            </div>
+                            <div class="details">
+                                <div class="tags">
+                                    <a href="#" class="button_hover tag_btn">Travel</a>
+                                    <a href="#" class="button_hover tag_btn">Life Style</a>
+                                </div>
+                                <a href="#"><h4 class="sec_h4">It S Classified How To Utilize Free</h4></a>
+                                <p>Why do you want to motivate yourself? Actually, just answering that question fully can </p>
+                                <h6 class="date title_color">31st January,2018</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!--------------------------------------------------->
+    <!--================ start footer Area  =================-->
+    <footer class="footer-area section_gap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3  col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6 class="footer_title">About Agency</h6>
+                        <p>The world has become so fast paced that people don’t want to stand by reading a page of information, they would much rather look at a presentation and understand the message. It has come to a point </p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6 class="footer_title">Navigation Links</h6>
+                        <div class="row">
+                            <div class="col-4">
+                                <ul class="list_style">
+                                    <li><a href="#">Home</a></li>
+                                    <li><a href="#">Feature</a></li>
+                                    <li><a href="#">Services</a></li>
+                                    <li><a href="#">Portfolio</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-4">
+                                <ul class="list_style">
+                                    <li><a href="#">Team</a></li>
+                                    <li><a href="#">Pricing</a></li>
+                                    <li><a href="#">Blog</a></li>
+                                    <li><a href="#">Contact</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6 class="footer_title">Newsletter</h6>
+                        <p>For business professionals caught between high OEM price and mediocre print and graphic output, </p>
+                        <div id="mc_embed_signup">
+                            <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscribe_form relative">
+                                <div class="input-group d-flex flex-row">
+                                    <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
+                                    <button class="btn sub-btn"><span class="lnr lnr-location"></span></button>
+                                </div>
+                                <div class="mt-10 info"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-footer-widget instafeed">
+                        <h6 class="footer_title">InstaFeed</h6>
+                        <ul class="list_style instafeed d-flex flex-wrap">
+                            <li><img src="~/Asset/image/instagram/Image-01.jpg" alt=""></li>
+                            <li><img src="~/Asset/image/instagram/Image-02.jpg" alt=""></li>
+                            <li><img src="~/Asset/image/instagram/Image-03.jpg" alt=""></li>
+                            <li><img src="~/Asset/image/instagram/Image-04.jpg" alt=""></li>
+                            <li><img src="~/Asset/image/instagram/Image-05.jpg" alt=""></li>
+                            <li><img src="~/Asset/image/instagram/Image-06.jpg" alt=""></li>
+                            <li><img src="~/Asset/image/instagram/Image-07.jpg" alt=""></li>
+                            <li><img src="~/Asset/image/instagram/Image-08.jpg" alt=""></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="border_line"></div>
+            <div class="row footer-bottom d-flex justify-content-between align-items-center">
+                <p class="col-lg-8 col-sm-12 footer-text m-0">
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;
+                    <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                </p>
+                <div class="col-lg-4 col-sm-12 footer-social">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-dribbble"></i></a>
+                    <a href="#"><i class="fa fa-behance"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--================ End footer Area  =================-->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.~/Asset/js/, then Bootstrap ~/Asset/js/ -->
+    @RenderBody()
+    @RenderSection("scripts", required: false)
+
+    <script src="~/Asset/js/jquery-3.2.1.min.js"></script>
+    <script src="~/Asset/js/popper.js"></script>
+    <script src="~/Asset/js/bootstrap.min.js"></script>
+    <script src="~/Asset/vendors/owl-carousel/owl.carousel.min.js"></script>
+    <script src="~/Asset/js/jquery.ajaxchimp.min.js"></script>
+    <script src="~/Asset/js/mail-script.js"></script>
+    <script src="~/Asset/vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/Asset/vendors/nice-select/js/jquery.nice-select.js"></script>
+    <script src="~/Asset/js/mail-script.js"></script>
+    <script src="~/Asset/js/stellar.js"></script>
+    <script src="~/Asset/vendors/lightbox/simpleLightbox.min.js"></script>
+    <script src="~/Asset/js/custom.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "Check";
+    Layout = "~/Views/Shared/_LayoutQL2.cshtml";
+}
+<div class="row" style="margin-top:10px;margin-bottom:30px">
+    @*<div class="col-md-1"></div>*@
+    <div class="col-md-4" style="padding-left:80px">
+        <a><label>Ngày Đặt &nbsp&nbsp</label><input type="date" id="ngaydat" name="ngaydat" value="ngaydat" style="width:300px;height:40px" /></a>
+    </div>
+    <div class="col-md-4">
+        <div class="row">
+            <a><label>Ngày Trả &nbsp&nbsp</label><input type="date" id="ngaytra" name="ngaytra" value="ngaytra" onchange="test()" style="width:300px;height:40px" /></a>&nbsp&nbsp&nbsp
+            <button type="submit" class="book_now_btn" style="border-radius:10px; width:120px;height:40px; background-color:lawngreen;">Check</button>
+        </div>
+    </div>
+    <div class="col-md-4">
+    </div>
+    <div class="container" style="padding-top:50px">
+        <h2 style="text-align:center;padding-bottom:30px">Danh Sách Phòng Trống</h2>
+        <div>
+            <table class="table" style="width:100%; margin:auto; border:hidden">
+                <tr style="border-bottom:1px solid black">
+                    <th>ID</th>
+                    <th>TÊN PHÒNG</th>
+                    <th>CHỨC NĂNG</th>
+                </tr>
+                @foreach (var item in Model.CheckP)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.TenPhong</td>
+                        <td></td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+
+</div>
+

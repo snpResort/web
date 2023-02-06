@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "NhapThongTinTK";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+
+<div class="container" style="padding-top:90px">
+    <div class="sign-up__form">
+        @using (Html.BeginForm())
+        {
+
+            <div class="sign-up__content">
+                <h2 class="sign-up__title" style="text-align: center">Nhập Thông Tin Đăng Kí</h2>
+                <input class="sign-up__inp" type="text" name="HoTen" style=" text-transform: none;" placeholder="Họ tên" /><h6 class="text-danger">@ViewData["LoiHoTen"]</h6>
+                <input class="sign-up__inp" type="date" name="NgaySinh" style=" text-transform: none;" placeholder="Ngày/Tháng/Năm" /><h6 class="text-danger">@ViewData["LoiNgaySinh"]</h6>
+                <div>
+                    <input class="sign-up__inp" type="text" name="Cccd" style=" text-transform: none;" placeholder="Căn cước công dân" /><h6 class="text-danger">@ViewData["LoiCccd"]</h6>
+                    <input class="sign-up__inp" type="text" name="sdt" maxlength="10" style=" text-transform: none;" placeholder="Số điện thoại" /><h6 class="text-danger">@ViewData["LoiSdt"]</h6>
+                </div>
+                <input class="sign-up__inp" type="text" name="diachi" style=" text-transform: none;" placeholder="Địa chỉ" /><h6 class="text-danger">@ViewData["LoiDiaChi"]</h6>
+                <div class="sign-up__inp" style=" text-transform: none; text-align: center">
+                    <input type="radio" name="GioiTinh" value="Nam" checked>&nbsp;&nbsp;Nam
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="GioiTinh" value="Nữ">&nbsp;&nbsp;Nữ
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="GioiTinh" value="Khác">&nbsp;&nbsp;Khác
+                </div>
+                <div class="sign-up__buttons" style="padding-left:170px">
+                    <button class="btn btn--signin" type="submit" style="text-align:center">Đăng ký</button>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+

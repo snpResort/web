@@ -1,0 +1,171 @@
+﻿
+@{
+    ViewBag.Title = "DatPhong";
+    Layout = "~/Views/Shared/_LayoutQL2.cshtml";
+}
+@model dynamic
+@using (Html.BeginForm("ThanhToan", "Admin"))
+{
+    <div style=" padding-bottom:100px">
+        <div class="row" style="margin-top:10px;margin-bottom:30px">
+            @*<div class="col-md-1"></div>*@
+            <div class="col-md-4" style="padding-left:80px">
+                <a><label>Ngày Đặt &nbsp&nbsp</label><input type="date" id="ngaydat" name="ngaydat" value="ngaydat" style="width:250px;height:40px" /></a>
+            </div>
+            <div class="col-md-4">
+                <a><label>Ngày Trả &nbsp&nbsp</label><input type="date" id="ngaytra" name="ngaytra" value="ngaytra" onchange="test()" style="width:250px;height:40px" /></a>
+            </div>
+            <div class="col-md-4" style="padding-left:40px">
+                <div class="row">
+                    <input type="text" id="uudai" name="uudai" placeholder="Mã giảm giá" style="width:200px;height:40px" /> &nbsp&nbsp
+                    <button type="submit" class="book_now_btn button_hove" style="border-radius:10px; width:120px;height:40px">Áp dụng</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div style="margin-left:50px; margin-right:50px">
+            <div class="row" style="padding-left: 30px; padding-bottom:20px">
+                <h3>@Model.LayLP.TenLoai</h3>
+            </div>
+            <div class="row" style="padding-left:30px">
+                <div class="col-md-5">
+                    <div>
+                        <div class="row" style="width:100%">
+                            <div id="myCarousel" class="carousel slide border" data-ride="carousel">
+                                <div class="carousel-inner" style="width:500px;height: 300px">
+                                    @for (int i = 0; i < Model.HA.Count; i++)
+                                    {
+                                        if (i == 0)
+                                        {
+                                            <div class="carousel-item active">
+                                                <img class="d-block w-100" src="@Model.HA[i].imagePath" alt="1" style="width: 500px; height: 300px ">
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="carousel-item">
+                                                <img class="d-block w-100" src="@Model.HA[i].imagePath" alt="1" style="width: 500px; height: 300px ">
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                                <!-- Controls -->
+                                <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <p style="font-size:16px">@Model.LayLP.MoTa &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</p>
+                        </div>
+                        <div class="row">
+                            @foreach (var item2 in Model.MT)
+                            {
+                                <p style="font-size:16px">@item2.MoTa &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2" style="padding-left: 50px">
+                    <div class="row" style="padding-bottom:20px">
+                        <h3>Sức chứa</h3>
+                    </div>
+                    <div class="row" style="font-size:14px">
+                        <div>
+                            <p style="font-size:14px" name="SLNL" id="SLNL">Số lượng người lớn: @Model.LayLP.SoLuongNguoiLon</p>
+                            <p style="font-size:14px" name="SLTE" id="SLTE">Số lượng trẻ em: @Model.LayLP.SoLuongTreEm</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2" style="padding-left: 30px">
+                    <div class="row" style="padding-bottom:20px">
+                        <h3>Giá</h3>
+                    </div>
+                    <div class="row" style="font-size:16px">
+                        <p id="Gia">@string.Format("{0:0,0 }", Model.LayLP.Gia)VNĐ<small>/Đêm</small></p><br /><br />
+                        <p style="font-size:14px">Giá Đã Giảm VNĐ<small>/Đêm</small></p>
+                    </div>
+                </div>
+                <div class="col-md-3" style="padding-left: 30px">
+                    <div class="row" style="padding-bottom:20px">
+                        <h3>Tổng tiền</h3>
+                    </div>
+                    <div class="row" style="padding-bottom:30px">
+                        @*<p style="font-size:20px; color:red">700.000 VNĐ</p>*@
+                        <input type="text" id="sum" name="sum" placeholder="0 VNĐ" style="width:250px; height:40px;font-size:14px; " />
+                    </div>
+                    <div class="row">
+                        <button type="submit" class="btn theme_btn button_hover">Thanh Toán</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <script>
+    IDBCursor
+        //validate
+        function validateTwoDates() {
+            var $dateStart = $("#ngaydat").val();
+            var $dateEnd = $("#ngaytra").val();
+            return ($dateEnd > $dateStart);
+        }
+
+        function test() {
+            if (!$("#ngaydat").val()) {
+                alert('Vui lòng nhập ngày đặt');
+                $("#ngaytra").val('')
+                return;
+            }
+            if (!validateTwoDates()) {
+                alert('Ngày trả phải lớn hơn ngày đặt');
+                $("#ngaytra").val('')
+            }
+            $('#sum').val(@Model.LayLP.Gia * cal_date(new Date($('#ngaydat').val()), new Date($('#ngaytra').val())));
+            //console.log(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format($('#sum').val()));
+            return;
+        }
+
+        function cal_date(date_checkin, date_checkout) {
+            let time_checkin = date_checkin.getTime();
+            let time_checkout = date_checkout.getTime();
+            if (time_checkout < time_checkin) {
+                throw 'Check out > check in';
+            }
+
+            return (1 + Math.floor((time_checkout - time_checkin) / (24 * 3600 * 1000)));
+        }
+
+                        //$.ajax({
+                        //    url: '/Phong/DatPhong',
+                        //    /*data: { _to: ${ JSON.stringify(email_.trim()) }},*/
+                        //    type: 'POST',
+                        //    contentType: "application/json; charset=utf-8",
+                        //        success: (data) => {
+                        //        codeXacNhan = data.d;
+                        //        Toast.fire({
+                        //            icon: 'success',
+                        //            title: 'Kiểm tra email để lấy mã xác nhận!'
+                        //        });
+                        //    },
+                        //        error: (request, error) => {
+                        //            // This callback function will trigger on unsuccessful action
+                        //            Toast.fire({
+                        //                icon: 'error',
+                        //                title: 'Đã xảy ra lỗi! Vui lòng thử lại.'
+                        //            });
+                        //        }
+                        //});
+
+                        //    }
+        </script>
+    </div>
+}
+
+

@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "QLTaiKhoan";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+@model dynamic
+<div class="container" style="padding-top:50px">
+    <div class="sign-up__form__Info" style="background-color: #34495E;height:500px">
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary(true)
+            {
+                <div class="sign-up__content" style="text-align:center">
+                    <h2 class="sign-up__title" style="text-align: center; font-weight: bold; color: #dd5; font-size:30px">Quản Lý Tài Khoản</h2>
+                    <div class="row" style="font-size: 20px; color: #dd5">
+                        <div class="col-md-3">
+                            <p>Tên Tài Khoản</p>
+                        </div>
+                        <div class="col-md-3">
+                            <p>Mật Khẩu</p>
+                        </div>
+                        <div class="col-md-3">
+                            <p>Ngày Tạo</p>
+                        </div>
+                        <div class="col-md-3">
+                            <p>Chức Vụ</p>
+                        </div>
+                    </div>
+                    <div class="row" style="width: 100%; height: 400px; line-height: 3em; overflow-y: scroll; background-color: #34495E; font-size: 15px; color: white ">
+                        @foreach (var item in Model.TK)
+                        {
+                            <div class="col-md-3">
+                                <p>@item.TenTK</p>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="password" name="Pass" placeholder="Mật khẩu" style="height:40px" />
+                            </div>
+                            <div class="col-md-3">
+                                <p>@item.NgayTao</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p>@item.ChucVu</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+

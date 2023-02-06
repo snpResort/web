@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "DoiMatKhau";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<div class="container" style="padding-top:90px">
+    <div class="sign-up__form">
+        @using (Html.BeginForm())
+        {
+
+            <div class="sign-up__content">
+                <input class="sign-up__inp" type="password" name="pw" style=" text-transform: none;" placeholder="Mật khẩu mới" /> <h6 class="text-danger">@ViewData["Loi2"]</h6>
+                <input class="sign-up__inp" type="password" name="repw" style=" text-transform: none;" placeholder="Nhập lại mật khẩu mới" /> <h6 class="text-danger">@ViewData["Loi3"]</h6>
+                <div class="sign-up__buttons" style="padding-left:170px">
+                    <button class="btn btn--signin" type="submit" style="text-align:center">Xác nhận</button>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>

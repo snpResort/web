@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "DangNhap";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<div class="container" style="padding-top:90px">
+    <div class="sign-up__form">
+        @using (Html.BeginForm())
+        {
+            <div class="sign-up__content">
+                <h2 class="sign-up__title">ĐĂNG NHẬP</h2>
+                <input class="sign-up__inp" name="username" style=" text-transform: none; " placeholder="Tên đăng nhập" value="@ViewBag.Username" /><h6 class="text-danger">@ViewData["Loi1"]</h6>
+                <input class="sign-up__inp" name="pw" style=" text-transform: none; " type="password" placeholder="Mật khẩu" /><h6 class="text-danger">@ViewData["Loi2"]</h6>
+                <a class="forgot__password" style="color:black">Quên mật khẩu</a>
+                <div class="sign-up__buttons" style="padding-left:170px;padding-top:20px" >
+                    <button class="btn btn--signin" type="submit" style="text-align:center">Đăng nhập</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
