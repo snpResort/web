@@ -102,45 +102,45 @@ namespace QL_Resort.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult CheckNgay(FormCollection f)
-        {
-            var ND = f["ngaydat"];
-            var NT = f["ngaytra"];
+        //[HttpPost]
+        //public ActionResult CheckNgay(FormCollection f)
+        //{
+        //    var ND = f["ngaydat"];
+        //    var NT = f["ngaytra"];
 
-            var ttdp = db.THONGTINDATPHONGs;
-            var ctdp = db.CTDATPHONGs;
-            List<ThongTinPhong> data = new List<ThongTinPhong>();
-            foreach (var item in ttdp)
-            {
-                ThongTinPhong _thongtinphong = new ThongTinPhong();
-                _thongtinphong.Id_DP = item.Id;
-                _thongtinphong.Ngaydat = item.NgayDat.ToString();
-                _thongtinphong.Ngaytra = item.NgayTra.ToString();
-                data.Add(_thongtinphong);
-            }
-            foreach (var item in ctdp)
-            {
-                ThongTinPhong _thongtinphong = new ThongTinPhong();
-                _thongtinphong.Id_CTDP = item.Id_DatPhong;
-                _thongtinphong.Id_P = db.CTDATPHONGs.Select(t => t.Id_P).ToList();
-                data.Add(_thongtinphong);
-            }
-            List<String> dsPhong = new List<String>();
-            for (DateTime d = DateTime.Parse(ND); d.CompareTo(ND) <= d.CompareTo(NT); d = d.AddDays(1.0))
-            {
-                dsPhong.AddRange(data.Where(t => d.CompareTo(t.Ngaydat) >= 0 && d.CompareTo(t.Ngaytra) <= 0).Select(a => a.Id_P).ToHashSet().ToList().ConvertAll<string>(x => x.ToString()));
+        //    var ttdp = db.THONGTINDATPHONGs;
+        //    var ctdp = db.CTDATPHONGs;
+        //    List<ThongTinPhong> data = new List<ThongTinPhong>();
+        //    foreach (var item in ttdp)
+        //    {
+        //        ThongTinPhong _thongtinphong = new ThongTinPhong();
+        //        _thongtinphong.Id_DP = item.Id;
+        //        _thongtinphong.Ngaydat = item.NgayDat.ToString();
+        //        _thongtinphong.Ngaytra = item.NgayTra.ToString();
+        //        data.Add(_thongtinphong);
+        //    }
+        //    foreach (var item in ctdp)
+        //    {
+        //        ThongTinPhong _thongtinphong = new ThongTinPhong();
+        //        _thongtinphong.Id_CTDP = item.Id_DatPhong;
+        //        _thongtinphong.Id_P = db.CTDATPHONGs.Select(t => t.Id_P).ToList();
+        //        data.Add(_thongtinphong);
+        //    }
+        //    List<String> dsPhong = new List<String>();
+        //    for (DateTime d = DateTime.Parse(ND); d.CompareTo(ND) <= d.CompareTo(NT); d = d.AddDays(1.0))
+        //    {
+        //        dsPhong.AddRange(data.Where(t => d.CompareTo(t.Ngaydat) >= 0 && d.CompareTo(t.Ngaytra) <= 0).Select(a => a.Id_P).ToHashSet().ToList().ConvertAll<string>(x => x.ToString()));
 
-            }
-            dsPhong = dsPhong.ToHashSet().ToList();
-            List<String> dsPhongTrong = db.PHONGs.Where(t => !dsPhong.Contains(t.Id.ToString())).Select(t => t.Id.ToString()).ToList();
+        //    }
+        //    dsPhong = dsPhong.ToHashSet().ToList();
+        //    List<String> dsPhongTrong = db.PHONGs.Where(t => !dsPhong.Contains(t.Id.ToString())).Select(t => t.Id.ToString()).ToList();
 
-            dynamic mymodel = new ExpandoObject();
-            mymodel.TTP = data;
-            mymodel.DSPhong = dsPhong;
-            mymodel.DSPT = dsPhongTrong;
-            return View(mymodel);
-        }
+        //    dynamic mymodel = new ExpandoObject();
+        //    mymodel.TTP = data;
+        //    mymodel.DSPhong = dsPhong;
+        //    mymodel.DSPT = dsPhongTrong;
+        //    return View(mymodel);
+        //}
         public ActionResult ThanhToan()
         {
             return View();
@@ -193,6 +193,7 @@ namespace QL_Resort.Controllers
 
             List<String> dsPhongTrong = _p.Where(t => !dsPhong.Contains(t.Id.ToString())).Select(t => t.Id.ToString()).ToList();
             Session["TB"] = null;
+            Session["done"] = null;
             if (dsPhongTrong.Count == 0)
             {
                 Session["TB"] = "Het phong!!!";
@@ -233,6 +234,7 @@ namespace QL_Resort.Controllers
                     db.SubmitChanges();
                 }
             }
+            Session["done"] = "Code: " + id_DP;
             return RedirectToAction("ThanhToanThanhCong", "Phong");
 
         }

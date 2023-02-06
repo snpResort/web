@@ -9,6 +9,7 @@ namespace QL_Resort.Models
     {
         private string ten, motalp, motattlp, hinhanh, id;
         private double gia;
+        private int id_p;
 
         public string Ten { get => ten; set => ten = value; }
         public string Motalp { get => motalp; set => motalp = value; }
@@ -16,5 +17,6 @@ namespace QL_Resort.Models
         public string Hinhanh { get => hinhanh; set => hinhanh = value; }
         public string Id { get => id; set => id = value; }
         public double Gia { get => gia; set => gia = value; }
+        public int Id_p { get => id_p; set => id_p = value; }
     }
 }

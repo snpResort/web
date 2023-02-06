@@ -95,33 +95,34 @@
                         <h2>Book<br> Your Room</h2>
                     </div>
                     <div class="col-md-9">
-
-                        <div class="boking_table">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="book_tabel_item">
-                                        <div class="input-group wide" style="height:40px">
-                                            <input type="number" name="SLNL" min="0" placeholder="Số Lượng Người Lớn" style="width:200px" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="book_tabel_item">
-                                        <div class="input-group">
+                        @using (Html.BeginForm("TimKiem", "Phong"))
+                        {
+                            <div class="boking_table">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="book_tabel_item">
                                             <div class="input-group wide" style="height:40px">
-                                                <input type="number" name="SLTE" min="0" placeholder="Số Lượng Trẻ Em" style="width:200px" />
+                                                <input type="number" name="SLNL" min="0" placeholder="Số Lượng Người Lớn" style="width:200px" />
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="book_tabel_item">
-                                        @*<a class="book_now_btn button_hover" href="/Phong/TimKiem">Tìm kiếm</a>*@
-                                        <button class="book_now_btn button_hove" style="border-radius:10px" type="submit">Tìm Kiếm</button>
+                                    <div class="col-md-4">
+                                        <div class="book_tabel_item">
+                                            <div class="input-group">
+                                                <div class="input-group wide" style="height:40px">
+                                                    <input type="number" name="SLTE" min="0" placeholder="Số Lượng Trẻ Em" style="width:200px" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="book_tabel_item">
+                                            @*<a class="book_now_btn button_hover" href="/Phong/TimKiem">Tìm kiếm</a>*@
+                                            <button class="book_now_btn button_hove" style="border-radius:10px" type="submit">Tìm Kiếm</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         }
                     </div>
                 </div>

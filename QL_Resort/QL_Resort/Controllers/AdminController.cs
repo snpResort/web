@@ -17,21 +17,6 @@ namespace QL_Resort.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            //var lp = db.LOAIPHONGs;
-            //List<LoaiPhong> data = new List<LoaiPhong>();
-            //foreach (var item in lp)
-            //{
-            //    LoaiPhong _loaiphong = new LoaiPhong();
-            //    _loaiphong.Id = item.Id;
-            //    _loaiphong.Ten = item.TenLoai;
-            //    _loaiphong.Mota = item.MoTa;
-            //    _loaiphong.Gia = (double)item.Gia;
-            //    _loaiphong.Hinhanh = db.HINHANH_LOAIPHONGs.Where(t => t.Id_LP == item.Id).FirstOrDefault().imagePath;
-            //    //_loaiphong.Id_P = (Int32.Parse(db.PHONGs.Where(a => a.Id_LP == item.Id).ToString()));
-            //    data.Add(_loaiphong);
-            //}
-            //dynamic mymodel = new ExpandoObject();
-            //mymodel.LoaiPhong = data;
             dynamic mymodel = new ExpandoObject();
             mymodel.LoaiPhong = db.LOAIPHONGs.ToList();
             return View(mymodel);
@@ -67,15 +52,15 @@ namespace QL_Resort.Controllers
             {
                 ViewData["LoiUser"] = "Không được bỏ trống!";
             }
-            if ( matkhau == string.Empty)
+            if (matkhau == string.Empty)
             {
                 ViewData["LoiPass"] = "Không được bỏ trống!";
             }
-            if(hoten == string.Empty)
+            if (hoten == string.Empty)
             {
                 ViewData["Loihoten"] = "Không được bỏ trống!";
             }
-            if(ngaysinh == string.Empty)
+            if (ngaysinh == string.Empty)
             {
                 ViewData["Loingaysinh"] = "Không được bỏ trống!";
             }
@@ -95,12 +80,12 @@ namespace QL_Resort.Controllers
             {
                 ViewData["Loidiachi"] = "Không được bỏ trống!";
             }
-      
+
             else
             {
                 var kq = db.sp_AddAcc(username, matkhau, hoten, DateTime.Parse(ngaysinh), cccd, gioitinh, email, dienthoai, diachi, tenquyen);
             }
-            
+
             return View(mymodel);
         }
         public ActionResult QLTaiKhoan()
@@ -216,6 +201,64 @@ namespace QL_Resort.Controllers
         }
         public ActionResult DanhSachDatTruoc()
         {
+            var ttdp = db.THONGTINDATPHONGs.Select(t => new ThongTinPhong
+            {
+                Id_DP = t.Id,
+                Ten_kh = db.THONGTINCANHANs.Where(kh => kh.Id_tk == t.Id_KH).FirstOrDefault().HoTen,
+                Ngaydat = t.NgayDat.ToString(),
+                Ngaytra = t.NgayTra.ToString(),
+                Soluong = t.CTDATPHONGs.Count().ToString()
+            });
+            dynamic mymodel = new ExpandoObject();
+            mymodel.TTDP = ttdp;
+            return View(mymodel);
+        }
+        public ActionResult HienThi(string id)
+        {
+            dynamic mymodel = new ExpandoObject();
+            var _ttlp = db.LOAIPHONGs.Join(db.PHONGs, lp => lp.Id, p => p.Id_LP, (lp, p) => new ThongTinLP { Id = lp.Id, Ten = lp.TenLoai, Id_p = p.Id });
+            //List<int> dsPhong = new List<int>();
+            //List<string> lp1 = new List<string>();
+            //string idlp;
+            //dsPhong = db.CTDATPHONGs.Where(b => b.Id_DatPhong == id).Select(a => a.Id_P).ToList();
+            //var lstPT = dsPhong[new Random().Next(dsPhong.Count)];
+            //int idp = lstPT;
+            //dsPhong.Remove(lstPT);
+            //var TTP = db.PHONGs.Where(c => c.Id == idp);
+            //lp1 = TTP.Select(f => f.Id_LP).Distinct().ToList();
+            //var lstLP = lp1[new Random().Next(lp1.Count)];
+            //idlp = lstLP;
+            //lp1.Remove(lstLP);
+            //mymodel.LayLP1 = db.LOAIPHONGs.Where(d => d.Id == idlp).ToList();
+            //string ttlp = (db.LOAIPHONGs.Where(d => d.Id == idlp).ToList()).Select(g => g.TenLoai).ToString();
+            var ttdp = db.THONGTINDATPHONGs.Select(t => new ThongTinPhong
+            {
+                Id_DP = t.Id,
+                Ten_kh = db.THONGTINCANHANs.Where(kh => kh.Id_tk == t.Id_KH).FirstOrDefault().HoTen,
+                Ngaydat = t.NgayDat.ToString(),
+                Ngaytra = t.NgayTra.ToString(),
+                Soluong = t.CTDATPHONGs.Where(a => a.Id_DatPhong == id).Count().ToString(),
+                Id_P = t.CTDATPHONGs.Where(b => b.Id_DatPhong == id).Select(a => a.Id_P).ToList(),
+            });
+            //var _ttlp = db.LOAIPHONGs.Join(db.PHONGs, lp => lp.Id, p => p.Id_LP, (lp, p) => new ThongTinLP { Id = lp.Id, Ten = lp.TenLoai, Id_p = p.Id });
+            List<int> dsPhong = new List<int>();
+            dsPhong = db.CTDATPHONGs.Where(b => b.Id_DatPhong == id).Select(a => a.Id_P).ToList();
+            var lstPT = dsPhong[new Random().Next(dsPhong.Count)];
+            int idp = lstPT;
+
+            var ttpXN = ttdp.Where(t => t.Id_DP == id).FirstOrDefault();
+            ttpXN.Songayo = (1 + Math.Floor(double.Parse((DateTime.Parse(ttpXN.Ngaytra) - DateTime.Parse(ttpXN.Ngaydat)).Days.ToString()))).ToString();
+            //string p1= _ttlp.Where(c => c.Id_p == idp).Select(q=>q.Id).ToString();
+            //var lp1 = db.LOAIPHONGs.Where(w => w.Id == p1).ToList();
+            //string tenlp = lp1.Select(z => z.TenLoai).ToString();
+            ttpXN.Tenphong = _ttlp.Where(t => t.Id_p == idp).FirstOrDefault().Ten;
+            mymodel.TTDP = ttpXN;
+            return View(mymodel);
+            //return RedirectToAction("DanhSachDatTruoc", "Admin");
+        }
+        [HttpPost]
+        public ActionResult XacNhanDatPhong(FormCollection f)
+        {
             return View();
         }
         public ActionResult Check(string id)
@@ -235,15 +278,18 @@ namespace QL_Resort.Controllers
         {
             dynamic mymodel = new ExpandoObject();
             string txtTK = f["txtTK"];
-            if (String.IsNullOrEmpty(txtTK))
+            var ttdp = db.THONGTINDATPHONGs.Select(t => new ThongTinPhong
             {
-                mymodel.TTDP = db.THONGTINDATPHONGs.ToList();
-            }
-            else
+                Id_DP = t.Id,
+                Ten_kh = db.THONGTINCANHANs.Where(kh => kh.Id_tk == t.Id_KH).FirstOrDefault().HoTen,
+                Ngaydat = t.NgayDat.ToString(),
+                Ngaytra = t.NgayTra.ToString(),
+            });
+            mymodel.TTDP = ttdp;
+            if (!String.IsNullOrEmpty(txtTK))
             {
-                mymodel.TTDP = db.THONGTINDATPHONGs.Where(t => t.Id == txtTK).ToList();
+                mymodel.TTDP = ttdp.Where(t => t.Id_DP == txtTK).ToList();
             }
-
             return View(mymodel);
         }
         public ActionResult DangNhap()

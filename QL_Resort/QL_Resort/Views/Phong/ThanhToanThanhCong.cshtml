@@ -9,4 +9,13 @@
         <a href="/Home/Index" class="book_now_btn button_hove" style="width:200px;height:40px;border-radius:10px;text-align:center">Về Trang Chủ</a>
     </div>
 </div>
-
+@if (Session["done"] != null)
+{
+    <script type="text/javascript">
+        swal({
+            icon: "success",
+            title: "@Session["done"].ToString()"
+    });
+    </script>
+    Session["done"] = null;
+}
