@@ -3,6 +3,7 @@
     ViewBag.Title = "ThongTinTK";
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
+@using QL_Resort.Models
 @model dynamic
 <div class="container" style="padding-top:90px">
     <div class="sign-up__form" style="width: 80%; height: 600px">
@@ -34,7 +35,7 @@
                 </div>
             </div>
             <div class="sign-up__buttons" style="padding-left:200px; padding-top:100px">
-                <button class="btn btn--signin" type="submit" style="text-align:center">Cập nhật</button>
+                <a href="@Url.Action("CapNhatThongTinTK", "Home", new { tk = Model.Info as THONGTINCANHAN })" class="btn btn--signin" type="submit" style="text-align:center">Cập nhật</a>
             </div>
         </div>
 

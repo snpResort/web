@@ -41,10 +41,10 @@ namespace QL_Resort.Controllers
             mymodel.Info = infoAccount;
             return View(mymodel);
         }
-        public ActionResult CapNhatThongTinTK()
+        public ActionResult CapNhatThongTinTK(THONGTINCANHAN tk)
         {
            
-            return View();
+            return View(tk);
         }
 
     }

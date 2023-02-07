@@ -254,6 +254,7 @@ namespace QL_Resort.Controllers
             if (!isError)
             {
                 Session["verify"] = "qmk";
+                Session["emailChangePw"] = email;
                 int code = MailUtils.SendMailVerifyCode(email);
                 return RedirectToAction("XacThucEmail", new { code = code });
             }
@@ -296,7 +297,8 @@ namespace QL_Resort.Controllers
 
                 //Response.Write("<script>alert('Mật khẩu nhập lại không đúng!!!')</script>");
             }
-
+            var result = db.sp_changePassword(Session["emailChangePw"]?.ToString() ?? "", password);
+            
             if (!isError)
             {
                 return RedirectToAction("DangNhap");
