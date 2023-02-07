@@ -39,4 +39,26 @@
         </div>
     }
 </div>
+@if (Session["XacNhan"] != null)
+{
+    <script type="text/javascript">
+        @*swal({
+                                icon: "warning",
+                                title: "@Session["timkiem"].ToString()"
+                        });*@
+        alert("Thanh toán phòng thành công");
+    </script>
+    Session["XacNhan"] = null;
+}
+@if (Session["datt"] != null)
+{
+    <script type="text/javascript">
+        @*swal({
+                                icon: "warning",
+                                title: "@Session["timkiem"].ToString()"
+                        });*@
+        alert("Id_DatPhong này đã thanh toán");
+    </script>
+    Session["datt"] = null;
+}
 

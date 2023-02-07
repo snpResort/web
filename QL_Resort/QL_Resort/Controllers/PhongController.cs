@@ -66,7 +66,13 @@ namespace QL_Resort.Controllers
             int te = 0;
             var lp = db.LOAIPHONGs.ToList();
             List<LoaiPhong> data = new List<LoaiPhong>();
-            if (String.IsNullOrEmpty(SLTE) && !String.IsNullOrEmpty(SLNL))
+            Session["timkiem"] = null;
+            if (String.IsNullOrEmpty(SLTE) && String.IsNullOrEmpty(SLNL))
+            {
+                Session["timkiem"] = "Vui long nhap so luong!!!";
+                return RedirectToAction("Index","Home");
+            }    
+            else if (String.IsNullOrEmpty(SLTE) && !String.IsNullOrEmpty(SLNL))
             {
                 nl = int.Parse(SLNL);
                 lp = db.LOAIPHONGs.Where(t => t.SoLuongNguoiLon >= nl).ToList();
@@ -101,46 +107,6 @@ namespace QL_Resort.Controllers
         {
             return View();
         }
-
-        //[HttpPost]
-        //public ActionResult CheckNgay(FormCollection f)
-        //{
-        //    var ND = f["ngaydat"];
-        //    var NT = f["ngaytra"];
-
-        //    var ttdp = db.THONGTINDATPHONGs;
-        //    var ctdp = db.CTDATPHONGs;
-        //    List<ThongTinPhong> data = new List<ThongTinPhong>();
-        //    foreach (var item in ttdp)
-        //    {
-        //        ThongTinPhong _thongtinphong = new ThongTinPhong();
-        //        _thongtinphong.Id_DP = item.Id;
-        //        _thongtinphong.Ngaydat = item.NgayDat.ToString();
-        //        _thongtinphong.Ngaytra = item.NgayTra.ToString();
-        //        data.Add(_thongtinphong);
-        //    }
-        //    foreach (var item in ctdp)
-        //    {
-        //        ThongTinPhong _thongtinphong = new ThongTinPhong();
-        //        _thongtinphong.Id_CTDP = item.Id_DatPhong;
-        //        _thongtinphong.Id_P = db.CTDATPHONGs.Select(t => t.Id_P).ToList();
-        //        data.Add(_thongtinphong);
-        //    }
-        //    List<String> dsPhong = new List<String>();
-        //    for (DateTime d = DateTime.Parse(ND); d.CompareTo(ND) <= d.CompareTo(NT); d = d.AddDays(1.0))
-        //    {
-        //        dsPhong.AddRange(data.Where(t => d.CompareTo(t.Ngaydat) >= 0 && d.CompareTo(t.Ngaytra) <= 0).Select(a => a.Id_P).ToHashSet().ToList().ConvertAll<string>(x => x.ToString()));
-
-        //    }
-        //    dsPhong = dsPhong.ToHashSet().ToList();
-        //    List<String> dsPhongTrong = db.PHONGs.Where(t => !dsPhong.Contains(t.Id.ToString())).Select(t => t.Id.ToString()).ToList();
-
-        //    dynamic mymodel = new ExpandoObject();
-        //    mymodel.TTP = data;
-        //    mymodel.DSPhong = dsPhong;
-        //    mymodel.DSPT = dsPhongTrong;
-        //    return View(mymodel);
-        //}
         public ActionResult ThanhToan()
         {
             return View();
@@ -149,18 +115,13 @@ namespace QL_Resort.Controllers
         [HttpPost]
         public ActionResult ThanhToan(string idlp, string strURL, FormCollection f)
         {
-            //var idTK = Session["Id"] as TAIKHOAN;
-            //var user = Session["TenTK"] as TAIKHOAN;
-            //var id_KH = Session["Id_KH"] as KHACHHANG;
-            //var khuyenmai = Session["KhuyenMai"] as UuDai;
             var user = Session["User"] as TAIKHOAN;
-            if (user == null)
-            {
-                return RedirectToAction("DangNhap", "TaiKhoan");
-            }
+            //if (user == null)
+            //{
+            //    return RedirectToAction("DangNhap", "TaiKhoan");
+            //}
             DateTime ND = Convert.ToDateTime(f["ngaydat"]);
             DateTime NT = Convert.ToDateTime(f["ngaytra"]);
-            //string idlp = f["idLP"];
 
             var ttdp = db.THONGTINDATPHONGs;
             var ctdp = db.CTDATPHONGs;
@@ -171,14 +132,12 @@ namespace QL_Resort.Controllers
                 _thongtinphong.Id_DP = item.Id;
                 _thongtinphong.Ngaydat = item.NgayDat.ToString();
                 _thongtinphong.Ngaytra = item.NgayTra.ToString();
-                //_thongtinphong.Id_CTDP = item.Id;
                 _thongtinphong.Id_P = db.CTDATPHONGs.Where(r => r.Id_DatPhong == item.Id).Select(t => t.Id_P).ToList();
                 data.Add(_thongtinphong);
             }
             List<String> dsPhong = new List<String>();
             for (DateTime d = ND; d.CompareTo(NT) <= 0; d = d.AddDays(1.0))
             {
-                //dsPhong.AddRange(data.Where(t => d.CompareTo(t.Ngaydat) >= 0 && d.CompareTo(t.Ngaytra) <= 0).Select(a => a.Id_P).ToHashSet().ToList().ConvertAll<string>(x => x.ToString()));
                 var booked = data.Where(t => d.CompareTo(DateTime.Parse(t.Ngaydat)) >= 0 && d.CompareTo(DateTime.Parse(t.Ngaytra)) <= 0).Select(c => c.Id_P).ToList();
 
                 foreach (var dataCtDP in booked)
@@ -205,7 +164,6 @@ namespace QL_Resort.Controllers
 
             var phong = db.PHONGs.Where(p => p.Id_LP == loaiPhong.Id).ToList();
             var id_DP = dsPhongTrong[new Random().Next(dsPhongTrong.Count)];
-            //int idp = int.Parse(id_DP);
             var SLNL = loaiPhong.SoLuongNguoiLon;
             var SLTE = loaiPhong.SoLuongTreEm;
             var Gia = f["sum"];/// ngày ở   
@@ -215,7 +173,7 @@ namespace QL_Resort.Controllers
             {
                 if (int.Parse(soluong) > dsPhongTrong.Count)
                 {
-                    Session["TB"] = "Qua So Luong!!!";  
+                    Session["TB"] = "Qua so luong!!!";  
                     return Redirect(strURL);
                 }
                 else

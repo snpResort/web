@@ -7,9 +7,6 @@
 @model dynamic
 <div class="container" style="padding-top:90px">
     <div class="sign-up__form" style="width: 80%; height: 600px">
-        @*@using (Html.BeginForm())
-            {*@
-
         <div class="sign-up__content" style="font-size:20px">
             <h2 class="sign-up__title" style="text-align: center">Thông Tin Cá Nhân</h2>
             <div class="row">
@@ -38,6 +35,8 @@
                 <a href="@Url.Action("CapNhatThongTinTK", "Home", new { tk = Model.Info as THONGTINCANHAN })" class="btn btn--signin" type="submit" style="text-align:center">Cập nhật</a>
             </div>
         </div>
+        </div>
+    </div>
 
 
 

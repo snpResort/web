@@ -1,38 +1,40 @@
 ﻿
 @{
     ViewBag.Title = "TimKiem";
-    Layout = "~/Views/Shared/_LayoutQL2.cshtml";
+    Layout = "~/Views/Shared/_LayoutQL.cshtml";
 }
-@using QL_Resort.Models;
+@using QL_Resort.Models
 @model dynamic
-<div style="padding-top:100px; padding-bottom:50px">
-    <div class="section_title text-center">
-        <h2 class="title_color" style="text-align:center">--------------DANH SÁCH TÌM KIẾM PHÒNG--------------</h2>
-    </div>
-    <div class="row mb_30">
-        @foreach (var item in Model.LayLP)
-        {
-            <div class="col-lg-4 col-sm-8">
-                <div class="accomodation_item text-center">
-                    <div class="hotel_img">
-                        @for (int i = 0; i < Model.HA.Count; i++)
-                        {
-                            if (string.Compare(Model.HA[i].Id_LP, item.Id, true) == 0)
-                            {
-                                <a href="@Url.Action("XemChiTiet", "Admin", new { id = item.Id })"><img src="@Model.HA[i].imagePath" alt="" style="width:263px;height:270px; border-radius:10px;"></a>
-                                <a href="@Url.Action("DatPhong", "Admin", new { id = item.Id })" class="btn theme_btn button_hover">Đặt Ngay</a>
-                            }
-                        }
-                    </div>
-                    <h4>@item.Id</h4>
-                    <a href="#"><h4 class="sec_h4">@item.TenLoai</h4></a>
-                    <h5>@string.Format("{0:0,0 }", @item.Gia)VNĐ<small>/Đêm</small></h5>
-                    <div style="text-align:center;">
-                        <a href="@Url.Action("XemChiTiet", "Admin", new { id = item.Id })" style=" color: black"><ins>Xem Chi Tiết</ins></a>
-                    </div>
+<div class="container" style="padding-top:90px">
+    <div class="sign-up__form" style="width: 60%; height: 600px">
+        <div class="sign-up__content" style="font-size:20px">
+            <h2 class="sign-up__title" style="text-align: center">Thông Tin Cá Nhân</h2>
+            <div class="row">
+                <div class="col-md-6" style="padding-left:70px">
+                    <label>Họ tên:  &nbsp</label><br />
+                    <label>Giới tính:  &nbsp</label><br />
+                    <label>Email:  &nbsp</label><br />
+                    <label>Ngày sinh:  &nbsp</label><br />
+                    <label>CCCD:  &nbsp</label><br />
+                    <label>Số điện thoại:  &nbsp</label><br />
+                    <label>Địa chỉ:  &nbsp</label><br />
+                    <label>Mã thành viên:  &nbsp</label><br />
+                </div>
+                <div class="col-md-6">
+                    <label>@Model.LayTTKH.HoTen</label><br />
+                    <label>@(Model.LayTTKH.GioiTinh? "Nam": "Nữ")</label><br />
+                    <label>@Model.LayTTKH.Email</label><br />
+                    <label>@(Model.LayTTKH.NgaySinh.ToString("dd/MM/yyyy"))</label><br />
+                    <label>@Model.LayTTKH.CanCuoc</label><br />
+                    <label>@Model.LayTTKH.Sdt</label><br />
+                    <label>@Model.LayTTKH.DiaChi</label><br />
+                    <label>@Model.LayTTKH.Id_tk</label><br />
                 </div>
             </div>
-        }
+            <div class="sign-up__buttons" style="padding-left:200px; padding-top:100px">
+                <a href="/Admin/Index" class="btn btn--signin" type="submit" style="text-align:center">Về trang chủ</a>
+            </div>
+        </div>
     </div>
 </div>
 

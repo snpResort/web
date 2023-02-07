@@ -52,23 +52,23 @@
                 <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                     <ul class="nav navbar-nav menu_nav ml-auto">
                         <li class="nav-item active"><a class="nav-link" href="/Home/Index">Trang chủ</a></li>
+                        @*<li class="nav-item submenu dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Đặt Phòng</a>
+                <ul class="dropdown-menu">
+                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog-single.html">Blog Details</a></li>
+                </ul>
+            </li>*@
                         <li class="nav-item"><a class="nav-link" href="/AboutUS/Aboutus">Liên hệ</a></li>
                         <li class="nav-item"><a class="nav-link" href="/DichVu/DichVu">Dịch vụ</a></li>
-                        <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
-                        <li class="nav-item submenu dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-                                <li class="nav-item"><a class="nav-link" href="blog-single.html">Blog Details</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="elements.html">Elemests</a></li>
+                        @*<li class="nav-item"><a class="nav-link" href="elements.html">Elemests</a></li>*@
                         <li class="nav-item submenu dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i></a>
                             <ul class="dropdown-menu">
+
                                 @if (Session["User"] != null)
                                 {
-                                    <li class="nav-item"><a class="nav-link" href="#">Thông Tin Tài Khoản</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="/Home/ThongTinTK">Thông Tin Tài Khoản</a></li>
                                 }
                                 @if (Session["User"] == null)
                                 {
@@ -79,7 +79,7 @@
                         </li>
                         @if (Session["User"] != null)
                         {
-                            <li class="nav-item"><a class="nav-link" href="/Home/Index"><i class="fa fa-sign-out"></i></a></li>
+                            <li class="nav-item"><a class="nav-link" href="/TaiKhoan/DangXuat"><i class="fa fa-sign-out"></i></a></li>
                         }
                     </ul>
                 </div>

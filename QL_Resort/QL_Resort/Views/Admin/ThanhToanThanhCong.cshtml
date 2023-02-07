@@ -1,11 +1,66 @@
 ﻿
 @{
     ViewBag.Title = "ThanhToanThanhCong";
-    Layout = "~/Views/Shared/_LayoutQL2.cshtml";
+    Layout = "~/Views/Shared/_LayoutQL.cshtml";
 }
-<div class="container" style="padding-top:100px; padding-bottom:50px">
-    <h2>Bạn Đã Thanh Toán Thành Công</h2><br />
-    <a href="/Home/Index" class="book_now_btn button_hove">Về Trang Chủ</a>
+@using QL_Resort.Models
+<div style="padding-left:300px; padding-top:100px">
+        <div style="width: 65%; height:650px;color: black; background-color: white; border-radius: 10px">
+            <div class="sign-up__content">
+                <h2 class="sign-up__title" style="text-align:center">Thông Tin Đặt Phòng</h2>
+                <h3 style="color:chocolate">Mã:   @Model.TTDP.Id_DP</h3>
+                <div class="row">
+                    <div class="col-md-6" style="font-size:15px">
+                        <p>Số ngày ở</p>
+                        <p>Số lượng người lớn</p>
+                        <p>Số lượng trẻ em</p>
+                        <h4>Danh sách phòng</h4>
+                    </div>
+                    <div class="col-md-6" style="padding-left: 190px; font-size: 15px">
+                        <p>@Model.TTDP.Songayo</p>
+                        <p>@Model.TTDP.Slnl</p>
+                        <p>@Model.TTDP.Slte</p>
+                    </div>
+                </div>
+                <div class="row" style="padding-left: 15px; font-size: 15px">
+                    <p>Phòng số:&nbsp</p>
+                    @for (int i = 0; i < Model.TTDP.Id_P.Count; i++)
+                    {
+                        <p>@Model.TTDP.Id_P[i]&nbsp&nbsp</p>
+                    }
+                </div>
+                <div class="row" style="font-size:15px">
+                    <div class="col-md-6">
+                        <p style="color: chocolate; font-size: 13px">Phòng</p>
+                        <p>@Model.TTDP.Tenphong</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p style="color: chocolate; font-size: 13px">Số lượng</p>
+                        <p>@Model.TTDP.Soluong</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p style="padding-left: 40px; color: chocolate; font-size: 13px">Giá</p>
+                        <p>@Model.TTDP.Tongtien <ins>đ</ins></p>
+                    </div>
+                    <p style="padding-left:15px">----------------------------------------------------------</p>
+                </div>
+                <div class="row" style="font-size:15px">
+                    <div class="col-md-6">
+                        <p>Tổng hoá đơn</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p>@Model.TTDP.Soluong</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p>@Model.TTDP.Tongtien <ins>đ</ins></p>
+                    </div>
+                </div>
+                <div class="row" style="padding-left:180px; padding-top:50px">
+                    <a href="/Admin/Index" class="btn theme_btn button_hover">Về trang chủ</a>
+                </div>
+            </div>
+        </div>
 </div>
+
 
 

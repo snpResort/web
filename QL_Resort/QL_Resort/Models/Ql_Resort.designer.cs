@@ -393,6 +393,14 @@ namespace QL_Resort.Models
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
 			return ((ISingleResult<sp_GetErrorInfoResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_AddTTDatPhong_Off")]
+		public ISingleResult<sp_AddTTDatPhong_OffResult> sp_AddTTDatPhong_Off([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(15)")] string idkh, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> soLuongNguoiTH, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> soLuongTreEm, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Float")] System.Nullable<double> gia, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="DateTime")] System.Nullable<System.DateTime> ngayDat, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="DateTime")] System.Nullable<System.DateTime> ngayTra, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(14)")] ref string idDP)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), idkh, soLuongNguoiTH, soLuongTreEm, gia, ngayDat, ngayTra, idDP);
+			idDP = ((string)(result.GetParameterValue(6)));
+			return ((ISingleResult<sp_AddTTDatPhong_OffResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CHITIETDICHVU")]
@@ -6055,6 +6063,32 @@ namespace QL_Resort.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Message", DbType="NVarChar(4000)")]
+		public string Message
+		{
+			get
+			{
+				return this._Message;
+			}
+			set
+			{
+				if ((this._Message != value))
+				{
+					this._Message = value;
+				}
+			}
+		}
+	}
+	
+	public partial class sp_AddTTDatPhong_OffResult
+	{
+		
+		private string _Message;
+		
+		public sp_AddTTDatPhong_OffResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Message", DbType="NVarChar(7) NOT NULL", CanBeNull=false)]
 		public string Message
 		{
 			get

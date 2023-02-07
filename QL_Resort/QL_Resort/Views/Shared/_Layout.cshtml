@@ -39,17 +39,16 @@
                 <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                     <ul class="nav navbar-nav menu_nav ml-auto">
                         <li class="nav-item active"><a class="nav-link" href="/Home/Index">Trang chủ</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/AboutUS/Aboutus">Liên hệ</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/DichVu/DichVu">Dịch vụ</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Đặt phòng</a></li>
-                        <li class="nav-item submenu dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog</a>
+                        @*<li class="nav-item submenu dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Đặt Phòng</a>
                             <ul class="dropdown-menu">
                                 <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
                                 <li class="nav-item"><a class="nav-link" href="blog-single.html">Blog Details</a></li>
                             </ul>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="elements.html">Elemests</a></li>
+                        </li>*@
+                        <li class="nav-item"><a class="nav-link" href="/AboutUS/Aboutus">Liên hệ</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/DichVu/DichVu">Dịch vụ</a></li>
+                        @*<li class="nav-item"><a class="nav-link" href="elements.html">Elemests</a></li>*@
                         <li class="nav-item submenu dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i></a>
                             <ul class="dropdown-menu">
@@ -238,3 +237,14 @@
     <script src="~/lib/sweetalert/sweetalert2@11.js"></script>
 </body>
 </html>
+@if (Session["timkiem"] != null)
+{
+    <script type="text/javascript">
+        @*swal({
+                                icon: "warning",
+                                title: "@Session["timkiem"].ToString()"
+                        });*@
+        alert("Vui lòng nhập số lượng!!!");
+    </script>
+    Session["timkiem"] = null;
+}

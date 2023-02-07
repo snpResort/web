@@ -25,18 +25,21 @@
             <div class="row">
                 <h2 class="title_color" style="text-align:center">---------------DANH SÁCH CÁC LOẠI PHÒNG--------------</h2>
             </div>
-            <div class="row">
-                <div class="col-md-6" style="padding-right:350px">
-                    <a href="/Admin/DanhSachDatTruoc" class="btn theme_btn" style="background-color: #00B4CC; color:white">Danh Sách Đặt Trước</a>
+            @using (Html.BeginForm("TimKiem", "Admin"))
+            {
+                <div class="row">
+                    <div class="col-md-6" style="padding-right:350px">
+                        <a href="/Admin/DanhSachDatTruoc" class="btn theme_btn" style="background-color: #00B4CC; color:white">Danh Sách Đặt Trước</a>
+                    </div>
+                    <div class="search col-md-6" style="padding-left:50px">
+                        <input type="text" id="emailkh" name="emailkh" class="searchTerm" placeholder="Email Khách hàng" style="width:400px;height:36px">
+                        <button type="submit" class="searchButton">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="search col-md-6" style="padding-left:50px">
-                    @*<input type="text" class="searchTerm" placeholder="Search" style="width:400px;height:36px">
-                    <button type="submit" class="searchButton">
-                        <i class="fa fa-search"></i>
-                    </button>*@
-                </div>
+            }
             </div>
-        </div>
         <div>
             <table class="table" style="width:100%; margin:auto; border:hidden">
                 <tr style="border-bottom:1px solid black">

@@ -24,7 +24,7 @@
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <!-- Brand and toggle get grouped for better mobile display -->
-                <a class="navbar-brand logo_h" href="index.html">
+                <a class="navbar-brand logo_h" href="/Admin/Index">
                     <img src="https://raw.githubusercontent.com/snpResort/images/main/logo.png" alt="" height="100" width="100">&nbsp&nbspMOONLIGHT
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +64,7 @@
     <!--================Header Area =================-->
 
     <section class="banner_area">
-        <div class="booking_table d_flex align-items-center" style="padding-top:20px; padding-bottom:10px">
+        <div class="booking_table d_flex align-items-center" style="padding-top:20px; padding-bottom:70px">
             <div class="overlay bg-parallax" data-stellar-ratio="0.9" data-stellar-vertical-offset="0" data-background=""></div>
             <div class="container">
                 @RenderBody()
@@ -172,3 +172,14 @@
     <script src="~/Asset/js/custom.js"></script>
 </body>
 </html>
+@if (Session["XN"] != null)
+{
+    <script type="text/javascript">
+        @*swal({
+                                icon: "warning",
+                                title: "@Session["timkiem"].ToString()"
+                        });*@
+        alert("Cập nhật thông tin khách hàng thành công");
+    </script>
+    Session["XN"] = null;
+}

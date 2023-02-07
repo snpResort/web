@@ -24,7 +24,7 @@
                 <a>
                     <label>Số Lượng Phòng &nbsp&nbsp</label>@*<input type="number" id="txtsoluong" name="txtsoluong"
                         min="1" max="10" style="width:100px;height:30px; padding-left:30px">*@
-                    <input type="number" id="txtsoluong" name="txtsoluong"
+                    <input type="number" id="txtsoluong" name="txtsoluong" min="1"
                            max="10" onchange="test()" style="width:100px;height:30px; padding-left:30px">
                 </a>
             </div>
@@ -96,7 +96,7 @@
                     </div>
                     <div class="row" style="font-size:16px">
                         <p id="Gia">@string.Format("{0:0,0 }", Model.LayLP.Gia)VNĐ<small>/Đêm</small></p><br /><br />
-                        <p style="font-size:14px">Giá Đã Giảm VNĐ<small>/Đêm</small></p>
+                        @*<p style="font-size:14px">Giá Đã Giảm VNĐ<small>/Đêm</small></p>*@
                     </div>
                 </div>
                 <div class="col-md-3" style="padding-left: 30px">
@@ -207,12 +207,12 @@
 }
 @if (Session["TB"] != null)
 {
-    <script type="text/javascript">
+<script type="text/javascript">
         swal({
             icon: "error",
-            title: "@Session["TB"].ToString()"
+            title: "@Session["TB"].ToString()",
     });
-    </script>
+</script>
     Session["TB"]= null;
 }
 

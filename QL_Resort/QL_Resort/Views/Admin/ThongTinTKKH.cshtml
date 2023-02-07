@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "ThongTinTKNV";
+    ViewBag.Title = "ThongTinTKKH";
     Layout = "~/Views/Shared/_LayoutQL.cshtml";
 }
 @model dynamic
@@ -11,17 +11,11 @@
             @Html.ValidationSummary(true)
             {
                 <div class="sign-up__content">
-                    <h2 class="sign-up__title" style="text-align:center">Thông Tin Tài Khoản Nhân Viên</h2>
+                    <h2 class="sign-up__title" style="text-align:center">Thông Tin Tài Khoản Khách Hàng</h2>
                     <div class="row">
                         <div class="col-md-5">
-                            <input class="sign-up__inp" type="text" name="username" style=" text-transform: none" placeholder="Tên đăng nhập" style="width:100%; margin:auto" /> <h6 class="text-danger">@ViewData["LoiUser"]</h6><br />
-                            <input class="sign-up__inp" type="password" name="Pass" style=" text-transform: none" placeholder="Mật khẩu" style="width:100%; margin:auto" /><h6 class="text-danger">@ViewData["LoiPass"]</h6><br /><br />
-                            <select style="width:100%; margin:auto" name="tenquyen">
-                                @foreach (var item in Model.Quyens)
-                                {
-                                    <option value="@item.TenQuyen">@item.TenQuyen</option>
-                                }
-                            </select>
+                            <input class="sign-up__inp" type="text" name="username" style=" text-transform: none" placeholder="Tên đăng nhập" style="width:100%; margin:auto" /><br />
+                            <input class="sign-up__inp" type="password" name="Pass" style=" text-transform: none" placeholder="Mật khẩu" style="width:100%; margin:auto" /><br />
                         </div>
                         <div class="col-md-7">
                             <input class="sign-up__inp" type="text" name="Hoten" style=" text-transform: none" placeholder="Họ và tên" style="width:100%; margin:auto" /><h6 class="text-danger">@ViewData["Loihoten"]</h6><br />
@@ -39,20 +33,20 @@
                     </div>
                 </div>
                 <div class="sign-up__buttons" style="text-align: center; padding-left: 380px; padding-bottom: 20px">
-                    <button class="btn btn--signin" type="submit" style="text-align:center; width:200px; ">Tạo Tài Khoản</button>
+                    <button class="btn btn--signin" type="submit" style="text-align:center; width:200px; ">Cập Nhật</button>
                 </div>
             }
         }
     </div>
 </div>
-@if (Session["Taotk"] != null)
+@if (Session["emptyEmail"] != null)
 {
     <script type="text/javascript">
         @*swal({
                                 icon: "warning",
                                 title: "@Session["timkiem"].ToString()"
                         });*@
-        alert("Tạo tài khoản nhân viên thành công");
+        alert("Chưa có thông tin của khách hàng này. Vui lòng nhập thông tin khách hàng");
     </script>
-    Session["Taotk"] = null;
+    Session["emptyEmail"] = null;
 }

@@ -382,6 +382,7 @@
     <Content Include="Views\TaiKhoan\DoiMatKhau.cshtml" />
     <Content Include="Views\Admin\XacNhanDatPhong.cshtml" />
     <Content Include="Views\Admin\HienThi.cshtml" />
+    <Content Include="Views\Admin\ThongTinTKKH.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
