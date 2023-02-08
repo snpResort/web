@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="sign-up__buttons" style="padding-left:200px; padding-top:100px">
-                <a href="@Url.Action("CapNhatThongTinTK", "Home", new { tk = Model.Info as THONGTINCANHAN })" class="btn btn--signin" type="submit" style="text-align:center">Cập nhật</a>
+                <a href="@Url.Action("CapNhatThongTinTK", "Home", new { id_tk = Model.Info.Id_tk as String })" class="btn btn--signin" type="submit" style="text-align:center">Cập nhật</a>
             </div>
         </div>
         </div>

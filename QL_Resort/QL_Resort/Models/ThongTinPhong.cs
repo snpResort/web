@@ -14,6 +14,7 @@ namespace QL_Resort.Models
         private string soluong, songayo, tenphong;
         private int slnl, slte;
         private string tongtien;
+        private List<string> cactenP;
 
         public string Id_DP { get => id_DP; set => id_DP = value; }
         public string Id_CTDP { get => id_CTDP; set => id_CTDP = value; }
@@ -27,5 +28,6 @@ namespace QL_Resort.Models
         public int Slnl { get => slnl; set => slnl = value; }
         public int Slte { get => slte; set => slte = value; }
         public string Tongtien { get => tongtien; set => tongtien = value; }
+        public List<string> CactenP { get => cactenP; set => cactenP = value; }
     }
 }

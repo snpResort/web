@@ -390,8 +390,16 @@ namespace QL_Resort.Controllers
             dsPhong = db.CTDATPHONGs.Where(b => b.Id_DatPhong == id).Select(a => a.Id_P).ToList();
             var lstPT = dsPhong[new Random().Next(dsPhong.Count)];
             int idp = lstPT;
-
             var ttpXN = ttdp.Where(t => t.Id_DP == id).FirstOrDefault();
+            //for(int i = 1; i <= dsPhong.Count(); i++)
+            //{
+            //    var lstp= dsPhong[new Random().Next(dsPhong.Count)];
+            //    int id_p = lstPT;
+            //    dsPhong.Remove(lstp);
+            //    ttpXN.CactenP = db.PHONGs.Where(n => n.Id == id_p).ToList().Select(m=>m.TenPhong).ToList();
+            //}
+
+
             ttpXN.Songayo = (1 + Math.Floor(double.Parse((DateTime.Parse(ttpXN.Ngaytra) - DateTime.Parse(ttpXN.Ngaydat)).Days.ToString()))).ToString();
             ttpXN.Tenphong = _ttlp.Where(t => t.Id_p == idp).FirstOrDefault().Ten;
             double tt = double.Parse(db.CTDATPHONGs.Where(d => d.Id_DatPhong == id).FirstOrDefault().Gia.ToString());

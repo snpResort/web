@@ -47,6 +47,7 @@ namespace QL_Resort.Controllers
                 return RedirectToAction("Index", "Home");
 
             }
+            ViewData["Loi2"] = " Vui lòng xác nhận lại thông tin đăng nhập";
             return View();
         }
 

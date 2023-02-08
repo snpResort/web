@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using QL_Resort.Models;
 
@@ -41,11 +43,66 @@ namespace QL_Resort.Controllers
             mymodel.Info = infoAccount;
             return View(mymodel);
         }
-        public ActionResult CapNhatThongTinTK(THONGTINCANHAN tk)
+        public ActionResult CapNhatThongTinTK(String id_tk)
         {
-           
-            return View(tk);
+            var infoAccount = db.THONGTINCANHANs.Where(tk => tk.Id_tk == id_tk).FirstOrDefault();
+            dynamic mymodel = new ExpandoObject();
+            ViewData["LoiHoTen"] = "";
+            ViewData["LoiCccd"] = "";
+            ViewData["LoiNgaySinh"] = "";
+            ViewData["LoiDiaChi"] = "";
+            ViewData["LoiSdt"] = "";
+            mymodel.Info = infoAccount;
+            return View(mymodel);
         }
+        [HttpPost]
+        public ActionResult CapNhatThongTinTK(FormCollection f)
+        {
+            String hoten = f["HoTen"];
+            var ngaysinh = f["NgaySinh"];
+            var Cccd = f["Cccd"];
+            var sdt = f["sdt"];
+            var diachi = f["diachi"];
+            var gioitinh = f["GioiTinh"];
+            var user = Session["User"] as TAIKHOAN;
+            var infoAccount = db.THONGTINCANHANs.Where(tk => tk.Id_tk == user.Id).FirstOrDefault();
+            dynamic mymodel = new ExpandoObject();
 
+
+            Session["Taotk"] = null;
+
+            if (hoten == string.Empty)
+            {
+                ViewData["LoiHoTen"] = "Không được bỏ trống!";
+            }
+            if (ngaysinh == string.Empty)
+            {
+                ViewData["LoiNgaySinh"] = "Không được bỏ trống!";
+            }
+            if (Cccd == string.Empty)
+            {
+                ViewData["LoiCccd"] = "Không được bỏ trống!";
+            }
+            if (sdt == string.Empty)
+            {
+                ViewData["LoiSdt"] = "Không được bỏ trống!";
+            }
+            else if (!Regex.Match(sdt, @"(84|0[3|5|7|8|9])+([0-9]{8})", RegexOptions.IgnoreCase).Success)
+            {
+                ViewData["LoiSdt"] = "Định dạng số điện thoại không đúng";
+            }
+            if (diachi == string.Empty)
+            {
+                ViewData["LoiDiaChi"] = "Không được bỏ trống!";
+            }
+
+            else
+            {
+                var kq = db.sp_EditInfoUser(user.TenTK, hoten, DateTime.Parse(ngaysinh), Cccd, gioitinh, sdt, diachi);
+                Session["Taotk"] = "Tạo tài khoản thành công";
+            }
+            mymodel.Info = infoAccount;
+            return View(mymodel);
+        }
     }
 }
