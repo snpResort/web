@@ -5,34 +5,38 @@
 }
 @model dynamic
 @using QL_Resort.Models;
+
+@{DateTime dateNow = DateTime.Now;}
+
 @using (Html.BeginForm("ThanhToan", "Phong", new { @idlp = @Model.LayLP.Id, @strURL = Request.Url.ToString() }))
 {
     <div style=" padding-bottom:100px">
         <div class="row" style="margin-top:10px;margin-bottom:30px">
             @*<div class="col-md-1"></div>*@
             <div class="col-md-4" style="padding-left:80px">
-                <a><label>Ngày Đặt &nbsp&nbsp</label><input type="date" id="ngaydat" name="ngaydat" value="ngaydat" style="width:250px;height:40px" /></a>
+                <a><label>Ngày Đặt &nbsp&nbsp</label><input type="date" id="ngaydat" name="ngaydat" onchange="test()" style="width:250px;height:40px" /></a>
             </div>
-            <div class="col-md-4">
-                <a><label>Ngày Trả &nbsp&nbsp</label><input type="date" id="ngaytra" name="ngaytra" value="ngaytra" onchange="test()" style="width:250px;height:40px" /></a>
+            <div class="col-md-3">
+                <a><label>Ngày Trả &nbsp&nbsp</label><input type="date" id="ngaytra" name="ngaytra" onchange="test()" style="width:250px;height:40px" /></a>
             </div>
-            <div class="col-md-4" style="padding-left:40px">
+            <div class="col-md-2">
+                <p id="soPhongTrong"></p>
+            </div>
+            <div style="padding-left:40px">
                 @*<div class="row">
                         <input type="text" id="uudai" name="uudai" placeholder="Mã giảm giá" style="width:200px;height:40px" /> &nbsp&nbsp
                         <button type="submit" class="book_now_btn button_hove" style="border-radius:10px; width:120px;height:40px">Áp dụng</button>
                     </div>*@
-                <a>
-                    <label>Số Lượng Phòng &nbsp&nbsp</label>@*<input type="number" id="txtsoluong" name="txtsoluong"
-                        min="1" max="10" style="width:100px;height:30px; padding-left:30px">*@
-                    <input type="number" id="txtsoluong" name="txtsoluong" min="1"
-                           max="10" onchange="test()" style="width:100px;height:30px; padding-left:30px">
-                </a>
+                <label>Số Lượng Phòng &nbsp&nbsp</label>@*<input type="number" id="txtsoluong" name="txtsoluong"
+                    min="1" max="10" style="width:100px;height:30px; padding-left:30px">*@
+                <input type="number" id="txtsoluong" name="txtsoluong" min="1"
+                       onchange="changeCount()" style="width:100px;height:30px; padding-left:30px">
             </div>
         </div>
 
         <div style="margin-left:50px; margin-right:50px">
             <div class="row" style="padding-left: 30px; padding-bottom:20px">
-                <h3>@Model.LayLP.TenLoai</h3>
+                <p>@Model.LayLP.TenLoai</p>
             </div>
             <div class="row" style="padding-left:30px">
                 <div class="col-md-5">
@@ -105,7 +109,7 @@
                     </div>
                     <div class="row" style="padding-bottom:30px">
                         @*<p style="font-size:20px; color:red">700.000 VNĐ</p>*@
-                        <input type="text" id="sum" name="sum" placeholder="0 VNĐ" style="width:250px; height:40px;font-size:14px; " />
+                        <input id="sum" name="sum" value="0 VNĐ" style="width: 250px; height: 40px; font-size: 14px; padding-left: 10px; user-select:none" readonly />
                     </div>
                     @*<div class="row">
                             <button type="submit" class="btn theme_btn button_hover">Thanh Toán</button>
@@ -143,32 +147,69 @@
             var $dateEnd = $("#ngaytra").val();
             return ($dateEnd > $dateStart);
         }
+            function addOneDay(date = new Date()) {
+                date.setDate(date.getDate() + 1);
+
+                return date;
+            }
+
+            function changeCount() {
+                console.log('change')
+                if ($("#ngaydat").val() && $("#ngaytra").val()) {
+
+                    $('#sum').val(
+                      `${Intl.NumberFormat().format($("#txtsoluong").val() * (@Model.LayLP.Gia * cal_date(new Date($('#ngaydat').val()), new Date($('#ngaytra').val()))))} VNĐ`
+                    );
+                }
+            }
 
         function test() {
-            if (!$("#ngaydat").val()) {
-                alert('Vui lòng nhập ngày đặt');
-                $("#ngaytra").val('')
+            if (new Date((new Date(Date.now())).yyyymmdd()).getTime() > new Date((new Date($('#ngaydat').val())).yyyymmdd()).getTime()) {
+                alert('Ngày đặt phải lớn hơn ngày hiện tại')
+                $('#ngaydat').val('')
                 return;
             }
-            if (!validateTwoDates()) {
-                alert('Ngày trả phải lớn hơn ngày đặt');
-                $("#ngaytra").val('')
+            if (new Date((new Date(Date.now())).yyyymmdd()).getTime() > new Date((new Date($('#ngaytra').val())).yyyymmdd()).getTime()) {
+                alert('Ngày trả phải lớn hơn ngày hiện tại')
+                $('#ngaydat').val('')
+                return;
             }
+            if ($("#ngaydat").val() && $("#ngaytra").val()) {
+                $("#txtsoluong").val('')
+
+                if (!validateTwoDates()) {
+                    alert('Ngày trả phải lớn hơn ngày đặt');
+                    $("#ngaytra").val('')
+                }
+
+                var data = {
+                    ngayDat: new Date($("#ngaydat").val()).yyyymmdd(),
+                    ngayTra: new Date($("#ngaytra").val()).yyyymmdd(),
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Phong/DatPhong",
+                    data: data,
+                    success: (data) => {
+                        console.log(data.listPhongTrong);
+                        $('#soPhongTrong').text(
+                            `Số lượng phòng trống: ${data.listPhongTrong.length == 0 ? "Hết phòng" : data.listPhongTrong.length}`
+                        )
+                        document.getElementById("txtsoluong").max = `${data.listPhongTrong.length}`;
+                    }
+                });
+
+}
+
             @*if ($("#txtsoluong") == "" || $("#txtsoluong") == 1) {
                 $('#sum').val(@Model.LayLP.Gia * cal_date(new Date($('#ngaydat').val()), new Date($('#ngaytra').val())));
                 return;
             }*@
-            $('#sum').val($("#txtsoluong").val() * (@Model.LayLP.Gia * cal_date(new Date($('#ngaydat').val()), new Date($('#ngaytra').val()))));
+
             return;
                 }
-                function Soluong() {
-                    if ($("#txtsoluong") = 1) {
-                        $('#sum').val()
-                        return;
-                    }
-                    $('#sum').val($('#sum').val() * $('#txtsoluong').val());
-                    return;
-                }
+
 
         function cal_date(date_checkin, date_checkout) {
             let time_checkin = date_checkin.getTime();
@@ -202,17 +243,58 @@
                         //});
 
                         //    }
+
+            Date.prototype.yyyymmdd = function () {
+                var mm = this.getMonth() + 1; // getMonth() is zero-based
+                var dd = this.getDate();
+
+                return [this.getFullYear(),
+                (mm > 9 ? '' : '0') + mm,
+                (dd > 9 ? '' : '0') + dd
+                ].join('-');
+            };
+
+
+            
+
+            document.querySelector("#ngaydat").value = (new Date(Date.now())).yyyymmdd();
+            document.querySelector("#ngaytra").value = addOneDay().yyyymmdd();
+            test();
         </script>
     </div>
 }
 @if (Session["TB"] != null)
 {
-<script type="text/javascript">
+    <script type="text/javascript">
         swal({
             icon: "error",
             title: "@Session["TB"].ToString()",
     });
-</script>
-    Session["TB"]= null;
+    </script>
+    Session["TB"] = null;
+}
+
+@if (Session["EmptyNgay"] != null)
+{
+    if (Session["EmptyNgay"].ToString() == "ngaydat")
+    {
+        <script type="text/javascript">
+            alert("Vui lòng nhập ngày đặt");
+        </script>
+    }
+    else if (Session["EmptyNgay"].ToString() == "ngaytra")
+    {
+        <script type="text/javascript">
+            alert("Vui lòng nhập ngày trả");
+        </script>
+    }
+    else if (Session["EmptyNgay"].ToString() == "soLuong")
+    {
+        <script type="text/javascript">
+            alert("Vui lòng nhập số lượng phòng");
+        </script>
+    }
+
+    Session["EmptyNgay"] = null;
 }
 

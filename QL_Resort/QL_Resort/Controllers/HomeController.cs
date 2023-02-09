@@ -43,6 +43,77 @@ namespace QL_Resort.Controllers
             mymodel.Info = infoAccount;
             return View(mymodel);
         }
+        public ActionResult LichSuDP()
+        {
+            var user = Session["User"] as TAIKHOAN;
+
+            var ttdp = db.THONGTINDATPHONGs
+                .Where(dp => dp.Id_KH == user.Id)
+                .Select(dp => new ThongTinDP
+                {
+                    Gia = dp.DonGia ?? 0,
+                    NgDat = dp.NgayDat.ToString(),
+                    NgTra = dp.NgayTra.ToString(),
+                    SoLuongNgLon = dp.SoLuongNguoiTH.ToString(),
+                    SoLuongTreEm = dp.SoLuongTreEm.ToString(),
+                    Id = dp.Id
+                }).ToList();
+
+            /*
+             * select Id_DatPhong, CTDATPHONG.Gia, TenLoai, count(*) SoLuong 
+                from CTDATPHONG join Phong
+                    on CTDATPHONG.Id_P = Phong.Id join LoaiPhong
+                    on LoaiPhong.Id = Phong.Id_LP
+                Group by Id_DatPhong, CTDATPHONG.Gia, TenLoai
+             */
+            var ctttlp = db.LOAIPHONGs.Select(lp => new ChiTietTTLP
+            {
+                Id = lp.Id,
+                Gia = lp.Gia ?? 0,
+                Ten = lp.TenLoai,
+                Id_p = db.PHONGs.Where(p => p.Id_LP == lp.Id).Select(p => p.Id).ToList()
+            }).ToList();
+
+            var ctdpgr = db.CTDATPHONGs.ToList().Select(ct => new CtDP
+            {
+                Gia = ct.Gia.ToString(),
+                Id_DatPhong = ct.Id_DatPhong.ToString(),
+                TenLoai = ctttlp.Where(pp => pp.Id_p.Contains(ct.Id_P)).FirstOrDefault().Ten,
+            }).ToList()
+            .GroupBy(tt => new
+            {
+                tt.Id_DatPhong,
+                tt.TenLoai,
+                tt.Gia
+            }).ToList().Select(tt => new CtDP
+            {
+                Gia = tt.Key.Gia,
+                Id_DatPhong = tt.Key.Id_DatPhong,
+                SoLuong = tt.Count().ToString(),
+                TenLoai = tt.Key.TenLoai,
+            }).ToList();
+
+
+
+            //foreach (var line in )
+            //{
+            //    var a = line.Count();
+            //}
+
+            dynamic mymodel = new ExpandoObject();
+            mymodel.ttdp = ttdp.Select(dp => new ThongTinDP
+            {
+                Gia = dp.Gia,
+                NgDat = dp.NgDat,
+                NgTra = dp.NgTra,
+                SoLuongNgLon = dp.SoLuongNgLon,
+                SoLuongTreEm = dp.SoLuongTreEm,
+                Id = dp.Id,
+                Ctdp = ctdpgr.Where(ct => ct.Id_DatPhong == dp.Id).ToList(),
+            }).ToList();
+            //mymodel.ctdp = ctdpgr;
+            return View(mymodel);
+        }
         public ActionResult CapNhatThongTinTK(String id_tk)
         {
             var infoAccount = db.THONGTINCANHANs.Where(tk => tk.Id_tk == id_tk).FirstOrDefault();
@@ -102,7 +173,7 @@ namespace QL_Resort.Controllers
                 Session["Taotk"] = "Tạo tài khoản thành công";
             }
             mymodel.Info = infoAccount;
-            return View(mymodel);
+            return RedirectToAction("ThongTinTK", "Home");
         }
     }
 }

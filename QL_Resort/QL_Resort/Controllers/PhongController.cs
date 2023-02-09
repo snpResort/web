@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using QL_Resort.Models;
 using System.Dynamic;
 using System.Web.UI;
+using System.Web.Helpers;
 
 namespace QL_Resort.Controllers
 {
@@ -49,8 +50,46 @@ namespace QL_Resort.Controllers
 
             Session["loaiPhong"] = layLP;
 
+            List<ThongTinPhong> data = new List<ThongTinPhong>();
+            var ttdp = db.THONGTINDATPHONGs;
+
+            data = ttdp.Select(tt => new ThongTinPhong
+            {
+                Id_DP = tt.Id,
+                Ngaydat = tt.NgayDat.ToString(),
+                Ngaytra = tt.NgayTra.ToString(),
+                Id_P = db.CTDATPHONGs.Where(r => r.Id_DatPhong == tt.Id).Select(t => t.Id_P).ToList()
+            }).ToList();
+
+            Session["dataPhong"] = data;
+
+            mymodel.dataPhong = data;
+
 
             return View(mymodel);
+        }
+        [HttpPost]
+        public JsonResult DatPhong(String ngayDat, String ngayTra)
+        {
+            var data = Session["dataPhong"] as List<ThongTinPhong>;
+            List<String> dsPhong = new List<String>();
+            for (DateTime d = DateTime.Parse(ngayDat); d.CompareTo(DateTime.Parse(ngayTra)) <= 0; d = d.AddDays(1.0))
+            {
+                var booked = data.Where(t => d.CompareTo(DateTime.Parse(t.Ngaydat)) >= 0 && d.CompareTo(DateTime.Parse(t.Ngaytra)) <= 0).Select(c => c.Id_P).ToList();
+
+                foreach (var dataCtDP in booked)
+                {
+                    dsPhong.AddRange(dataCtDP.ToHashSet().ToList().ConvertAll<string>(x => x.ToString()).ToList());
+                }
+
+            }
+            dsPhong = dsPhong.ToHashSet().ToList();
+            var loaiPhong = Session["loaiPhong"] as LOAIPHONG;
+            var _p = db.PHONGs.Where(p => p.Id_LP == loaiPhong.Id).ToList();
+
+            List<String> dsPhongTrong = _p.Where(t => !dsPhong.Contains(t.Id.ToString())).Select(t => t.Id.ToString()).ToList();
+
+            return Json(new { listPhongTrong = dsPhongTrong }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult TimKiem()
         {
@@ -115,29 +154,29 @@ namespace QL_Resort.Controllers
         [HttpPost]
         public ActionResult ThanhToan(string idlp, string strURL, FormCollection f)
         {
-            var user = Session["User"] as TAIKHOAN;
-            //if (user == null)
-            //{
-            //    return RedirectToAction("DangNhap", "TaiKhoan");
-            //}
-            DateTime ND = Convert.ToDateTime(f["ngaydat"]);
-            DateTime NT = Convert.ToDateTime(f["ngaytra"]);
-
-            var ttdp = db.THONGTINDATPHONGs;
-            var ctdp = db.CTDATPHONGs;
-            List<ThongTinPhong> data = new List<ThongTinPhong>();
-            foreach (var item in ttdp)
-            {
-                ThongTinPhong _thongtinphong = new ThongTinPhong();
-                _thongtinphong.Id_DP = item.Id;
-                _thongtinphong.Ngaydat = item.NgayDat.ToString();
-                _thongtinphong.Ngaytra = item.NgayTra.ToString();
-                _thongtinphong.Id_P = db.CTDATPHONGs.Where(r => r.Id_DatPhong == item.Id).Select(t => t.Id_P).ToList();
-                data.Add(_thongtinphong);
+            // todo: check empty ngay dat & ngay tra
+            if (String.IsNullOrEmpty(f["ngaydat"].Trim())) {
+                Session["EmptyNgay"] = "ngaydat";
+                return RedirectToAction("DatPhong", "Phong", new { id = idlp });
             }
-            List<String> dsPhong = new List<String>();
-            for (DateTime d = ND; d.CompareTo(NT) <= 0; d = d.AddDays(1.0))
+            if (String.IsNullOrEmpty(f["ngaytra"].Trim())) {
+                Session["EmptyNgay"] = "ngaytra";
+                return RedirectToAction("DatPhong", "Phong", new { id = idlp });
+            }
+
+            if (String.IsNullOrEmpty(f["txtsoluong"].Trim()))
             {
+                Session["EmptyNgay"] = "soLuong";
+                return RedirectToAction("DatPhong", "Phong", new { id = idlp });
+            }
+
+            // todo check phòng trống
+            var data = Session["dataPhong"] as List<ThongTinPhong>;
+            List<String> dsPhong = new List<String>();
+            int soNgayO = 0;
+            for (DateTime d = DateTime.Parse(f["ngaydat"].Trim()); d.CompareTo(DateTime.Parse(f["ngaytra"].Trim())) <= 0; d = d.AddDays(1.0))
+            {
+                soNgayO++;
                 var booked = data.Where(t => d.CompareTo(DateTime.Parse(t.Ngaydat)) >= 0 && d.CompareTo(DateTime.Parse(t.Ngaytra)) <= 0).Select(c => c.Id_P).ToList();
 
                 foreach (var dataCtDP in booked)
@@ -150,14 +189,47 @@ namespace QL_Resort.Controllers
             var loaiPhong = Session["loaiPhong"] as LOAIPHONG;
             var _p = db.PHONGs.Where(p => p.Id_LP == loaiPhong.Id).ToList();
 
+
             List<String> dsPhongTrong = _p.Where(t => !dsPhong.Contains(t.Id.ToString())).Select(t => t.Id.ToString()).ToList();
+
+
+            var user = Session["User"] as TAIKHOAN;
+            // check is login
+            if (user == null)
+            {
+                // return login page
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
+            DateTime ND = Convert.ToDateTime(f["ngaydat"]);
+            DateTime NT = Convert.ToDateTime(f["ngaytra"]);
+
+            // var ctdp = db.CTDATPHONGs;
+            
+            //List<String> dsPhong = new List<String>();
+            //for (DateTime d = ND; d.CompareTo(NT) <= 0; d = d.AddDays(1.0))
+            //{
+            //    var booked = data.Where(t => d.CompareTo(DateTime.Parse(t.Ngaydat)) >= 0 && d.CompareTo(DateTime.Parse(t.Ngaytra)) <= 0).Select(c => c.Id_P).ToList();
+
+            //    foreach (var dataCtDP in booked)
+            //    {
+            //        dsPhong.AddRange(dataCtDP.ToHashSet().ToList().ConvertAll<string>(x => x.ToString()).ToList());
+            //    }
+
+            //}
+            //dsPhong = dsPhong.ToHashSet().ToList();
+            //var _p = db.PHONGs.Where(p => p.Id_LP == loaiPhong.Id).ToList();
+
+            //List<String> dsPhongTrong = _p.Where(t => !dsPhong.Contains(t.Id.ToString())).Select(t => t.Id.ToString()).ToList();
             Session["TB"] = null;
             Session["done"] = null;
-            if (dsPhongTrong.Count == 0)
-            {
-                Session["TB"] = "Het phong!!!";
-                return Redirect(strURL);
-            }
+
+            //if (dsPhongTrong.Count == 0)
+            //{
+            //    Session["TB"] = "Het phong!!!";
+            //    return Redirect(strURL);
+            //}
+
+            // get info for sp_AddTTDatPhong
             var username = user.TenTK;
             var id_KH = user.Id;
             string soluong = f["txtsoluong"];
@@ -166,33 +238,47 @@ namespace QL_Resort.Controllers
             var id_DP = dsPhongTrong[new Random().Next(dsPhongTrong.Count)];
             var SLNL = loaiPhong.SoLuongNguoiLon;
             var SLTE = loaiPhong.SoLuongTreEm;
-            var Gia = f["sum"];/// ngày ở   
+            var Gia = f["sum"].ToString().Split(' ')[0].Replace(",", ""); // tổng giá
 
             var kq = db.sp_AddTTDatPhong(username, SLNL, SLTE, double.Parse(Gia), ND, NT, ref id_DP);
             if (id_DP != null)
             {
-                if (int.Parse(soluong) > dsPhongTrong.Count)
+                for (int i = 1; i <= int.Parse(soluong); i++)
                 {
-                    Session["TB"] = "Qua so luong!!!";  
-                    return Redirect(strURL);
-                }
-                else
-                {
-                    for (int i = 1; i <= int.Parse(soluong); i++)
+                    CTDATPHONG ct = new CTDATPHONG();
+
+                    ct.Id_DatPhong = id_DP;
+                     
+                    // get room is empty
+                    var lstPT = dsPhongTrong[new Random().Next(dsPhongTrong.Count)];
+
+                    int idp = int.Parse(lstPT);
+
+                    var priceRoom = db.LOAIPHONGs.Select(lp => new ChiTietTTLP
                     {
-                        CTDATPHONG ct = new CTDATPHONG();
-                        ct.Id_DatPhong = id_DP;
-                        ct.Gia = double.Parse(Gia);
-                        var lstPT = dsPhongTrong[new Random().Next(dsPhongTrong.Count)];
-                        int idp = int.Parse(lstPT);
-                        ct.Id_P = idp;
-                        dsPhongTrong.Remove(lstPT);
-                        db.CTDATPHONGs.InsertOnSubmit(ct);
-                    }
-                    db.SubmitChanges();
+                        Id = lp.Id,
+                        Gia = lp.Gia ?? 0,
+                        Ten = lp.TenLoai,
+                        Id_p = db.PHONGs.Where(p => p.Id_LP == lp.Id).Select(p => p.Id).ToList()
+                    }).ToList();
+
+
+                    ct.Gia = priceRoom.Where(pp => pp.Id_p.Contains(idp)).FirstOrDefault().Gia;
+
+                    ct.Id_P = idp;
+
+                    dsPhongTrong.Remove(lstPT);
+
+                    db.CTDATPHONGs.InsertOnSubmit(ct);
                 }
+                db.SubmitChanges();
             }
             Session["done"] = "Code: " + id_DP;
+            // send mail message
+
+            MailUtils.SendMailBookSuccess(username, id_DP, loaiPhong.TenLoai, double.Parse(Gia).ToString(), soNgayO.ToString(), SLNL.ToString(), SLTE.ToString());
+
+            // show message book success
             return RedirectToAction("ThanhToanThanhCong", "Phong");
 
         }

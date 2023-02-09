@@ -35,8 +35,15 @@
                 <a href="@Url.Action("CapNhatThongTinTK", "Home", new { id_tk = Model.Info.Id_tk as String })" class="btn btn--signin" type="submit" style="text-align:center">Cập nhật</a>
             </div>
         </div>
-        </div>
     </div>
+</div>
+@if (Session["Taotk"] != null)
+{
+    <script type="text/javascript">
 
+        alert("Cập nhật thông tin thành công");
+    </script>
+    Session["Taotk"] = null;
+}
 
 

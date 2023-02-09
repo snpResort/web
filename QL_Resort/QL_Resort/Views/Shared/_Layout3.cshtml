@@ -18,6 +18,10 @@
     <link rel="stylesheet" href="~/Asset/css/responsive.css">
     <script src="~/lib/sweetalert/sweetalert.min.js"></script>
 
+    <script src="~/Asset/js/jquery-3.2.1.min.js"></script>
+    <script src="~/Asset/js/popper.js"></script>
+    <script src="~/Asset/js/bootstrap.min.js"></script>
+
 </head>
 <body>
     <!--================Header Area =================-->
@@ -38,12 +42,12 @@
                     <ul class="nav navbar-nav menu_nav ml-auto">
                         <li class="nav-item active"><a class="nav-link" href="/Home/Index">Trang chủ</a></li>
                         @*<li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Đặt Phòng</a>
-                <ul class="dropdown-menu">
-                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-                    <li class="nav-item"><a class="nav-link" href="blog-single.html">Blog Details</a></li>
-                </ul>
-            </li>*@
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Đặt Phòng</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="blog-single.html">Blog Details</a></li>
+                                </ul>
+                            </li>*@
                         <li class="nav-item"><a class="nav-link" href="/AboutUS/Aboutus">Liên hệ</a></li>
                         <li class="nav-item"><a class="nav-link" href="/DichVu/DichVu">Dịch vụ</a></li>
                         @*<li class="nav-item"><a class="nav-link" href="elements.html">Elemests</a></li>*@
@@ -54,6 +58,7 @@
                                 @if (Session["User"] != null)
                                 {
                                     <li class="nav-item"><a class="nav-link" href="/Home/ThongTinTK">Thông Tin Tài Khoản</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="/Home/LichSuDP">Lịch sử đặt phòng</a></li>
                                 }
                                 @if (Session["User"] == null)
                                 {
@@ -73,7 +78,7 @@
     </header>
 
     <div>
-        <img src="~/Asset/image/banner_bg.jpg" width="100%" ; height="300px">
+        <img src="~/Asset/image/layout2.jpg" width="100%" ; height="250px">
         @RenderBody()
         @RenderSection("scripts", required: false)
     </div>
@@ -160,9 +165,6 @@
         </div>
     </footer>
 
-    <script src="~/Asset/js/jquery-3.2.1.min.js"></script>
-    <script src="~/Asset/js/popper.js"></script>
-    <script src="~/Asset/js/bootstrap.min.js"></script>
     <script src="~/Asset/vendors/owl-carousel/owl.carousel.min.js"></script>
     <script src="~/Asset/js/jquery.ajaxchimp.min.js"></script>
     <script src="~/Asset/js/mail-script.js"></script>

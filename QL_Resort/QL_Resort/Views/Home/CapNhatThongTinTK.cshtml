@@ -14,7 +14,7 @@
                 <h2 class="sign-up__title" style="text-align: center">Cập Nhật Thông Tin Cá Nhân</h2>
 
                 <label>Họ tên:  &nbsp</label><input value="@Model.Info.HoTen" class="sign-up__inp" type="text" name="HoTen" style=" text-transform: none;" placeholder="Họ tên" /><h6 class="text-danger">@(ViewData["LoiHoTen"] ?? "")</h6>
-                <label>Ngày sinh:  &nbsp</label><input id="ngaySinh" class="sign-up__inp" type="date" name="NgaySinh" style=" text-transform: none;" placeholder="Ngày/Tháng/Năm" /><h6 class="text-danger">@(ViewData["LoiNgaySinh"] ?? "")</h6>
+                <label>Ngày sinh:  &nbsp</label><input id="ngaySinh" class="sign-up__inp" type="datetime" value="@Model.Info.NgaySinh" name="NgaySinh" style=" text-transform: none;" placeholder="Ngày/Tháng/Năm" /><h6 class="text-danger">@(ViewData["LoiNgaySinh"] ?? "")</h6>
 
                 <label>CCCD:  &nbsp</label><input value="@Model.Info.CanCuoc" class="sign-up__inp" type="text" name="Cccd" style=" text-transform: none;" placeholder="Căn cước công dân" /><h6 class="text-danger">@(ViewData["LoiCccd"] ?? "")</h6>
                 <label>SDT:  &nbsp</label><input value="@Model.Info.Sdt" class="sign-up__inp" type="text" name="sdt" style=" text-transform: none;" placeholder="Số điện thoại" /><h6 class="text-danger">@(ViewData["LoiSdt"] ?? "")</h6>
@@ -33,14 +33,6 @@
     </div>
 </div>
 <script>
-    document.getElementById("ngaySinh").value = "@(Model.Info.NgaySinh.ToString("yyyy/MM/dd"))";
+    document.getElementById("ngaySinh").value = "@(Model.Info.NgaySinh.ToString("dd/MM/yyyy"))";
 
 </script>
-@if (Session["Taotk"] != null)
-{
-    <script type="text/javascript">
-        
-        alert("Tạo tài khoản nhân viên thành công");
-    </script>
-    Session["Taotk"] = null;
-}

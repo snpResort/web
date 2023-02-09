@@ -122,6 +122,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChiTietTTLP.cs" />
     <Compile Include="Models\GioHang.cs" />
     <Compile Include="Models\LoaiPhong.cs" />
     <Compile Include="Models\MailUtils.cs" />
@@ -150,11 +151,17 @@
     <Content Include="Asset\css\_variables.css" />
     <Content Include="Asset\fonts\fontawesome-webfont.svg" />
     <Content Include="Asset\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Asset\image\5.jpg" />
     <Content Include="Asset\image\about_banner.jpg" />
     <Content Include="Asset\image\about_bg.jpg" />
+    <Content Include="Asset\image\banner-2.jpg" />
     <Content Include="Asset\image\banner\banner-1.jpg" />
     <Content Include="Asset\image\banner\banner-2.jpg" />
     <Content Include="Asset\image\banner_bg.jpg" />
+    <Content Include="Asset\image\banner_new1.jpg" />
+    <Content Include="Asset\image\banner_new2.jpg" />
+    <Content Include="Asset\image\banner_new3.jpg" />
+    <Content Include="Asset\image\banner_new6.jpg" />
     <Content Include="Asset\image\blog\add.jpg" />
     <Content Include="Asset\image\blog\author.png" />
     <Content Include="Asset\image\blog\blog-1.jpg" />
@@ -230,6 +237,7 @@
     <Content Include="Asset\image\instagram\Image-06.jpg" />
     <Content Include="Asset\image\instagram\Image-07.jpg" />
     <Content Include="Asset\image\instagram\Image-08.jpg" />
+    <Content Include="Asset\image\layout2.jpg" />
     <Content Include="Asset\image\logo-2.png" />
     <Content Include="Asset\image\Logo.png" />
     <Content Include="Asset\image\logo1.png" />
@@ -383,6 +391,7 @@
     <Content Include="Views\Admin\XacNhanDatPhong.cshtml" />
     <Content Include="Views\Admin\HienThi.cshtml" />
     <Content Include="Views\Admin\ThongTinTKKH.cshtml" />
+    <Content Include="Views\Home\LichSuDP.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
