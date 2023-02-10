@@ -7,6 +7,7 @@ using QL_Resort.Models;
 using System.Dynamic;
 using System.Web.UI;
 using System.Web.Helpers;
+using System.Text.RegularExpressions;
 
 namespace QL_Resort.Controllers
 {
@@ -101,31 +102,59 @@ namespace QL_Resort.Controllers
             dynamic mymodel = new ExpandoObject();
             string SLNL = f["SLNL"];
             string SLTE = f["SLTE"];
+            string GIA = f["gia"];
+            GIA = Regex.Replace(f["gia"].ToString().Split(' ')[0], @"[.,]", "");
+
             int nl = 0;
             int te = 0;
+            double g = 0;
             var lp = db.LOAIPHONGs.ToList();
             List<LoaiPhong> data = new List<LoaiPhong>();
             Session["timkiem"] = null;
-            if (String.IsNullOrEmpty(SLTE) && String.IsNullOrEmpty(SLNL))
+            if (String.IsNullOrEmpty(SLTE) && String.IsNullOrEmpty(SLNL) && String.IsNullOrEmpty(GIA))
             {
                 Session["timkiem"] = "Vui long nhap so luong!!!";
                 return RedirectToAction("Index","Home");
             }    
-            else if (String.IsNullOrEmpty(SLTE) && !String.IsNullOrEmpty(SLNL))
+            else if (String.IsNullOrEmpty(SLTE) && !String.IsNullOrEmpty(SLNL) && String.IsNullOrEmpty(GIA))
             {
                 nl = int.Parse(SLNL);
                 lp = db.LOAIPHONGs.Where(t => t.SoLuongNguoiLon >= nl).ToList();
             }
-            else if (String.IsNullOrEmpty(SLNL) && !String.IsNullOrEmpty(SLTE))
+            else if (String.IsNullOrEmpty(SLNL) && !String.IsNullOrEmpty(SLTE) && String.IsNullOrEmpty(GIA))
             {
                 te = int.Parse(SLTE);
                 lp = db.LOAIPHONGs.Where(t => t.SoLuongTreEm >= te).ToList();
             }
-            else if (!String.IsNullOrEmpty(SLNL) && !String.IsNullOrEmpty(SLTE))
+            else if(String.IsNullOrEmpty(SLNL) && String.IsNullOrEmpty(SLTE) && !String.IsNullOrEmpty(GIA))
+            {
+                g = double.Parse(GIA);
+                lp = db.LOAIPHONGs.Where(t => t.Gia <= g).ToList();
+            }    
+            else if (!String.IsNullOrEmpty(SLNL) && !String.IsNullOrEmpty(SLTE) && String.IsNullOrEmpty(GIA))
             {
                 nl = int.Parse(SLNL);
                 te = int.Parse(SLTE);
                 lp = db.LOAIPHONGs.Where(t => t.SoLuongNguoiLon >= nl && t.SoLuongTreEm >= te).ToList();
+            }
+            else if (!String.IsNullOrEmpty(SLNL) && String.IsNullOrEmpty(SLTE) && !String.IsNullOrEmpty(GIA))
+            {
+                nl = int.Parse(SLNL);
+                g = double.Parse(GIA);
+                lp = db.LOAIPHONGs.Where(t => t.SoLuongNguoiLon >= nl && t.Gia <= g).ToList();
+            }
+            else if (String.IsNullOrEmpty(SLNL) && !String.IsNullOrEmpty(SLTE) && !String.IsNullOrEmpty(GIA))
+            {
+                te = int.Parse(SLTE);
+                g = double.Parse(GIA);
+                lp = db.LOAIPHONGs.Where(t => t.Gia <= g && t.SoLuongTreEm >= te).ToList();
+            }
+            else if (!String.IsNullOrEmpty(SLNL) && !String.IsNullOrEmpty(SLTE) && !String.IsNullOrEmpty(GIA))
+            {
+                nl = int.Parse(SLNL);
+                te = int.Parse(SLTE);
+                g = double.Parse(GIA);
+                lp = db.LOAIPHONGs.Where(t => t.Gia <= g && t.SoLuongTreEm >= te && t.SoLuongNguoiLon >= nl).ToList();
             }
             foreach (var item in lp)
             {
@@ -203,31 +232,8 @@ namespace QL_Resort.Controllers
             DateTime ND = Convert.ToDateTime(f["ngaydat"]);
             DateTime NT = Convert.ToDateTime(f["ngaytra"]);
 
-            // var ctdp = db.CTDATPHONGs;
-            
-            //List<String> dsPhong = new List<String>();
-            //for (DateTime d = ND; d.CompareTo(NT) <= 0; d = d.AddDays(1.0))
-            //{
-            //    var booked = data.Where(t => d.CompareTo(DateTime.Parse(t.Ngaydat)) >= 0 && d.CompareTo(DateTime.Parse(t.Ngaytra)) <= 0).Select(c => c.Id_P).ToList();
-
-            //    foreach (var dataCtDP in booked)
-            //    {
-            //        dsPhong.AddRange(dataCtDP.ToHashSet().ToList().ConvertAll<string>(x => x.ToString()).ToList());
-            //    }
-
-            //}
-            //dsPhong = dsPhong.ToHashSet().ToList();
-            //var _p = db.PHONGs.Where(p => p.Id_LP == loaiPhong.Id).ToList();
-
-            //List<String> dsPhongTrong = _p.Where(t => !dsPhong.Contains(t.Id.ToString())).Select(t => t.Id.ToString()).ToList();
             Session["TB"] = null;
             Session["done"] = null;
-
-            //if (dsPhongTrong.Count == 0)
-            //{
-            //    Session["TB"] = "Het phong!!!";
-            //    return Redirect(strURL);
-            //}
 
             // get info for sp_AddTTDatPhong
             var username = user.TenTK;
@@ -238,7 +244,8 @@ namespace QL_Resort.Controllers
             var id_DP = dsPhongTrong[new Random().Next(dsPhongTrong.Count)];
             var SLNL = loaiPhong.SoLuongNguoiLon;
             var SLTE = loaiPhong.SoLuongTreEm;
-            var Gia = f["sum"].ToString().Split(' ')[0].Replace(",", ""); // tổng giá
+            var Gia = Regex.Replace(f["sum"].ToString().Split(' ')[0], @"[.,]", ""); // tổng giá
+            Session["TongTien"] = Gia;
 
             var kq = db.sp_AddTTDatPhong(username, SLNL, SLTE, double.Parse(Gia), ND, NT, ref id_DP);
             if (id_DP != null)

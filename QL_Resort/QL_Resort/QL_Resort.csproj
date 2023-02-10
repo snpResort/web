@@ -133,8 +133,11 @@
     </Compile>
     <Compile Include="Models\TaiKhoan.cs" />
     <Compile Include="Models\TaiKhoanNV.cs" />
+    <Compile Include="Models\ThongKe.cs" />
+    <Compile Include="Models\ThongTinCN.cs" />
     <Compile Include="Models\ThongTinDP.cs" />
     <Compile Include="Models\ThongTinDV.cs" />
+    <Compile Include="Models\ThongTinHoaDon.cs" />
     <Compile Include="Models\ThongTinLP.cs" />
     <Compile Include="Models\ThongTinPhong.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -284,6 +287,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="lib\Chart\Chart.min.js" />
     <Content Include="lib\sweetalert\sweetalert.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -392,6 +396,8 @@
     <Content Include="Views\Admin\HienThi.cshtml" />
     <Content Include="Views\Admin\ThongTinTKKH.cshtml" />
     <Content Include="Views\Home\LichSuDP.cshtml" />
+    <Content Include="Views\Admin\HoaDon.cshtml" />
+    <Content Include="Views\Admin\ThongKe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

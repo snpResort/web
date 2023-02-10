@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "ThongKe";
+    Layout = "~/Views/Shared/_LayoutQL2.cshtml";
+}
+<style>
+    #divNavigation {
+        display: none;
+    }
+</style>
+
+<div class="width-details">
+    <h3 style="text-align:center;padding-bottom:20px">Thống Kê Doanh Thu Các Tháng Trong Năm</h3>
+    <div class="row">
+        <div class="col-md-12">
+            <select id="dllYear" class="form-control" style="width: 150px">
+                <option value="@DateTime.Now.Year">Select Year</option>
+                <option value="2020">2022</option>
+                <option value="2021">2023</option>
+                <option value="2022">2024</option>
+            </select>
+            <div id="dvChart">
+                <canvas style="height:400px" id="chartProduct"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/lib/Chart/Chart.min.js"></script>
+    <script>
+
+        $('#dllYear').on('change', function () {
+            var year = $(this).val();
+
+            $.get('/Admin/ThongKeDoanhThu?year=' + year, function (redt) {
+                ChartProduct(redt)
+            });
+        });
+
+
+        function ChartProduct(thongke) {
+
+            var lstLabel = [];
+            var lstDataSource = [];
+            $.each(thongke, function (index, item) {
+                lstLabel.push(Date.now);
+                lstDataSource.push(item.Tongtien);
+            });
+
+            var ctx = document.getElementById("chartProduct");
+
+            var barChartData = {
+                labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                datasets: [
+                        {
+                            label: "Tổng tiền trong tháng",
+                            backgroundColor: '#0b9663',
+                            borderWidth: 1,
+                            data: lstDataSource
+                        }
+                ]
+            };
+
+
+            var myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: barChartData,
+            });
+        }
+    </script>
+}
+

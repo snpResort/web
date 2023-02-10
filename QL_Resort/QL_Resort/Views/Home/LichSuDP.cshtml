@@ -7,36 +7,40 @@
 @using QL_Resort.Models
 
 <h2 style="text-align: center">Lịch sử đặt phòng</h2>
-@foreach (ThongTinDP data in Model.ttdp)
-{
-    <h4>Mã đặt phòng: <b style="color: orange">@data.Id</b></h4>
-    <h4>Ngày đặt: @data.NgDat</h4>
-    <h4>Ngày trả: @data.NgTra</h4>
-    <h4>Số lượng người lớn: @data.SoLuongNgLon</h4>
-    <h4>Số lượng trẻ em: @data.SoLuongTreEm</h4>
-    <h4>Thông tin phòng: </h4>
-    <table align="center" cellpadding="10" cellspacing="10" width="600">
-        <tr>
-            <th>Loại phòng</th>
-            <th>Số lượng</th>
-            <th>Giá</th>
-        </tr>
-        @foreach (CtDP ct in data.Ctdp)
-        {
+<div style="margin-left:150px; margin-right:150px">
+    @foreach (ThongTinDP data in Model.ttdp)
+    {
+    <div style="border: solid 1px; padding-left:100px; padding-top:50px; padding-bottom:20px">
+        <h4>Mã đặt phòng: <b style="color: orange">@data.Id</b></h4>
+        <h4>Ngày đặt: @data.NgDat</h4>
+        <h4>Ngày trả: @data.NgTra</h4>
+        <h4>Số lượng người lớn: @data.SoLuongNgLon</h4>
+        <h4>Số lượng trẻ em: @data.SoLuongTreEm</h4>
+        <h4>Thông tin phòng: </h4>
+        <table align="center" cellpadding="10" cellspacing="10" width="600" border="1">
             <tr>
-                <td>@ct.TenLoai</td>
-                <td>@ct.SoLuong</td>
-                <td>@ct.Gia</td>
+                <th>Loại phòng</th>
+                <th>Số lượng</th>
+                <th>Giá</th>
             </tr>
-        }
-        <tr>
-            <td>Tổng hoá đơn</td>
-            <td>1</td>
-            <td>@data.Gia</td>
-        </tr>
-    </table>
-    <br />
-    <br />
-}
+            @foreach (CtDP ct in data.Ctdp)
+            {
+                <tr>
+                    <td>@ct.TenLoai</td>
+                    <td>@ct.SoLuong</td>
+                    <td>@ct.Gia</td>
+                </tr>
+            }
+            <tr>
+                <td>Tổng hoá đơn</td>
+                <td>@data.Ctdp.Sum(ct => int.Parse(ct.SoLuong)) </td>
+                <td>@data.Gia</td>
+            </tr>
+        </table>
+        <br />
+        <br />
+    </div>
+    }
+    </div>
 
 

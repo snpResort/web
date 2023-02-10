@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "HoaDon";
+    Layout = "~/Views/Shared/_LayoutQL2.cshtml";
+}
+@using QL_Resort.Models
+@model dynamic
+<div style="padding-top:5px; padding-bottom:50px">
+    @using (Html.BeginForm())
+    {
+        <div class="search col-md-6" style="padding-left:160px">
+            <input type="text" id="txtTK" name="txtTK" class="searchTerm" placeholder="Tìm kiếm" style="width:400px;height:36px">
+            <button type="submit" class="searchButton">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+        <br />
+        <h2 style="text-align:center;padding-bottom:30px">Danh Sách Hoá Đơn</h2>
+        <div>
+            <table class="table" style="width:80%; margin:auto; border:hidden">
+                <tr style="border-bottom:1px solid black">
+                    <th>ID_HD</th>
+                    <th>ID_DP</th>
+                    <th>TÊN NHÂN VIÊN</th>
+                    <th> TIỀN CỌC</th>
+                    <th>NGÀY TẠO</th>
+                </tr>
+                @foreach (var item in Model.DSHD)
+                {
+                    <tr>
+                        <td>@item.Id_HD</td>
+                        <td>@item.IdDP</td>
+                        <td>@item.TenNV</td>
+                        <td>@item.TienCoc VND</td>
+                        <td>@item.NgayTaoHD</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+</div>
+

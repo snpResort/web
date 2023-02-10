@@ -324,7 +324,8 @@ namespace QL_Resort.Controllers
             var id_DP = dsPhongTrong[new Random().Next(dsPhongTrong.Count)];
             var SLNL = loaiPhong.SoLuongNguoiLon;
             var SLTE = loaiPhong.SoLuongTreEm;
-            var Gia = f["sum"].ToString().Split(' ')[0].Replace(",", "");/// ngày ở   
+            //var Gia = f["sum"].ToString().Split(' ')[0].Replace(",", "");/// ngày ở
+            var Gia = Regex.Replace(f["sum"].ToString().Split(' ')[0], @"[.,]", ""); // tổng giá
 
             Session["sl"] = null;
             var kq = db.sp_AddTTDatPhong_Off(id_KH, SLNL, SLTE, double.Parse(Gia), ND, NT, ref id_DP);
@@ -395,23 +396,35 @@ namespace QL_Resort.Controllers
                 Ngaytra = t.NgayTra.ToString(),
                 Soluong = t.CTDATPHONGs.Where(a => a.Id_DatPhong == id).Count().ToString(),
                 Id_P = t.CTDATPHONGs.Where(b => b.Id_DatPhong == id).Select(a => a.Id_P).ToList(),
-                Slnl = int.Parse(t.SoLuongNguoiTH.ToString()),
-                Slte = int.Parse(t.SoLuongTreEm.ToString()),
+                //Slnl=int.Parse(t.SoLuongNguoiTH.ToString()),
+                //Slte=int.Parse(t.SoLuongTreEm.ToString()),
+                Tongtien = double.Parse(db.THONGTINDATPHONGs.Where(d => d.Id == id).FirstOrDefault().DonGia.ToString()),
             });
             var CTDP = db.CTDATPHONGs.Where(t => t.Id_DatPhong == id).FirstOrDefault();
             List<int> dsPhong = new List<int>();
             dsPhong = db.CTDATPHONGs.Where(b => b.Id_DatPhong == id).Select(a => a.Id_P).ToList();
             var lstPT = dsPhong[new Random().Next(dsPhong.Count)];
             int idp = lstPT;
-
             var ttpXN = ttdp.Where(t => t.Id_DP == id).FirstOrDefault();
             ttpXN.Songayo = (1 + Math.Floor(double.Parse((DateTime.Parse(ttpXN.Ngaytra) - DateTime.Parse(ttpXN.Ngaydat)).Days.ToString()))).ToString();
-            ttpXN.Tenphong = _ttlp.Where(t => t.Id_p == idp).FirstOrDefault().Ten;
-            double tt = double.Parse(db.CTDATPHONGs.Where(d => d.Id_DatPhong == id).FirstOrDefault().Gia.ToString());
-            ttpXN.Tongtien = tt.ToString();
-            CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-US"
-            string g = double.Parse(ttpXN.Tongtien).ToString("#,###", cul.NumberFormat);
-            ttpXN.Tongtien = g;
+
+            //lấy list tên phòng theo list idp
+            ttpXN.CactenP = db.PHONGs.Where(p => dsPhong.Contains(p.Id)).Select(p => p.TenPhong).ToList();
+            //lấy list IDLP theo list tên phòng
+            List<string> dsLoaiP = db.PHONGs.Where(p => dsPhong.Contains(p.Id)).Select(p => p.Id_LP).ToList();
+            //lấy list tên loại phòng theo list idLP
+            ttpXN.Tenphong = db.LOAIPHONGs.Where(v => dsLoaiP.Contains(v.Id)).Select(v => v.TenLoai).ToList();
+            //lấy list giá theo id_DP
+            ttpXN.GiaLP = db.CTDATPHONGs.Where(x => x.Id_DatPhong == id).Select(z => double.Parse(z.Gia.Value.ToString())).Distinct().ToList();
+
+            ttpXN.Slnl = db.LOAIPHONGs.Where(k => dsLoaiP.Contains(k.Id)).Select(k => k.SoLuongNguoiLon.ToString()).ToList();
+            ttpXN.Slte = db.LOAIPHONGs.Where(k => dsLoaiP.Contains(k.Id)).Select(k => k.SoLuongTreEm.ToString()).ToList();
+
+            //CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-US"
+            //string g = double.Parse(ttpXN.Tongtien).ToString("#,###", cul.NumberFormat);
+            //ttpXN.Tongtien = g;
+            mymodel.TTDP = ttpXN;
+
             mymodel.TTDP = ttpXN;
             Session["ThongTinPhong"] = CTDP;
             return View(mymodel);
@@ -451,8 +464,9 @@ namespace QL_Resort.Controllers
                 Ngaytra = t.NgayTra.ToString(),
                 Soluong = t.CTDATPHONGs.Where(a => a.Id_DatPhong == id).Count().ToString(),
                 Id_P = t.CTDATPHONGs.Where(b => b.Id_DatPhong == id).Select(a => a.Id_P).ToList(),
-                Slnl=int.Parse(t.SoLuongNguoiTH.ToString()),
-                Slte=int.Parse(t.SoLuongTreEm.ToString()),
+                //Slnl=int.Parse(t.SoLuongNguoiTH.ToString()),
+                //Slte=int.Parse(t.SoLuongTreEm.ToString()),
+                Tongtien=double.Parse(db.THONGTINDATPHONGs.Where(d=>d.Id==id).FirstOrDefault().DonGia.ToString()),
             });
             var CTDP = db.CTDATPHONGs.Where(t => t.Id_DatPhong == id).FirstOrDefault();
             List<int> dsPhong = new List<int>();
@@ -460,22 +474,23 @@ namespace QL_Resort.Controllers
             var lstPT = dsPhong[new Random().Next(dsPhong.Count)];
             int idp = lstPT;
             var ttpXN = ttdp.Where(t => t.Id_DP == id).FirstOrDefault();
-            //for(int i = 1; i <= dsPhong.Count(); i++)
-            //{
-            //    var lstp= dsPhong[new Random().Next(dsPhong.Count)];
-            //    int id_p = lstPT;
-            //    dsPhong.Remove(lstp);
-            //    ttpXN.CactenP = db.PHONGs.Where(n => n.Id == id_p).ToList().Select(m=>m.TenPhong).ToList();
-            //}
-
-
             ttpXN.Songayo = (1 + Math.Floor(double.Parse((DateTime.Parse(ttpXN.Ngaytra) - DateTime.Parse(ttpXN.Ngaydat)).Days.ToString()))).ToString();
-            ttpXN.Tenphong = _ttlp.Where(t => t.Id_p == idp).FirstOrDefault().Ten;
-            double tt = double.Parse(db.CTDATPHONGs.Where(d => d.Id_DatPhong == id).FirstOrDefault().Gia.ToString());
-            ttpXN.Tongtien = tt.ToString();
-            CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-US"
-            string g = double.Parse(ttpXN.Tongtien).ToString("#,###", cul.NumberFormat);
-            ttpXN.Tongtien = g;
+
+            //lấy list tên phòng theo list idp
+            ttpXN.CactenP = db.PHONGs.Where(p => dsPhong.Contains(p.Id)).Select(p => p.TenPhong).ToList();
+            //lấy list IDLP theo list tên phòng
+            List<string> dsLoaiP=db.PHONGs.Where(p => dsPhong.Contains(p.Id)).Select(p => p.Id_LP).ToList();
+            //lấy list tên loại phòng theo list idLP
+            ttpXN.Tenphong = db.LOAIPHONGs.Where(v => dsLoaiP.Contains(v.Id)).Select(v => v.TenLoai).ToList();
+            //lấy list giá theo id_DP
+            ttpXN.GiaLP = db.CTDATPHONGs.Where(x => x.Id_DatPhong == id).Select(z =>double.Parse(z.Gia.Value.ToString())).Distinct().ToList();
+
+            ttpXN.Slnl = db.LOAIPHONGs.Where(k => dsLoaiP.Contains(k.Id)).Select(k => k.SoLuongNguoiLon.ToString()).ToList();
+            ttpXN.Slte = db.LOAIPHONGs.Where(k => dsLoaiP.Contains(k.Id)).Select(k => k.SoLuongTreEm.ToString()).ToList();
+
+            //CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-US"
+            //string g = double.Parse(ttpXN.Tongtien).ToString("#,###", cul.NumberFormat);
+            //ttpXN.Tongtien = g;
             mymodel.TTDP = ttpXN;
             Session["ThongTinPhong"] = CTDP;
             Session["ThongTinDP"] = ttpXN;
@@ -517,6 +532,52 @@ namespace QL_Resort.Controllers
             //MailUtils.SendMailVerifyBookSuccess(username, id_DP, loaiPhong.TenLoai, double.Parse(Gia).ToString(), soNgayO.ToString(), SLNL.ToString(), SLTE.ToString());
             return RedirectToAction("DanhSachDatTruoc","Admin");
         }
+        public ActionResult HoaDon()
+        {
+            var ttcn = db.NHANVIENs.Join(db.THONGTINCANHANs, nv => nv.Id_tk, cn => cn.Id_tk, (nv, cn) => new ThongTinCN { Idnv=nv.Id,Id_ttcn=cn.Id,Id_tk=nv.Id_tk,Hoten=cn.HoTen });
+            dynamic mymodel = new ExpandoObject();
+            var dshd = db.HOADONs.Select(t => new ThongTinHoaDon
+            {
+               Id_HD=t.Id,
+               IdDP=t.Id_DP,
+               Id_NV=t.Id_NV.ToString(),
+               Id_tknv=db.NHANVIENs.Where(nv=>nv.Id==t.Id_NV).FirstOrDefault().Id_tk,
+               TienCoc=double.Parse(t.TiendatCoc.ToString()),
+               NgayTaoHD=t.NgayTao.ToString(),
+               TenNV=ttcn.Where(c=>c.Idnv==t.Id_NV).FirstOrDefault().Hoten,
+            });
+            //CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-US"
+            //string g = double.Parse().ToString("#,###", cul.NumberFormat);
+            //ttpXN.Tongtien = g;
+            mymodel.DSHD = dshd;
+            return View(mymodel);
+        }
+        [HttpPost]
+        public ActionResult HoaDon(FormCollection f)
+        {
+            dynamic mymodel = new ExpandoObject();
+            string txtTK = f["txtTK"];
+            var ttcn = db.NHANVIENs.Join(db.THONGTINCANHANs, nv => nv.Id_tk, cn => cn.Id_tk, (nv, cn) => new ThongTinCN { Idnv = nv.Id, Id_ttcn = cn.Id, Id_tk = nv.Id_tk, Hoten = cn.HoTen });
+            var dshd = db.HOADONs.Select(t => new ThongTinHoaDon
+            {
+                Id_HD = t.Id,
+                IdDP = t.Id_DP,
+                Id_NV = t.Id_NV.ToString(),
+                Id_tknv = db.NHANVIENs.Where(nv => nv.Id == t.Id_NV).FirstOrDefault().Id_tk,
+                TienCoc = double.Parse(t.TiendatCoc.ToString()),
+                NgayTaoHD = t.NgayTao.ToString(),
+                TenNV = ttcn.Where(c => c.Idnv == t.Id_NV).FirstOrDefault().Hoten,
+            });
+            mymodel.DSHD = dshd;
+            if (!String.IsNullOrEmpty(txtTK))
+            {
+                mymodel.DSHD = dshd.Where(t => t.Id_HD == txtTK || t.IdDP==txtTK).ToList();
+            }
+            return View(mymodel);
+        }
+
+
+
         public ActionResult Check(string id)
         {
             dynamic mymodel = new ExpandoObject();
@@ -578,6 +639,17 @@ namespace QL_Resort.Controllers
                 return RedirectToAction("Index", "Admin");
             }
             return View();
+        }
+        public ActionResult ThongKe()
+        {
+            return View();
+        }
+        public ActionResult ThongKeDoanhThu(int year)
+        {
+            dynamic mymodel = new ExpandoObject();
+            var thongke = db.HOADONs.Join(db.THONGTINDATPHONGs, hd => hd.Id_DP, tt => tt.Id, (hd, tt) => new ThongKe { Id_hd = hd.Id, Id_dp = hd.Id_DP, Ngaytao = DateTime.Parse(hd.NgayTao.ToString()),Gia=double.Parse(tt.DonGia.ToString()) });
+            mymodel.TK = thongke;
+            return Json(thongke, JsonRequestBehavior.AllowGet);
         }
 
 

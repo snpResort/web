@@ -109,7 +109,15 @@ namespace QL_Resort.Controllers
                 SoLuongNgLon = dp.SoLuongNgLon,
                 SoLuongTreEm = dp.SoLuongTreEm,
                 Id = dp.Id,
-                Ctdp = ctdpgr.Where(ct => ct.Id_DatPhong == dp.Id).ToList(),
+                Ctdp = ctdpgr
+                    .Where(ct => ct.Id_DatPhong == dp.Id)
+                    .Select(ct => new  CtDP {
+                        Gia = ( double.Parse(ct.Gia) * int.Parse(ct.SoLuong) * (1 + Math.Floor(double.Parse((DateTime.Parse(dp.NgTra) - DateTime.Parse(dp.NgDat)).Days.ToString()))) ).ToString(),
+                        Id_DatPhong = ct.Id_DatPhong,
+                        SoLuong = ct.SoLuong,
+                        TenLoai = ct.TenLoai,
+                    })
+                    .ToList(),
             }).ToList();
             //mymodel.ctdp = ctdpgr;
             return View(mymodel);

@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "HienThi";
     Layout = "~/Views/Shared/_LayoutQL.cshtml";
 }
@@ -19,23 +18,38 @@
                         <p>Số lượng trẻ em</p>
                         <h4>Danh sách phòng</h4>
                     </div>
-                    <div class="col-md-6" style="padding-left: 190px; font-size: 15px">
+                    <div class="col-md-6" style="padding-left: 160px; font-size: 15px">
                         <p>@Model.TTDP.Songayo</p>
-                        <p>@Model.TTDP.Slnl</p>
-                        <p>@Model.TTDP.Slte</p>
+                        <div class="row" style="padding-left:14px">
+                            @for (int i = 0; i < Model.TTDP.Slnl.Count; i++)
+                            {
+                                <p>@Model.TTDP.Slnl[i]&nbsp&nbsp</p>
+                            }
+                        </div>
+                        <div class="row" style="padding-left:14px">
+                            @for (int i = 0; i < Model.TTDP.Slte.Count; i++)
+                            {
+                                <p>@Model.TTDP.Slte[i]&nbsp&nbsp</p>
+                            }
+                        </div>
+                            @*<p>@Model.TTDP.Slnl</p>
+            <p>@Model.TTDP.Slte</p>*@
+                        </div>
                     </div>
-                </div>
                 <div class="row" style="padding-left: 15px; font-size: 15px">
                     <p>Phòng số:&nbsp</p>
-                    @for (int i = 0; i < Model.TTDP.Id_P.Count; i++)
+                    @for (int i = 0; i < Model.TTDP.CactenP.Count; i++)
                     {
-                        <p>@Model.TTDP.Id_P[i]&nbsp&nbsp</p>
+                        <p>@Model.TTDP.CactenP[i]&nbsp&nbsp</p>
                     }
                 </div>
                 <div class="row" style="font-size:15px">
                     <div class="col-md-6">
                         <p style="color: chocolate; font-size: 13px">Phòng</p>
-                        <p>@Model.TTDP.Tenphong</p>
+                        @for (int i = 0; i < Model.TTDP.Tenphong.Count; i++)
+                        {
+                            <p>@Model.TTDP.Tenphong[i]&nbsp&nbsp</p>
+                        }
                     </div>
                     <div class="col-md-3">
                         <p style="color: chocolate; font-size: 13px">Số lượng</p>
@@ -43,9 +57,12 @@
                     </div>
                     <div class="col-md-3">
                         <p style="padding-left: 40px; color: chocolate; font-size: 13px">Giá</p>
-                        <p>@Model.TTDP.Tongtien <ins>đ</ins></p>
+                        @for (int i = 0; i < Model.TTDP.GiaLP.Count; i++)
+                        {
+                            <p>@string.Format("{0:0,0 }",@Model.TTDP.GiaLP[i])<ins>đ</ins></p>
+                        }
                     </div>
-                    <p style="padding-left:15px">----------------------------------------------------------</p>
+                    <p style="padding-left:15px">-------------------------------------------------------------------------------------------</p>
                 </div>
                 <div class="row" style="font-size:15px">
                     <div class="col-md-6">
@@ -55,7 +72,7 @@
                         <p>@Model.TTDP.Soluong</p>
                     </div>
                     <div class="col-md-3">
-                        <p>@Model.TTDP.Tongtien <ins>đ</ins></p>
+                        <p>@string.Format("{0:0,0 }",@Model.TTDP.Tongtien) <ins>đ</ins></p>
                     </div>
                 </div>
                 <div class="row" style="padding-left:200px; padding-top:50px">

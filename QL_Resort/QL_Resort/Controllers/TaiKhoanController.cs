@@ -268,10 +268,18 @@ namespace QL_Resort.Controllers
         [HttpPost]
         public ActionResult DoiMatKhau(FormCollection f)
         {
+            var user = Session["User"] as TAIKHOAN;
             var password = f["pw"];
             var repassword = f["repw"];
             bool isError = false;
+            Session["dmktc"] = null;
 
+            if (String.IsNullOrEmpty(password))
+            {
+                ViewData["Loi1"] = "Không được bỏ trống Email";
+                isError = true;
+
+            }
             if (String.IsNullOrEmpty(password))
             {
                 ViewData["Loi2"] = " Vui lòng nhập mật khẩu ";
@@ -298,14 +306,16 @@ namespace QL_Resort.Controllers
 
                 //Response.Write("<script>alert('Mật khẩu nhập lại không đúng!!!')</script>");
             }
-            var result = db.sp_changePassword(Session["emailChangePw"]?.ToString() ?? "", password);
-            
+            else
+            {
+                Session["emailChangePw"] = user.TenTK;
+                var result = db.sp_changePassword(Session["emailChangePw"]?.ToString() ?? "", password);
+            }
             if (!isError)
             {
-                return RedirectToAction("DangNhap");
+                Session["dmktc"] = "Đổi mật khẩu thành công";
+                return RedirectToAction("Index", "Home");
             }
-
-
             return View();
         }
     }

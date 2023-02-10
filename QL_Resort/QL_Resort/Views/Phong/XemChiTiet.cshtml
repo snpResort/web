@@ -81,13 +81,20 @@
                 <p style="color: white; font-size: 16px">@string.Format("{0:0,0 }", @item.Gia)VNĐ<small>/Đêm</small></p>
             </div>
         }
-    <div class="row" style="padding-top:16px">
-        @foreach (var item1 in Model.LayLP)
-        {
-            <a href="@Url.Action("DatPhong", "Phong", new { id = item1.Id })" class="btn theme_btn button_hover">Đặt Ngay</a>
-        }
-        @*<a href="/Phong/DatPhongSL" class="btn theme_btn button_hover">Đặt Ngay</a>*@
-    </div>
+        <div class="row" style="padding-top:16px">
+            @if (Session["User"] != null)
+            {
+                @foreach (var item1 in Model.LayLP)
+                {
+                    <a href="@Url.Action("DatPhong", "Phong", new { id = item1.Id })" class="btn theme_btn button_hover">Đặt Ngay</a>
+                }
+            }
+            @if (Session["User"] == null)
+            {
+                <a href="/TaiKhoan/DangNhap" class="btn theme_btn button_hover">Đặt Ngay</a>
+            }
+            @*<a href="/Phong/DatPhongSL" class="btn theme_btn button_hover">Đặt Ngay</a>*@
+        </div>
     </div>
 </div>
 
