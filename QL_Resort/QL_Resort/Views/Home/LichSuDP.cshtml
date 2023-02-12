@@ -12,8 +12,8 @@
     {
     <div style="border: solid 1px; padding-left:100px; padding-top:50px; padding-bottom:20px">
         <h4>Mã đặt phòng: <b style="color: orange">@data.Id</b></h4>
-        <h4>Ngày đặt: @data.NgDat</h4>
-        <h4>Ngày trả: @data.NgTra</h4>
+        <h4>Ngày đặt: @( DateTime.Parse(data.NgDat).ToString("dd/MM/yyyy") )</h4>
+        <h4>Ngày trả: @( DateTime.Parse(data.NgTra).ToString("dd/MM/yyyy") )</h4>
         <h4>Số lượng người lớn: @data.SoLuongNgLon</h4>
         <h4>Số lượng trẻ em: @data.SoLuongTreEm</h4>
         <h4>Thông tin phòng: </h4>
@@ -28,13 +28,26 @@
                 <tr>
                     <td>@ct.TenLoai</td>
                     <td>@ct.SoLuong</td>
-                    <td>@ct.Gia</td>
+                    <td>@(String.Format("{0:#,#.#}", double.Parse(ct.Gia))) VNĐ</td>
+                </tr>
+            }
+            @if (data.Gia < data.Ctdp.Sum(ct => int.Parse(ct.Gia)))
+            {
+                <tr>
+                    <td>Tổng</td>
+                    <td>@data.Ctdp.Sum(ct => int.Parse(ct.SoLuong)) </td>
+                    <td>@(String.Format("{0:#,#.#}", data.Ctdp.Sum(ct => int.Parse(ct.Gia)))) VNĐ</td>
+                </tr>
+                <tr>
+                    <td>Giảm giá</td>
+                    <td></td>
+                    <td>@( String.Format("{0:#,#.#}", (1 - data.Gia / data.Ctdp.Sum(ct => int.Parse(ct.Gia)) ) * 100 )) %</td>
                 </tr>
             }
             <tr>
                 <td>Tổng hoá đơn</td>
                 <td>@data.Ctdp.Sum(ct => int.Parse(ct.SoLuong)) </td>
-                <td>@data.Gia</td>
+                <td>@(String.Format("{0:#,#.#}", data.Gia)) VNĐ</td>
             </tr>
         </table>
         <br />

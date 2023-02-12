@@ -5,12 +5,17 @@
 @model dynamic
 @using QL_Resort.Models
 <div style="padding-left:300px; padding-top:100px">
-    @using (Html.BeginForm("XacNhanDatPhong", "Admin"))
+    @{ 
+        ThongTinDP ttdp = Model.ttdp as ThongTinDP;
+        List<String> listRoomBooked = Model.dsP;
+        THONGTINCANHAN ttcn = Model.userInfo as THONGTINCANHAN;
+    }
+    @using (Html.BeginForm("XacNhanDatPhong", "Admin", new { ttcn = ttcn }))
     {
         <div style="width: 65%; height:650px;color: black; background-color: white; border-radius: 10px">
             <div class="sign-up__content">
                 <h2 class="sign-up__title" style="text-align:center">Thông Tin Đặt Phòng</h2>
-                <h3 style="color:chocolate">Mã:   @Model.TTDP.Id_DP</h3>
+                <h3 style="color:chocolate">Mã: @ttdp.Id</h3>
                 <div class="row">
                     <div class="col-md-6" style="font-size:15px">
                         <p>Số ngày ở</p>
@@ -19,60 +24,61 @@
                         <h4>Danh sách phòng</h4>
                     </div>
                     <div class="col-md-6" style="padding-left: 160px; font-size: 15px">
-                        <p>@Model.TTDP.Songayo</p>
-                        <div class="row" style="padding-left:14px">
-                            @for (int i = 0; i < Model.TTDP.Slnl.Count; i++)
-                            {
-                                <p>@Model.TTDP.Slnl[i]&nbsp&nbsp</p>
-                            }
-                        </div>
-                        <div class="row" style="padding-left:14px">
-                            @for (int i = 0; i < Model.TTDP.Slte.Count; i++)
-                            {
-                                <p>@Model.TTDP.Slte[i]&nbsp&nbsp</p>
-                            }
-                        </div>
+                        <p>@((1 + Math.Floor(double.Parse((DateTime.Parse(ttdp.NgTra) - DateTime.Parse(ttdp.NgDat)).Days.ToString()))))</p>
+                        <p>@ttdp.SoLuongNgLon</p>
+                        <p>@ttdp.SoLuongTreEm</p>
                             @*<p>@Model.TTDP.Slnl</p>
             <p>@Model.TTDP.Slte</p>*@
                         </div>
                     </div>
                 <div class="row" style="padding-left: 15px; font-size: 15px">
                     <p>Phòng số:&nbsp</p>
-                    @for (int i = 0; i < Model.TTDP.CactenP.Count; i++)
-                    {
-                        <p>@Model.TTDP.CactenP[i]&nbsp&nbsp</p>
-                    }
+                    <p>@string.Join(", ", listRoomBooked)</p>
                 </div>
+
                 <div class="row" style="font-size:15px">
                     <div class="col-md-6">
                         <p style="color: chocolate; font-size: 13px">Phòng</p>
-                        @for (int i = 0; i < Model.TTDP.Tenphong.Count; i++)
+                        @for (int i = 0; i < ttdp.Ctdp.Count; i++)
                         {
-                            <p>@Model.TTDP.Tenphong[i]&nbsp&nbsp</p>
+                            <p>@ttdp.Ctdp[i].TenLoai&nbsp&nbsp</p>
                         }
                     </div>
                     <div class="col-md-3">
                         <p style="color: chocolate; font-size: 13px">Số lượng</p>
-                        <p>@Model.TTDP.Soluong</p>
+                        @for (int i = 0; i < ttdp.Ctdp.Count; i++)
+                        {
+                            <p>@ttdp.Ctdp[i].SoLuong&nbsp&nbsp</p>
+                        }
                     </div>
                     <div class="col-md-3">
                         <p style="padding-left: 40px; color: chocolate; font-size: 13px">Giá</p>
-                        @for (int i = 0; i < Model.TTDP.GiaLP.Count; i++)
+                        @for (int i = 0; i < ttdp.Ctdp.Count; i++)
                         {
-                            <p>@string.Format("{0:0,0 }",@Model.TTDP.GiaLP[i])<ins>đ</ins></p>
+                            <p>@string.Format("{0:0,0} ", double.Parse(ttdp.Ctdp[i].Gia))<ins>đ</ins></p>
                         }
                     </div>
-                    <p style="padding-left:15px">-------------------------------------------------------------------------------------------</p>
+                    <hr />
+                    <style>
+                        hr {
+                            border: none;
+                            border-top: 2px dashed #000;
+                            color: #fff;
+                            background-color: #fff;
+                            height: 1px;
+                            width: 90%;
+                        }
+                    </style>
                 </div>
                 <div class="row" style="font-size:15px">
                     <div class="col-md-6">
                         <p>Tổng hoá đơn</p>
                     </div>
                     <div class="col-md-3">
-                        <p>@Model.TTDP.Soluong</p>
+                        <p>@ttdp.Ctdp.Sum(ct => int.Parse(ct.SoLuong))</p>
                     </div>
                     <div class="col-md-3">
-                        <p>@string.Format("{0:0,0 }",@Model.TTDP.Tongtien) <ins>đ</ins></p>
+                        <p>@string.Format("{0:0,0} ",ttdp.Gia) <ins>đ</ins></p>
                     </div>
                 </div>
                 <div class="row" style="padding-left:200px; padding-top:50px">

@@ -23,19 +23,6 @@
 
     <script src="~/Asset/js/jquery-3.2.1.min.js"></script>
 
-    <script type="text/javascript">
-        var Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 5000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        });
-    </script>
 </head>
 <body>
     <!--================Header Area =================-->
@@ -43,7 +30,7 @@
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <!-- Brand and toggle get grouped for better mobile display -->
-                <a class="navbar-brand logo_h" href="/Home/Index" style="color:black">
+                <a class="navbar-brand logo_h" href="/Admin/Index">
                     <img src="https://raw.githubusercontent.com/snpResort/images/main/logo.png" alt="" height="100" width="100">&nbsp&nbspMOONLIGHT
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,30 +41,23 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                     <ul class="nav navbar-nav menu_nav ml-auto">
-                        <li class="nav-item active"><a class="nav-link" href="/Admin/">Trang Chủ</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="/Admin/Index">Trang Chủ</a></li>
                         <li class="nav-item submenu dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Quản Lý</a>
                             <ul class="dropdown-menu">
-                                <li class="nav-item quyenLT quyenQLKD"><a class="nav-link" href="blog.html">Phòng</a></li>
-                                <li class="nav-item quyenLT quyenQLKD"><a class="nav-link" href="blog-single.html">Dịch Vụ</a></li>
-                                <li class="nav-item quyenQLKD"><a class="nav-link" href="blog-single.html">Khách Hàng</a></li>
                                 <li class="nav-item quyenQLNS"><a class="nav-link" href="/Admin/QLTaiKhoan">Nhân Viên</a></li>
-                                <li class="nav-item quyenLT quyenQLKD"><a class="nav-link" href="blog-single.html">Hoá Đơn</a></li>
+                                <li class="nav-item quyenLT quyenQLKD"><a class="nav-link" href="/Admin/HoaDon">Hoá Đơn</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item quyenQLKD"><a class="nav-link" href="#">Thống kê</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Giới Thiệu</a></li>
+                        <li class="nav-item quyenQLKD"><a class="nav-link" href="/Admin/ThongKe">Thống kê</a></li>
                         <li class="nav-item submenu dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i></a>
                             <ul class="dropdown-menu">
                                 <li class="nav-item"><a class="nav-link" href="/Admin/ThongTinTKNV">Tạo Tài Khoản NV</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Thông Tin Tài Khoản</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/Admin/ThongTinTK">Thông Tin Tài Khoản</a></li>
                             </ul>
                         </li>
-                        @if (Session["User"] != null)
-                        {
-                            <li class="nav-item"><a class="nav-link" href="/Home/Index"><i class="fa fa-sign-out"></i></a></li>
-                        }
+                        <li class="nav-item"><a class="nav-link" href="/TaiKhoan/DangXuatAdmin"><i class="fa fa-sign-out"></i></a></li>
                     </ul>
                 </div>
             </nav>

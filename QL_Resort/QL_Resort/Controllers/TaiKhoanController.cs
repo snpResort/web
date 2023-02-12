@@ -43,6 +43,7 @@ namespace QL_Resort.Controllers
             {
                 TAIKHOAN tttk = db.TAIKHOANs.SingleOrDefault(c => c.TenTK == username);
                 Session["User"] = tttk;
+                Session["AccounInfo"] = new string[] {username.ToString(), password.ToString()}; // array [0]: username, [1] password
                 Session["tdn"] = tttk.TenTK;
                 return RedirectToAction("Index", "Home");
 
@@ -138,7 +139,7 @@ namespace QL_Resort.Controllers
                 isError = true;
 
             }
-            if (!Regex.Match(password, @"(?=.*?[A - Z])(?=.*?[a - z])(?=.*?[0 - 9])(?=.*?[#?!@$%^&*-]).{8,}", RegexOptions.IgnoreCase).Success)
+            if (!Regex.Match(password, @"(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}\b", RegexOptions.IgnoreCase).Success)
             {
                 ViewData["Loi2"] = " Mật khẩu phải tối thiểu tám ký tự, ít nhất có:\n- Một chữ hoa\n- Một chữ thường\n- Một số và một ký tự đặc biệt ";
                 isError = true;
@@ -259,7 +260,7 @@ namespace QL_Resort.Controllers
                 int code = MailUtils.SendMailVerifyCode(email);
                 return RedirectToAction("XacThucEmail", new { code = code });
             }
-            return View(); 
+            return View();
         }
         public ActionResult DoiMatKhau()
         {
@@ -268,25 +269,17 @@ namespace QL_Resort.Controllers
         [HttpPost]
         public ActionResult DoiMatKhau(FormCollection f)
         {
-            var user = Session["User"] as TAIKHOAN;
             var password = f["pw"];
             var repassword = f["repw"];
             bool isError = false;
-            Session["dmktc"] = null;
 
-            if (String.IsNullOrEmpty(password))
-            {
-                ViewData["Loi1"] = "Không được bỏ trống Email";
-                isError = true;
-
-            }
             if (String.IsNullOrEmpty(password))
             {
                 ViewData["Loi2"] = " Vui lòng nhập mật khẩu ";
                 isError = true;
 
             }
-            if (!Regex.Match(password, @"(?=.*?[A - Z])(?=.*?[a - z])(?=.*?[0 - 9])(?=.*?[#?!@$%^&*-]).{8,}", RegexOptions.IgnoreCase).Success)
+            if (!Regex.Match(password, @"(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}\b", RegexOptions.IgnoreCase).Success)
             {
                 ViewData["Loi2"] = " Mật khẩu phải tối thiểu tám ký tự, ít nhất có:\n- Một chữ hoa\n- Một chữ thường\n- Một số và một ký tự đặc biệt ";
                 isError = true;
@@ -306,14 +299,70 @@ namespace QL_Resort.Controllers
 
                 //Response.Write("<script>alert('Mật khẩu nhập lại không đúng!!!')</script>");
             }
-            else
+            var result = db.sp_changePassword(Session["emailChangePw"]?.ToString() ?? "", password);
+
+            if (!isError)
             {
-                Session["emailChangePw"] = user.TenTK;
-                var result = db.sp_changePassword(Session["emailChangePw"]?.ToString() ?? "", password);
+                return RedirectToAction("DangNhap");
+            }
+
+
+            return View();
+        }
+
+        public ActionResult ThayDoiMatKhau()
+        {
+           
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ThayDoiMatKhau(FormCollection f)
+        {
+            var accountInfo = Session["AccounInfo"] as string[];
+            var passwordNew = f["newpw"];
+            var password = f["pw"];
+            var repassword = f["repw"];
+            bool isError = false;
+
+            if (String.IsNullOrEmpty(password))
+            {
+                ViewData["Loi1"] = " Vui lòng nhập mật khẩu ";
+                isError = true;
+
+            } else if (password != (accountInfo?[1] ?? ""))
+            {
+                ViewData["Loi1"] = "Mật khẩu hiện tại không đúng. Vui lòng thử lại";
+                isError = true;
+            }
+            if (String.IsNullOrEmpty(passwordNew))
+            {
+                ViewData["Loi2"] = "Vui lòng nhập mật khẩu cần đổi";
+                isError = true;
+
+            }
+            if (!Regex.Match(passwordNew, @"(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}\b", RegexOptions.IgnoreCase).Success)
+            {
+                ViewData["Loi2"] = " Mật khẩu phải tối thiểu tám ký tự, ít nhất có:\n- Một chữ hoa\n- Một chữ thường\n- Một số và một ký tự đặc biệt ";
+                isError = true;
+
+            }
+            if (String.IsNullOrEmpty(repassword))
+            {
+                ViewData["Loi3"] = " Vui lòng xác nhận lại mật khẩu ";
+                isError = true;
+
+            }
+
+            if (String.Compare(passwordNew, repassword) != 0)
+            {
+                ViewData["Loi3"] = "Nhập lại mật khẩu không đúng";
+                isError = true;
+
+                //Response.Write("<script>alert('Mật khẩu nhập lại không đúng!!!')</script>");
             }
             if (!isError)
             {
-                Session["dmktc"] = "Đổi mật khẩu thành công";
+                Session["AccounInfo"] = "Đổi mật khẩu thành công";
                 return RedirectToAction("Index", "Home");
             }
             return View();

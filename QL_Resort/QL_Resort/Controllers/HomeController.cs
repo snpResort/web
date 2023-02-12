@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using QL_Resort.Models;
 
 
@@ -30,15 +31,21 @@ namespace QL_Resort.Controllers
                 _loaiphong.Ha = db.HINHANH_LOAIPHONGs.Where(t => t.Id_LP == item.Id).ToList();
                 data.Add(_loaiphong);
             }
+            var cmt = db.THONGTINDANHGIAs.Select(_cmt => new ThongTinBinhLuan{
+                TenKH = db.THONGTINCANHANs.Where(kh => kh.Id_tk == _cmt.Id_KH).FirstOrDefault().HoTen,
+                BinhLuan = _cmt.BinhLuan,
+                BinhChon = _cmt.BinhChon ?? 0,
+            }).ToList();
             dynamic mymodel = new ExpandoObject();
             mymodel.LoaiPhong = data;
+            mymodel.Cmt = cmt;
             return View(mymodel);
         }
         public ActionResult ThongTinTK()
         {
             var user = Session["User"] as TAIKHOAN;
             
-            var infoAccount = db.THONGTINCANHANs.Where(tk => tk.Id_tk == user.Id).FirstOrDefault();
+           var infoAccount = db.THONGTINCANHANs.Where(tk => tk.Id_tk == user.Id).FirstOrDefault();
             dynamic mymodel = new ExpandoObject();
             mymodel.Info = infoAccount;
             return View(mymodel);
@@ -48,7 +55,7 @@ namespace QL_Resort.Controllers
             var user = Session["User"] as TAIKHOAN;
 
             var ttdp = db.THONGTINDATPHONGs
-                .Where(dp => dp.Id_KH == user.Id)
+                .Where(dp => dp.Id_KH == user.Id).OrderByDescending(dp => dp.NgayTao)
                 .Select(dp => new ThongTinDP
                 {
                     Gia = dp.DonGia ?? 0,
@@ -174,7 +181,7 @@ namespace QL_Resort.Controllers
             {
                 ViewData["LoiDiaChi"] = "Không được bỏ trống!";
             }
-
+            //lỗi nếu đánh sai ngày tháng sinh
             else
             {
                 var kq = db.sp_EditInfoUser(user.TenTK, hoten, DateTime.Parse(ngaysinh), Cccd, gioitinh, sdt, diachi);

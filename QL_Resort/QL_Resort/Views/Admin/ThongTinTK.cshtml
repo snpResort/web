@@ -1,15 +1,16 @@
 ﻿
 @{
     ViewBag.Title = "ThongTinTK";
-    Layout = "~/Views/Shared/_Layout2.cshtml";
+    Layout = "~/Views/Shared/_LayoutQL.cshtml";
 }
+
 @using QL_Resort.Models
 @model dynamic
 <div class="container" style="padding-left:300px">
     <div class="main-body">
         <div class="row gutters-sm">
             @*<div class="col-md-1">
-            </div>*@
+                </div>*@
             <div class="col-md-8">
                 <div class="card mb-3">
                     <div class="card-body">
@@ -88,7 +89,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <center>
-                                    <a class="btn btn-info" href="@Url.Action("CapNhatThongTinTK", "Home", new { id_tk = Model.Info.Id_tk as String })">Cập Nhật</a>
+                                    <a class="btn btn-info" href="@Url.Action("CapNhatThongTinTK", "Admin", new { id_tk = Model.Info.Id_tk as String })">Cập Nhật</a>
                                 </center>
                             </div>
                         </div>
@@ -107,5 +108,4 @@
     </script>
     Session["Taotk"] = null;
 }
-
 

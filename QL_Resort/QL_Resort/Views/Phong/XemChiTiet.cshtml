@@ -84,7 +84,7 @@
         <div class="row" style="padding-top:16px">
             @if (Session["User"] != null)
             {
-                @foreach (var item1 in Model.LayLP)
+                foreach (var item1 in Model.LayLP)
                 {
                     <a href="@Url.Action("DatPhong", "Phong", new { id = item1.Id })" class="btn theme_btn button_hover">Đặt Ngay</a>
                 }

@@ -134,6 +134,7 @@
     <Compile Include="Models\TaiKhoan.cs" />
     <Compile Include="Models\TaiKhoanNV.cs" />
     <Compile Include="Models\ThongKe.cs" />
+    <Compile Include="Models\ThongTinBinhLuan.cs" />
     <Compile Include="Models\ThongTinCN.cs" />
     <Compile Include="Models\ThongTinDP.cs" />
     <Compile Include="Models\ThongTinDV.cs" />
@@ -398,6 +399,9 @@
     <Content Include="Views\Home\LichSuDP.cshtml" />
     <Content Include="Views\Admin\HoaDon.cshtml" />
     <Content Include="Views\Admin\ThongKe.cshtml" />
+    <Content Include="Views\TaiKhoan\ThayDoiMatKhau.cshtml" />
+    <Content Include="Views\Admin\ThongTinTK.cshtml" />
+    <Content Include="Views\Admin\CapNhatThongTinTK.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
