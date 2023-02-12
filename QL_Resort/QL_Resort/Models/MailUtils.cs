@@ -58,6 +58,47 @@ namespace QL_Resort.Models
                 return -1;
             }
         }
+        
+        public static bool Sendbooked(string _from, string _to, string _subject, SmtpClient client, string id_dp)
+        {
+            // Tạo nội dung Email
+            MailMessage message = new MailMessage(_from, _to);
+            message.Subject = _subject;
+            message.Body = $@"
+                <html>
+                    <body>
+                        <table align=""center""  cellpadding=""0"" cellspacing=""0"" width=""600"" >
+                            <tr>
+                                <td style=""padding: 40px 0 30px 0;""><img src='https://snpresort.github.io/images/logo.png' alt=""Logo""  style=""display: block; width: 50%""></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style=""margin: 0;"">
+                                        <h1 style=""text-align: center; color: #000"">Cảm ơn quý khách vì đã đặt phòng</h1>
+                                        <h2 style=""color: #000"">Mã số đặt phòng của quý khách: <b style=""color: #ff914d"">{id_dp.ToString()}</b></h2>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>  
+                    </body>
+                </html>
+            ";
+
+            message.BodyEncoding = System.Text.Encoding.UTF8;
+            message.SubjectEncoding = System.Text.Encoding.UTF8;
+            message.IsBodyHtml = true;
+
+            try
+            {
+                client.Send(message);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
 
         public static bool AlertBookSuccess(string _from, string _to, string _subject, SmtpClient client, String id_dp, String tenLP, String giaPhong, String soNgayO, String soLuongNgLon, String soLuongTreEm)
         {
@@ -260,6 +301,24 @@ namespace QL_Resort.Models
 
                 String _subject = "Xác nhận đặt phòng";
                 return MailUtils.VerifyBookSuccess(_gmail_send, _to, _subject, client, id_dp, tenLP, giaPhong, soNgayO, soLuongNgLon, soLuongTreEm);
+            }
+
+        }
+        public static bool SendMailBookSuccess(string _to, String id_dp)
+        {
+
+            String _gmail_send = "noreply.pikanote@gmail.com";
+            String _gmail_password = "koapeozuqczpyewz";
+
+            // Tạo SmtpClient kết nối đến smtp.gmail.com
+            using (SmtpClient client = new SmtpClient("smtp.gmail.com"))
+            {
+                client.Port = 587;
+                client.Credentials = new NetworkCredential(_gmail_send, _gmail_password);
+                client.EnableSsl = true;
+
+                String _subject = "Xác nhận đặt phòng";
+                return MailUtils.Sendbooked(_gmail_send, _to, _subject, client, id_dp);
             }
 
         }

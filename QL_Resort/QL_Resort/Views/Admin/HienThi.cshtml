@@ -10,7 +10,7 @@
         List<String> listRoomBooked = Model.dsP;
         THONGTINCANHAN ttcn = Model.userInfo as THONGTINCANHAN;
     }
-    @using (Html.BeginForm("XacNhanDatPhong", "Admin", new { ttcn = ttcn }))
+    @using (Html.BeginForm("XacNhanDatPhong", "Admin", new { username = ttcn.Email }))
     {
         <div style="width: 65%; height:650px;color: black; background-color: white; border-radius: 10px">
             <div class="sign-up__content">

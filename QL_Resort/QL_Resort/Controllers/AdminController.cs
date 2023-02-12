@@ -556,7 +556,7 @@ namespace QL_Resort.Controllers
 
             // info user
             var user_id = db.THONGTINDATPHONGs.Where(tt => tt.Id == id).FirstOrDefault().Id_KH;
-            mymodel.userInfo = db.THONGTINCANHANs.Where(ttcn => ttcn.Id_tk == user_id);
+            mymodel.userInfo = db.THONGTINCANHANs.Where(ttcn => ttcn.Id_tk == user_id).FirstOrDefault();
 
 
             Session["ctdp"] = mymodel.ttdp as ThongTinDP;
@@ -610,7 +610,7 @@ namespace QL_Resort.Controllers
             return View(mymodel);
         }
         [HttpPost]
-        public ActionResult XacNhanDatPhong(FormCollection f, THONGTINCANHAN ttcn)
+        public ActionResult XacNhanDatPhong(FormCollection f, string username)
         {
             var us = Session["AdminUser"] as TAIKHOAN;
             int idnv = db.NHANVIENs.Where(t => t.Id_tk == us.Id).FirstOrDefault().Id;
@@ -630,7 +630,7 @@ namespace QL_Resort.Controllers
             Session["XacNhan"] = null;
             Session["XacNhan"] = "Xác nhận đặt phòng thành công";
 
-            //MailUtils.SendMailVerifyBookSuccess(ttcn.Email, ctdp.Id, loaiPhong.TenLoai, double.Parse(Gia).ToString(), soNgayO.ToString(), SLNL.ToString(), SLTE.ToString());
+            MailUtils.SendMailBookSuccess(username, ctdp.Id);
             return RedirectToAction("DanhSachDatTruoc","Admin");
         }
         public ActionResult HoaDon()
