@@ -29,14 +29,18 @@ namespace QL_Resort.Controllers
             var username = f["username"];
             var password = f["pw"];
             ViewBag.Username = username;
+            bool isErr = false;
             if (String.IsNullOrEmpty(username))
             {
                 ViewData["Loi1"] = " Vui lòng nhập tên đăng nhập ";
+                isErr = true;
             }
             if (String.IsNullOrEmpty(password))
             {
                 ViewData["Loi2"] = " Vui lòng nhập mật khẩu ";
+                isErr = true;
             }
+            if (isErr) return View();
             var kq = db.sp_Login(username.Trim(), password.Trim(), false).First();
 
             if (kq.ID != null)
@@ -58,6 +62,7 @@ namespace QL_Resort.Controllers
             Session["tdn"] = null;
             return RedirectToAction("Index", "Home");
         }
+ 
         public ActionResult DangKy()
         {
             return View();

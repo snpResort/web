@@ -401,6 +401,13 @@ namespace QL_Resort.Models
 			idDP = ((string)(result.GetParameterValue(6)));
 			return ((ISingleResult<sp_AddTTDatPhong_OffResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_ChartDoanhThu")]
+		public ISingleResult<sp_ChartDoanhThuResult> sp_ChartDoanhThu([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> nam)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), nam);
+			return ((ISingleResult<sp_ChartDoanhThuResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CHITIETDICHVU")]
@@ -6100,6 +6107,50 @@ namespace QL_Resort.Models
 				if ((this._Message != value))
 				{
 					this._Message = value;
+				}
+			}
+		}
+	}
+	
+	public partial class sp_ChartDoanhThuResult
+	{
+		
+		private System.Nullable<int> _THANG;
+		
+		private System.Nullable<double> _DOANHTHU;
+		
+		public sp_ChartDoanhThuResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_THANG", DbType="Int")]
+		public System.Nullable<int> THANG
+		{
+			get
+			{
+				return this._THANG;
+			}
+			set
+			{
+				if ((this._THANG != value))
+				{
+					this._THANG = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DOANHTHU", DbType="Float")]
+		public System.Nullable<double> DOANHTHU
+		{
+			get
+			{
+				return this._DOANHTHU;
+			}
+			set
+			{
+				if ((this._DOANHTHU != value))
+				{
+					this._DOANHTHU = value;
 				}
 			}
 		}

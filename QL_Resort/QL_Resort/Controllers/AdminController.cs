@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Ajax.Utilities;
 using System.Globalization;
 using System.Security.Policy;
+using System.Net.Mail;
 
 namespace QL_Resort.Controllers
 {
@@ -27,7 +28,19 @@ namespace QL_Resort.Controllers
             mymodel.LoaiPhong = db.LOAIPHONGs.ToList();
             return View(mymodel);
         }
+        public bool IsValidEmail(string emailaddress)
+        {
+            try
+            {
+                MailAddress m = new MailAddress(emailaddress);
 
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+        }
         public ActionResult ThongTinTKNV()
         {
             dynamic mymodel = new ExpandoObject();
@@ -49,7 +62,7 @@ namespace QL_Resort.Controllers
             var diachi = f["diachi"];
             var tenquyen = f["tenquyen"];
             Session["Taotk"] = null;
-
+            bool isError = false;
             dynamic mymodel = new ExpandoObject();
             mymodel.Validation = new TaiKhoan();
             mymodel.Quyens = db.QUYENs.Where(t => t.TenQuyen != "Khách hàng").ToList();
@@ -75,6 +88,11 @@ namespace QL_Resort.Controllers
             {
                 ViewData["LoiEmail"] = "Không được bỏ trống!";
             }
+            else if (!IsValidEmail(email))
+            {
+                ViewData["LoiEmail"] = "Email không hợp lệ ";
+                isError = true;
+            }
             if (dienthoai == string.Empty)
             {
                 ViewData["LoiSdt"] = "Không được bỏ trống!";
@@ -87,7 +105,6 @@ namespace QL_Resort.Controllers
             {
                 ViewData["Loidiachi"] = "Không được bỏ trống!";
             }
-
             else
             {
                 var kq = db.sp_AddAcc(username, matkhau, hoten, DateTime.Parse(ngaysinh), cccd, gioitinh, email, dienthoai, diachi, tenquyen);
@@ -705,14 +722,18 @@ namespace QL_Resort.Controllers
             var username = f["username"];
             var password = f["pw"];
             ViewBag.Username = username;
+            bool isErr = false;
             if (String.IsNullOrEmpty(username))
             {
                 ViewData["Loi1"] = " Vui lòng nhập tên đăng nhập ";
+                isErr = true;
             }
             if (String.IsNullOrEmpty(password))
             {
                 ViewData["Loi2"] = " Vui lòng nhập mật khẩu ";
+                isErr = true;
             }
+            if (isErr) return View();
             var kq = db.sp_Login(username.Trim(), password.Trim(), true).First();
 
             if (kq.ID != null)
@@ -722,17 +743,24 @@ namespace QL_Resort.Controllers
                 Session["tdn"] = tttk.TenTK;
                 return RedirectToAction("Index", "Admin");
             }
+            ViewData["Loi2"] = " Vui lòng xác nhận lại thông tin đăng nhập";
             return View();
+        }
+        public ActionResult DangXuatAdmin()
+        {
+            Session["AdminUser"] = null;
+            Session["tdn"] = null;
+            return RedirectToAction("Index", "Admin");
         }
         public ActionResult ThongKe()
         {
             return View();
         }
-        public ActionResult ThongKeDoanhThu(int year)
+
+        public JsonResult ThongKeDoanhThu(int year)
         {
-            dynamic mymodel = new ExpandoObject();
-            var thongke = db.HOADONs.Join(db.THONGTINDATPHONGs, hd => hd.Id_DP, tt => tt.Id, (hd, tt) => new ThongKe { Id_hd = hd.Id, Id_dp = hd.Id_DP, Ngaytao = DateTime.Parse(hd.NgayTao.ToString()),Gia=double.Parse(tt.DonGia.ToString()) });
-            mymodel.TK = thongke;
+            var thongke = db.sp_ChartDoanhThu(year).ToList();
+             
             return Json(thongke, JsonRequestBehavior.AllowGet);
         }
         public ActionResult ThongTinTK()

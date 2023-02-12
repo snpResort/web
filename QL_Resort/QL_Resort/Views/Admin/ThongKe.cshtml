@@ -14,10 +14,11 @@
     <div class="row">
         <div class="col-md-12">
             <select id="dllYear" class="form-control" style="width: 150px">
-                <option value="@DateTime.Now.Year">Select Year</option>
-                <option value="2020">2022</option>
-                <option value="2021">2023</option>
-                <option value="2022">2024</option>
+                <option>Select Year</option>
+                @for (int i = -3; i < 3; i++)
+                {
+                    <option value="@(DateTime.Now.Year + i)">@(DateTime.Now.Year + i)</option>
+                }
             </select>
             <div id="dvChart">
                 <canvas style="height:400px" id="chartProduct"></canvas>
@@ -40,12 +41,12 @@
 
 
         function ChartProduct(thongke) {
-
+            console.log(thongke)
             var lstLabel = [];
             var lstDataSource = [];
             $.each(thongke, function (index, item) {
                 lstLabel.push(Date.now);
-                lstDataSource.push(item.Tongtien);
+                lstDataSource.push(item.DOANHTHU);
             });
 
             var ctx = document.getElementById("chartProduct");

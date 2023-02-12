@@ -19,8 +19,8 @@
             <div class="col-md-3">
                 <a><label>Ngày Trả &nbsp&nbsp</label><input type="date" id="ngaytra" name="ngaytra" onchange="test()" style="width:250px;height:40px" /></a>
             </div>
-            <div class="col-md-2">
-                <p id="soPhongTrong"></p>
+            <div class="col-md-2" style="padding-top : 5px">
+                <h6 id="soPhongTrong"></h6>
             </div>
             <div style="padding-left:40px">
                 @*<div class="row">
@@ -180,6 +180,7 @@
                 if (!validateTwoDates()) {
                     alert('Ngày trả phải lớn hơn ngày đặt');
                     $("#ngaytra").val('')
+                    return;
                 }
 
                 var data = {
