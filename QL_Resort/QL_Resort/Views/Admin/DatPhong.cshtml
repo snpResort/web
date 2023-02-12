@@ -127,6 +127,7 @@
                 if (!validateTwoDates()) {
                     alert('Ngày trả phải lớn hơn ngày đặt');
                     $("#ngaytra").val('')
+                    return;
                 }
 
                 var data = {
