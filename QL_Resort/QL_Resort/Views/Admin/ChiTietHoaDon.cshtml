@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "ChiTietHoaDon";
+    Layout = "~/Views/Shared/_LayoutQL.cshtml";
+}
+@model dynamic
+@using QL_Resort.Models
+<div style="padding-left:300px; padding-top:100px">
+    @{
+        ThongTinDP ttdp = Model.ttdp as ThongTinDP;
+        List<String> listRoomBooked = Model.dsP;
+        THONGTINCANHAN ttcn = Model.userInfo as THONGTINCANHAN;
+    }
+    @using (Html.BeginForm("XacNhanDatPhong", "Admin", new { username = ttcn.Email }))
+    {
+        <div style="width: 65%; height:650px;color: black; background-color: white; border-radius: 10px">
+            <div class="sign-up__content">
+                <h2 class="sign-up__title" style="text-align:center">Thông Tin Đặt Phòng</h2>
+                <h3 style="color:chocolate">Mã: @ttdp.Id</h3>
+                <div class="row">
+                    <div class="col-md-6" style="font-size:15px">
+                        <p>Số ngày ở</p>
+                        <p>Số lượng người lớn</p>
+                        <p>Số lượng trẻ em</p>
+                        <h4>Danh sách phòng</h4>
+                    </div>
+                    <div class="col-md-6" style="padding-left: 160px; font-size: 15px">
+                        <p>@((1 + Math.Floor(double.Parse((DateTime.Parse(ttdp.NgTra) - DateTime.Parse(ttdp.NgDat)).Days.ToString()))))</p>
+                        <p>@ttdp.SoLuongNgLon</p>
+                        <p>@ttdp.SoLuongTreEm</p>
+                        @*<p>@Model.TTDP.Slnl</p>
+                            <p>@Model.TTDP.Slte</p>*@
+                    </div>
+                </div>
+                <div class="row" style="padding-left: 15px; font-size: 15px">
+                    <p>Phòng số:&nbsp</p>
+                    <p>@string.Join(", ", listRoomBooked)</p>
+                </div>
+
+                <div class="row" style="font-size:15px">
+                    <div class="col-md-6">
+                        <p style="color: chocolate; font-size: 13px">Phòng</p>
+                        @for (int i = 0; i < ttdp.Ctdp.Count; i++)
+                        {
+                            <p>@ttdp.Ctdp[i].TenLoai&nbsp&nbsp</p>
+                        }
+                    </div>
+                    <div class="col-md-3">
+                        <p style="color: chocolate; font-size: 13px">Số lượng</p>
+                        @for (int i = 0; i < ttdp.Ctdp.Count; i++)
+                        {
+                            <p>@ttdp.Ctdp[i].SoLuong&nbsp&nbsp</p>
+                        }
+                    </div>
+                    <div class="col-md-3">
+                        <p style="padding-left: 40px; color: chocolate; font-size: 13px">Giá</p>
+                        @for (int i = 0; i < ttdp.Ctdp.Count; i++)
+                        {
+                            <p>@string.Format("{0:0,0} ", double.Parse(ttdp.Ctdp[i].Gia))<ins>đ</ins></p>
+                        }
+                    </div>
+                    <hr />
+                    <style>
+                        hr {
+                            border: none;
+                            border-top: 2px dashed #000;
+                            color: #fff;
+                            background-color: #fff;
+                            height: 1px;
+                            width: 90%;
+                        }
+                    </style>
+                </div>
+                <div class="row" style="font-size:15px">
+                    <div class="col-md-6">
+                        <p>Tổng hoá đơn</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p>@ttdp.Ctdp.Sum(ct => int.Parse(ct.SoLuong))</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p>@string.Format("{0:0,0} ", ttdp.Gia) <ins>đ</ins></p>
+                    </div>
+                </div>
+                <div class="row" style="padding-left:200px; padding-top:50px">
+                    <a href="@Url.Action("ExportCustomers")" class="btn theme_btn button_hover">Xuất hoá đơn</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

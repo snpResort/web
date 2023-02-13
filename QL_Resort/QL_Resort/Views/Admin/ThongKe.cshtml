@@ -8,20 +8,21 @@
         display: none;
     }
 </style>
-
-<div class="width-details">
-    <h3 style="text-align:center;padding-bottom:20px">Thống Kê Doanh Thu Các Tháng Trong Năm</h3>
-    <div class="row">
-        <div class="col-md-12">
-            <select id="dllYear" class="form-control" style="width: 150px">
-                <option>Select Year</option>
-                @for (int i = -3; i < 3; i++)
-                {
-                    <option value="@(DateTime.Now.Year + i)">@(DateTime.Now.Year + i)</option>
-                }
-            </select>
-            <div id="dvChart">
-                <canvas style="height:200px" id="chartProduct"></canvas>
+<div class="container">
+    <div class="width-details">
+        <h3 style="text-align:center;padding-bottom:20px">Thống Kê Doanh Thu Các Tháng Trong Năm</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <select id="dllYear" class="form-control" style="width: 150px">
+                    <option>Select Year</option>
+                    @for (int i = -3; i < 3; i++)
+                    {
+                        <option value="@(DateTime.Now.Year + i)">@(DateTime.Now.Year + i)</option>
+                    }
+                </select>
+                <div id="dvChart">
+                    <canvas style="height:200px" id="chartProduct"></canvas>
+                </div>
             </div>
         </div>
     </div>

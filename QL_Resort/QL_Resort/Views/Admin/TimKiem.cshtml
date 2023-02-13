@@ -5,36 +5,98 @@
 }
 @using QL_Resort.Models
 @model dynamic
-<div class="container" style="padding-top:90px">
-    <div class="sign-up__form" style="width: 60%; height: 600px">
-        <div class="sign-up__content" style="font-size:20px">
-            <h2 class="sign-up__title" style="text-align: center">Thông Tin Cá Nhân</h2>
-            <div class="row">
-                <div class="col-md-6" style="padding-left:70px">
-                    <label>Họ tên:  &nbsp</label><br />
-                    <label>Giới tính:  &nbsp</label><br />
-                    <label>Email:  &nbsp</label><br />
-                    <label>Ngày sinh:  &nbsp</label><br />
-                    <label>CCCD:  &nbsp</label><br />
-                    <label>Số điện thoại:  &nbsp</label><br />
-                    <label>Địa chỉ:  &nbsp</label><br />
-                    <label>Mã thành viên:  &nbsp</label><br />
+<div class="container" style="padding-left:300px; padding-top:50px">
+    <div class="main-body">
+        <div class="row gutters-sm">
+            @*<div class="col-md-1">
+                </div>*@
+            <div class="col-md-8">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Họ Tên</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                @Model.LayTTKH.HoTen
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Giới Tính</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                @(Model.LayTTKH.GioiTinh? "Nam": "Nữ")
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Email</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                @Model.LayTTKH.Email
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Ngày Sinh</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                @(Model.LayTTKH.NgaySinh.ToString("dd/MM/yyyy"))
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">CCCD</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                @Model.LayTTKH.CanCuoc
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Số Điện Thoại</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                @Model.LayTTKH.Sdt
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Địa Chỉ</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                @Model.LayTTKH.DiaChi
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Mã Thành Viên</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                @Model.LayTTKH.Id_tk
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <center>
+                                    <a href="/Admin/Index" class="btn btn--signin" type="submit" style="text-align:center">Về trang chủ</a>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <label>@Model.LayTTKH.HoTen</label><br />
-                    <label>@(Model.LayTTKH.GioiTinh? "Nam": "Nữ")</label><br />
-                    <label>@Model.LayTTKH.Email</label><br />
-                    <label>@(Model.LayTTKH.NgaySinh.ToString("dd/MM/yyyy"))</label><br />
-                    <label>@Model.LayTTKH.CanCuoc</label><br />
-                    <label>@Model.LayTTKH.Sdt</label><br />
-                    <label>@Model.LayTTKH.DiaChi</label><br />
-                    <label>@Model.LayTTKH.Id_tk</label><br />
-                </div>
-            </div>
-            <div class="sign-up__buttons" style="padding-left:200px; padding-top:100px">
-                <a href="/Admin/Index" class="btn btn--signin" type="submit" style="text-align:center">Về trang chủ</a>
             </div>
         </div>
+
     </div>
 </div>
 

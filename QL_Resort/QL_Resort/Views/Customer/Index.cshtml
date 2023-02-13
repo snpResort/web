@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutQL2.cshtml";
+}
+@model dynamic
+@using QL_Resort.Models
+<div class="container" style="color:black;width:70%">
+    <center>
+        @{
+            ThongTinDP ttdp = Model.ttdp as ThongTinDP;
+            List<String> listRoomBooked = Model.dsP;
+            THONGTINCANHAN ttcn = Model.userInfo as THONGTINCANHAN;
+            HOADON hd = Model.HD as HOADON;
+            THONGTINCANHAN ttnv = Model.usernv as THONGTINCANHAN;
+        }
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <h2>RESORT MOONLIGHT</h2>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+
+        <p style="padding-left:250px">Địa chỉ: 140 Lê Trọng Tấn, P.Sơn Kỳ, Q.Tân Phú, TP.HCM</p>
+        <p style="padding-left:50px">Điện thoại: 0859789729</p>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <h3>HOÁ ĐƠN ĐẶT PHÒNG</h3>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4"><p>Ngày tạo: @hd.NgayTao</p></div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4"><p>Tên nhân viên:@ttnv.HoTen</p></div>
+            <div class="col-md-2"></div>
+            <div class="col-md-6"><p>Tên khách hàng: @ttcn.HoTen</p></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"><p>Ngày đặt</p></div>
+            <div class="col-md-3"><p>Ngày trả</p></div>
+            <div class="col-md-3"><p>Tên phòng</p></div>
+            <div class="col-md-1"><p>Số lượng</p></div>
+            <div class="col-md-2"><p>Tổng tiền</p></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"><p>@ttdp.NgDat</p></div>
+            <div class="col-md-3">@ttdp.NgTra</div>
+            <div class="col-md-3">
+                @for (int i = 0; i < ttdp.Ctdp.Count; i++)
+                {
+                    <p>@ttdp.Ctdp[i].TenLoai&nbsp&nbsp</p>
+                }
+            </div>
+            <div class="col-md-1">
+                @for (int i = 0; i < ttdp.Ctdp.Count; i++)
+                {
+                    <p>@ttdp.Ctdp[i].SoLuong&nbsp&nbsp</p>
+                }
+            </div>
+            <div class="col-md-2">
+                @for (int i = 0; i < ttdp.Ctdp.Count; i++)
+                {
+                    <p>@string.Format("{0:0,0} ", double.Parse(ttdp.Ctdp[i].Gia))<ins>đ</ins></p>
+                }
+            </div>
+        </div>
+        <p>------------------------------------------------------------------------------------------------------------------</p>
+        <div class="row">
+            <div class="col-md-4">
+                <p>TỔNG:</p>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <p>@string.Format("{0:0,0} ", ttdp.Gia) <ins>đ</ins></p>
+            </div>
+        </div>
+        <center>
+            <h4>TRÂN TRỌNG CẢM ƠN QUÝ KHÁCH!</h4>
+        </center>
+            <div class="row" style="padding-left:450px; padding-bottom:30px">
+                <a href="@Url.Action("ExportCustomers")" class="btn theme_btn button_hover">Xuất hoá đơn</a>
+            </div>
+        </center>
+</div>
+
+
+

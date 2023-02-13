@@ -21,9 +21,9 @@
                 <tr style="border-bottom:1px solid black">
                     <th>ID_HD</th>
                     <th>ID_DP</th>
-                    <th>TÊN NHÂN VIÊN</th>
-                    <th> TIỀN CỌC</th>
-                    <th>NGÀY TẠO</th>
+                    <th>TÊN NHÂN VIÊN LẬP</th>
+                    <th>NGÀY TẠO HOÁ ĐƠN</th>
+                    <th style="text-align:center">CHỨC NĂNG</th>
                 </tr>
                 @foreach (var item in Model.DSHD)
                 {
@@ -31,8 +31,8 @@
                         <td>@item.Id_HD</td>
                         <td>@item.IdDP</td>
                         <td>@item.TenNV</td>
-                        <td>@item.TienCoc VND</td>
                         <td>@item.NgayTaoHD</td>
+                        <td style="text-align:center"><a href="@Url.Action("Index", "Customer", new { idhd = item.Id_HD})" class="btn theme_btn" style="background-color:limegreen; color:white">Xem Chi Tiết</a></td>
                     </tr>
                 }
             </table>
