@@ -16,14 +16,14 @@ namespace QL_Resort.Report {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class XuatHD : ReportClass {
+    public class ReportHD : ReportClass {
         
-        public XuatHD() {
+        public ReportHD() {
         }
         
         public override string ResourceName {
             get {
-                return "XuatHD.rpt";
+                return "ReportHD.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace QL_Resort.Report {
         
         public override string FullResourceName {
             get {
-                return "QL_Resort.Report.XuatHD.rpt";
+                return "QL_Resort.Report.ReportHD.rpt";
             }
             set {
                 // Do nothing
@@ -87,76 +87,12 @@ namespace QL_Resort.Report {
                 return this.ReportDefinition.Sections[4];
             }
         }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_NgayTao {
-            get {
-                return this.DataDefinition.ParameterFields[0];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_HoTenNV {
-            get {
-                return this.DataDefinition.ParameterFields[1];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_HoTenKH {
-            get {
-                return this.DataDefinition.ParameterFields[2];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_NgayDat {
-            get {
-                return this.DataDefinition.ParameterFields[3];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_NgayTra {
-            get {
-                return this.DataDefinition.ParameterFields[4];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_TenLoai {
-            get {
-                return this.DataDefinition.ParameterFields[5];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_TongTien {
-            get {
-                return this.DataDefinition.ParameterFields[6];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_SL {
-            get {
-                return this.DataDefinition.ParameterFields[7];
-            }
-        }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedXuatHD : Component, ICachedReport {
+    public class CachedReportHD : Component, ICachedReport {
         
-        public CachedXuatHD() {
+        public CachedReportHD() {
         }
         
         [Browsable(false)]
@@ -193,7 +129,7 @@ namespace QL_Resort.Report {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            XuatHD rpt = new XuatHD();
+            ReportHD rpt = new ReportHD();
             rpt.Site = this.Site;
             return rpt;
         }

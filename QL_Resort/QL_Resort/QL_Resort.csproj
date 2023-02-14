@@ -146,6 +146,12 @@
     <Compile Include="Models\ThongTinLP.cs" />
     <Compile Include="Models\ThongTinPhong.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report\ReportHD.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReportHD.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Report\XuatHD.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -493,6 +499,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Report\ReportHD.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReportHD.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\XuatHD.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>XuatHD.cs</LastGenOutput>

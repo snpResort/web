@@ -200,17 +200,23 @@ namespace QL_Resort.Controllers
             dynamic mymodel = new ExpandoObject();
             string emailkh = f["emailkh"];
             Session["emptyEmail"] = null;
-            if (!String.IsNullOrEmpty(emailkh))
-            {
-                mymodel.LayTTKH = db.THONGTINCANHANs.Where(t=>t.Email==emailkh).FirstOrDefault();
-            }
-            else
+            var ttcn = db.THONGTINCANHANs.Where(t => t.Email == emailkh).FirstOrDefault();
+            if (String.IsNullOrEmpty(emailkh))
             {
                 Session["emptyEmail"] = "Chưa có thông tin của khách hàng này. Vui lòng nhập thông tin khách hàng";
                 return RedirectToAction("ThongTinTKKH", "Admin");
             }
-            var idtk = db.TAIKHOANs.Where(tk => tk.TenTK == emailkh).FirstOrDefault().Id;
-            var layTTCN = db.THONGTINCANHANs.Where(t => t.Id_tk == idtk).FirstOrDefault();
+            else if(ttcn==null)
+            {
+                Session["emptyEmail"] = "Chưa có thông tin của khách hàng này. Vui lòng nhập thông tin khách hàng";
+                return RedirectToAction("ThongTinTKKH", "Admin");
+            }
+            else
+            {
+                mymodel.LayTTKH = db.THONGTINCANHANs.Where(t => t.Email == emailkh).FirstOrDefault();
+            }
+            var idtk = db.TAIKHOANs.Where(tk => tk.TenTK == emailkh).FirstOrDefault();
+            var layTTCN = db.THONGTINCANHANs.Where(t => t.Id_tk == idtk.Id).FirstOrDefault();
             Session["TTCN"] = layTTCN;
             //Session["idtk"] = idtk;
             return View(mymodel);
@@ -281,7 +287,13 @@ namespace QL_Resort.Controllers
         [HttpPost]
         public ActionResult ThanhToan(string idlp, string strURL, FormCollection f)
         {
+            Session["emptyEmail"] = null;
             var TTCN = Session["TTCN"] as THONGTINCANHAN;
+            if(TTCN==null)
+            {
+                Session["emptyEmail"] = "Chưa có thông tin của khách hàng này. Vui lòng nhập thông tin khách hàng";
+                return RedirectToAction("Index", "Admin");
+            }    
             var IDKH = Session["idtk"] as TAIKHOAN;
             var kh = db.KHACHHANGs.ToList();
             var idkh1s = db.KHACHHANGs.Where(t => t.Id_tk == TTCN.Id_tk).ToList();

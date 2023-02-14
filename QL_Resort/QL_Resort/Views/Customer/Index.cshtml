@@ -69,6 +69,7 @@
                     <p>@string.Format("{0:0,0} ", double.Parse(ttdp.Ctdp[i].Gia))<ins>đ</ins></p>
                 }
             </div>
+            @*<a href="~/Views/Customer/Index.cshtml">~/Views/Customer/Index.cshtml</a>*@
         </div>
         <p>------------------------------------------------------------------------------------------------------------------</p>
         <div class="row">
@@ -84,7 +85,7 @@
             <h4>TRÂN TRỌNG CẢM ƠN QUÝ KHÁCH!</h4>
         </center>
             <div class="row" style="padding-left:450px; padding-bottom:30px">
-                <a href="@Url.Action("ExportCustomers")" class="btn theme_btn button_hover">Xuất hoá đơn</a>
+                <a href="@Url.Action("ExportCustomers", "Customer", new { idhd = hd.Id})" class="btn theme_btn button_hover">Xuất hoá đơn</a>
             </div>
         </center>
 </div>

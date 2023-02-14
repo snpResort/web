@@ -6,7 +6,7 @@
 @model dynamic
 @using (Html.BeginForm("ThanhToan", "Admin", new { @idlp = @Model.LayLP.Id, @strURL = Request.Url.ToString() }))
 {
-   <div style=" padding-bottom:100px">
+    <div style=" padding-bottom:100px">
         <div class="row" style="margin-top:10px;margin-bottom:30px">
             @*<div class="col-md-1"></div>*@
             <div class="col-md-4" style="padding-left:80px">
@@ -20,12 +20,12 @@
             </div>
             <div style="padding-left:40px">
                 @*<div class="row">
-                <input type="text" id="uudai" name="uudai" placeholder="Mã giảm giá" style="width:200px;height:40px" /> &nbsp&nbsp
-                <button type="submit" class="book_now_btn button_hove" style="border-radius:10px; width:120px;height:40px">Áp dụng</button>
-            </div>*@
+                        <input type="text" id="uudai" name="uudai" placeholder="Mã giảm giá" style="width:200px;height:40px" /> &nbsp&nbsp
+                        <button type="submit" class="book_now_btn button_hove" style="border-radius:10px; width:120px;height:40px">Áp dụng</button>
+                    </div>*@
                 <a>
                     <label>Số Lượng Phòng &nbsp&nbsp</label>@*<input type="number" id="txtsoluong" name="txtsoluong"
-                min="1" max="10" style="width:100px;height:30px; padding-left:30px">*@
+                        min="1" max="10" style="width:100px;height:30px; padding-left:30px">*@
                     <input type="number" id="txtsoluong" name="txtsoluong" min="1"
                            onchange="changeCount()" style="width:100px;height:30px; padding-left:30px">
                 </a>
@@ -67,7 +67,7 @@
                         @*<p style="font-size:14px">Giá Đã Giảm VNĐ<small>/Đêm</small></p>*@
                         <a>
                             <label>Tiền cọc: &nbsp&nbsp</label>
-                            <input type="text" name="tienCoc" id="tienCoc" value="" data-type="currency" placeholder="(VNĐ) 1,000"style="width:170px">
+                            <input type="text" name="tienCoc" id="tienCoc" value="" data-type="currency" placeholder="(VNĐ) 1,000" style="width:170px">
                         </a>
                     </div>
                 </div>
@@ -208,14 +208,14 @@
             document.querySelector("#ngaydat").value = (new Date(Date.now())).yyyymmdd();
             document.querySelector("#ngaytra").value = addOneDay().yyyymmdd();
             test();
-            </script>
+        </script>
     </div>
 }
 @if (Session["TB"] != null)
 {
     <script type="text/javascript">
         alert("Hết phòng, vui lòng chọn phòng khác hoặc mốc thời gian khác")
-        </script>
+    </script>
     Session["TB"] = null;
 }
 @if (Session["sl"] != null)
@@ -280,7 +280,7 @@
         // original length
         var original_len = input_val.length;
 
-        // initial caret position 
+        // initial caret position
         var caret_pos = input.prop("selectionStart");
 
         input_val = formatNumber(input_val);

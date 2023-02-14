@@ -51,7 +51,7 @@
                                 <li class="nav-item"><a class="nav-link" href="/Admin/ThongTinTK">Thông Tin Tài Khoản</a></li>
                             </ul>
                         </li>
-                            <li class="nav-item"><a class="nav-link" href="/Admin/DangXuatAdmin"><i class="fa fa-sign-out"></i></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Admin/DangXuatAdmin"><i class="fa fa-sign-out"></i></a></li>
                     </ul>
                 </div>
             </nav>
@@ -178,4 +178,11 @@
         alert("Cập nhật thông tin khách hàng thành công");
     </script>
     Session["XN"] = null;
+}
+@if (Session["emptyEmail"] != null)
+{
+    <script type="text/javascript">
+        alert("Khách hàng chưa cung cấp thông tin");
+    </script>
+    Session["emptyEmail"] = null;
 }
