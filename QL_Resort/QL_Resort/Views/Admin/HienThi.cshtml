@@ -9,10 +9,11 @@
         ThongTinDP ttdp = Model.ttdp as ThongTinDP;
         List<String> listRoomBooked = Model.dsP;
         THONGTINCANHAN ttcn = Model.userInfo as THONGTINCANHAN;
+        HOADON hoadon = Model.HD as HOADON;
     }
     @using (Html.BeginForm("XacNhanDatPhong", "Admin", new { username = ttcn.Email }))
     {
-        <div style="width: 65%; height:650px;color: black; background-color: white; border-radius: 10px">
+        <div style="width: 65%; height:700px;color: black; background-color: white; border-radius: 10px">
             <div class="sign-up__content">
                 <h2 class="sign-up__title" style="text-align:center">Thông Tin Đặt Phòng</h2>
                 <h3 style="color:chocolate">Mã: @ttdp.Id</h3>
@@ -103,9 +104,19 @@
                         <p>@string.Format("{0:0,0} ", ttdp.Gia) <ins>đ</ins></p>
                     </div>
                 </div>
-                <div class="row" style="padding-left:200px; padding-top:50px">
-                    <button type="submit" class="btn theme_btn button_hover">Thanh Toán</button>
-                </div>
+                @if (Session["doinut"] == null)
+                {
+                    <div class="row" style="padding-left:200px">
+                        <button type="submit" class="btn theme_btn button_hover">Xác nhận</button>
+                    </div>
+                } 
+                @if (Session["doinut"] != null)
+                {
+                    <div class="row" style="padding-left:180px">
+                        <a href="@Url.Action("ExportCustomers", "Customer", new { idhd = hoadon.Id})" class="btn theme_btn button_hover">Xuất hoá đơn</a>
+                    </div>
+                }
+
             </div>
         </div>
     }

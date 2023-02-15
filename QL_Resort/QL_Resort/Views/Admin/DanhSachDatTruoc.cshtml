@@ -6,7 +6,7 @@
 @using QL_Resort.Models
 @model dynamic
 <div style="padding-top:5px; padding-bottom:50px">
-    @using (Html.BeginForm("TimKiemDatTruocGo", "Admin"))
+    @using (Html.BeginForm())
     {
         <div class="search col-md-6" style="padding-left:160px">
             <input type="text" id="txtTK" name="txtTK" class="searchTerm" placeholder="Tìm kiếm" style="width:400px;height:36px">
@@ -46,7 +46,7 @@
                                 icon: "warning",
                                 title: "@Session["timkiem"].ToString()"
                         });*@
-        alert("Thanh toán phòng thành công");
+        alert("Xác nhận phòng thành công");
     </script>
     Session["XacNhan"] = null;
 }

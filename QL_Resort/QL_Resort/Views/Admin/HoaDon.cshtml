@@ -27,13 +27,14 @@
                 </tr>
                 @foreach (var item in Model.DSHD)
                 {
-                    <tr>
-                        <td>@item.Id_HD</td>
-                        <td>@item.IdDP</td>
-                        <td>@item.TenNV</td>
-                        <td>@item.NgayTaoHD</td>
-                        <td style="text-align:center"><a href="@Url.Action("Index", "Customer", new { idhd = item.Id_HD})" class="btn theme_btn" style="background-color:limegreen; color:white">Xem Chi Tiết</a></td>
-                    </tr>
+            <tr>
+                <td>@item.Id_HD</td>
+                <td>@item.IdDP</td>
+                <td>@item.TenNV</td>
+                <td>@item.NgayTaoHD</td>
+                @*<td style="text-align:center"><a href="@Url.Action("Index", "Customer", new { idhd = item.Id_HD})" class="btn theme_btn" style="background-color:limegreen; color:white">Xem Chi Tiết</a></td>*@
+                <td style="text-align:center"><a href="@Url.Action("ExportCustomers", "Customer", new { idhd = item.Id_HD})" class="btn theme_btn button_hover">Xuất hoá đơn</a></td>
+</tr>
                 }
             </table>
         </div>

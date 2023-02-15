@@ -10,8 +10,9 @@
         ThongTinDP ttdp = Model.ttdp as ThongTinDP;
         List<String> listRoomBooked = Model.dsP;
         THONGTINCANHAN ttcn = Model.userInfo as THONGTINCANHAN;
+        HOADON hoadon = Model.HD as HOADON;
     }
-    <div style="width: 65%; height:650px;color: black; background-color: white; border-radius: 10px">
+    <div style="width: 65%; height:700px;color: black; background-color: white; border-radius: 10px">
         <div class="sign-up__content">
             <h2 class="sign-up__title" style="text-align:center">Thông Tin Đặt Phòng</h2>
             <h3 style="color:chocolate">Mã: @ttdp.Id</h3>
@@ -27,7 +28,7 @@
                     <p>@ttdp.SoLuongNgLon</p>
                     <p>@ttdp.SoLuongTreEm</p>
                     @*<p>@Model.TTDP.Slnl</p>
-                    <p>@Model.TTDP.Slte</p>*@
+                <p>@Model.TTDP.Slte</p>*@
                 </div>
             </div>
             <div class="row" style="padding-left: 15px; font-size: 15px">
@@ -71,6 +72,28 @@
             </div>
             <div class="row" style="font-size:15px">
                 <div class="col-md-6">
+                    <p>Đơn giá</p>
+                </div>
+                <div class="col-md-3">
+                    <p>@ttdp.Ctdp.Sum(ct => int.Parse(ct.SoLuong))</p>
+                </div>
+                <div class="col-md-3">
+                    <p>@string.Format("{0:0,0} ", ttdp.Ctdp.Sum(ct => int.Parse(ct.Gia))) <ins>đ</ins></p>
+                </div>
+            </div>
+            <div class="row" style="font-size:15px">
+                <div class="col-md-6">
+                    <p>Giảm giá</p>
+                </div>
+                <div class="col-md-3">
+                    <p></p>
+                </div>
+                <div class="col-md-3">
+                    <p ali>@string.Format("{0:0.0}", (1 - ttdp.Gia / ttdp.Ctdp.Sum(ct => int.Parse(ct.Gia))) * 100) %</p>
+                </div>
+            </div>
+            <div class="row" style="font-size:15px">
+                <div class="col-md-6">
                     <p>Tổng hoá đơn</p>
                 </div>
                 <div class="col-md-3">
@@ -80,7 +103,8 @@
                     <p>@string.Format("{0:0,0} ", ttdp.Gia) <ins>đ</ins></p>
                 </div>
             </div>
-            <div class="row" style="padding-left:180px; padding-top:50px">
+            <div class="row" style="padding-left:70px">
+                <a href="@Url.Action("ExportCustomers", "Customer", new { idhd = hoadon.Id})" class="btn theme_btn button_hover">Xuất hoá đơn</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                 <a href="/Admin/Index" class="btn theme_btn button_hover">Về trang chủ</a>
             </div>
         </div>

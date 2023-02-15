@@ -215,8 +215,8 @@ namespace QL_Resort.Controllers
             {
                 mymodel.LayTTKH = db.THONGTINCANHANs.Where(t => t.Email == emailkh).FirstOrDefault();
             }
-            var idtk = db.TAIKHOANs.Where(tk => tk.TenTK == emailkh).FirstOrDefault();
-            var layTTCN = db.THONGTINCANHANs.Where(t => t.Id_tk == idtk.Id).FirstOrDefault();
+            //var idtk = db.TAIKHOANs.Where(tk => tk.TenTK == emailkh).FirstOrDefault();
+            var layTTCN = db.THONGTINCANHANs.Where(t => t.Email == emailkh).FirstOrDefault();
             Session["TTCN"] = layTTCN;
             //Session["idtk"] = idtk;
             return View(mymodel);
@@ -242,6 +242,7 @@ namespace QL_Resort.Controllers
 
             dynamic mymodel = new ExpandoObject();
             mymodel.Validation = new TaiKhoan();
+            var checkmail = db.THONGTINCANHANs.Where(t => t.Email == email).FirstOrDefault();
 
             //check emty
             if (username == string.Empty && matkhau == string.Empty)
@@ -273,16 +274,21 @@ namespace QL_Resort.Controllers
             {
                 ViewData["Loidiachi"] = "Không được bỏ trống!";
             }
-
+            if(checkmail!=null)
+            {
+                ViewData["checkmail"] = "Email đã tồn tại!";
+                return View(mymodel);
+            }    
             else
             {
                 var kq = db.sp_AddAccKH(username, matkhau, hoten, DateTime.Parse(ngaysinh), cccd, gioitinh, email, dienthoai, diachi);
                 Session["XN"] = "Cập nhật thông tin khách hàng thành công";
+                //var idtk = db.TAIKHOANs.Where(tk => tk.TenTK == email).FirstOrDefault();
+                var layTTCN = db.THONGTINCANHANs.Where(t => t.Email == email).FirstOrDefault();
+                Session["TTCN"] = layTTCN;
+                return RedirectToAction("Index", "Admin");
             }
-            var idtk = db.TAIKHOANs.Where(tk => tk.TenTK == email).FirstOrDefault().Id;
-            var layTTCN = db.THONGTINCANHANs.Where(t => t.Id_tk == idtk).FirstOrDefault();
-            Session["TTCN"] = layTTCN;
-            return RedirectToAction("Index", "Admin");
+            return View(mymodel);
         }
         [HttpPost]
         public ActionResult ThanhToan(string idlp, string strURL, FormCollection f)
@@ -402,7 +408,8 @@ namespace QL_Resort.Controllers
             hd.Id = "h" + num.ToString();
             hd.Id_DP = id_DP;
             hd.Id_NV = idnv;
-            hd.TiendatCoc = String.IsNullOrEmpty(f["tienCoc"]) ? 0 : double.Parse(f["tienCoc"].ToString().Split(' ')[1].Replace(",", "")); // get from form f["tienCoc"]
+            //hd.TiendatCoc = String.IsNullOrEmpty(f["tienCoc"]) ? 0 : double.Parse(f["tienCoc"].ToString().Split(' ')[1].Replace(",", "")); // get from form f["tienCoc"]
+            hd.TiendatCoc = 0;
             hd.NgayTao = DateTime.Now;
             hd.NgayCapNhat = DateTime.Now;
             db.HOADONs.InsertOnSubmit(hd);
@@ -503,7 +510,8 @@ namespace QL_Resort.Controllers
             // info user
             var user_id = db.THONGTINDATPHONGs.Where(tt => tt.Id == id).FirstOrDefault().Id_KH;
             mymodel.userInfo = db.THONGTINCANHANs.Where(ttcn => ttcn.Id_tk == user_id).FirstOrDefault();
-
+            var hd = db.HOADONs.Where(a => a.Id_DP == id).FirstOrDefault();
+            mymodel.HD = hd;
 
             Session["ctdp"] = mymodel.ttdp as ThongTinDP;
             return View(mymodel);
@@ -530,6 +538,25 @@ namespace QL_Resort.Controllers
             dynamic mymodel = new ExpandoObject();
             mymodel.TTDP = ttdp;
             return View(mymodel);
+        }
+        [HttpPost]
+        public ActionResult DanhSachDatTruoc(FormCollection f)
+        {
+                dynamic mymodel = new ExpandoObject();
+                string txtTK = f["txtTK"];
+                var ttdp = db.THONGTINDATPHONGs.Select(t => new ThongTinPhong
+                {
+                    Id_DP = t.Id,
+                    Ten_kh = db.THONGTINCANHANs.Where(kh => kh.Id_tk == t.Id_KH).FirstOrDefault().HoTen,
+                    Ngaydat = t.NgayDat.ToString(),
+                    Ngaytra = t.NgayTra.ToString(),
+                });
+                mymodel.TTDP = ttdp;
+                if (!String.IsNullOrEmpty(txtTK))
+                {
+                    mymodel.TTDP = ttdp.Where(t => t.Id_DP == txtTK).ToList();
+                }
+                return View(mymodel);
         }
         public ActionResult HienThi(string id)
         {
@@ -622,53 +649,14 @@ namespace QL_Resort.Controllers
 
 
             Session["ctdp"] = mymodel.ttdp as ThongTinDP;
-
-            /*
-            var _ttlp = db.LOAIPHONGs.Join(db.PHONGs, lp => lp.Id, p => p.Id_LP, (lp, p) => new ThongTinLP { Id = lp.Id, Ten = lp.TenLoai, Id_p = p.Id });
-            var ttdp = db.THONGTINDATPHONGs.Select(t => new ThongTinPhong
+            Session["doinut"] = null;
+            var hd = db.HOADONs.Where(a => a.Id_DP == id).FirstOrDefault();
+            if(hd!=null)
             {
-                Id_DP = t.Id,
-                Ten_kh = db.THONGTINCANHANs.Where(kh => kh.Id_tk == t.Id_KH).FirstOrDefault().HoTen,
-                Ngaydat = t.NgayDat.ToString(), 
-                Ngaytra = t.NgayTra.ToString(),
-                Soluong = t.CTDATPHONGs.Where(a => a.Id_DatPhong == id).Count().ToString(),
-                Id_P = t.CTDATPHONGs.Where(b => b.Id_DatPhong == id).Select(a => a.Id_P).ToList(),
-                //Slnl=int.Parse(t.SoLuongNguoiTH.ToString()),
-                //Slte=int.Parse(t.SoLuongTreEm.ToString()),
-                Tongtien=double.Parse(db.THONGTINDATPHONGs.Where(d=>d.Id==id).FirstOrDefault().DonGia.ToString()),
-            });
-            var CTDP = db.CTDATPHONGs.Where(t => t.Id_DatPhong == id).FirstOrDefault();
-            List<int> dsPhong = new List<int>();
-            dsPhong = db.CTDATPHONGs.Where(b => b.Id_DatPhong == id).Select(a => a.Id_P).ToList();
-            var lstPT = dsPhong[new Random().Next(dsPhong.Count)];
-            int idp = lstPT;
-            var ttpXN = ttdp.Where(t => t.Id_DP == id).FirstOrDefault();
-            ttpXN.Songayo = (1 + Math.Floor(double.Parse((DateTime.Parse(ttpXN.Ngaytra) - DateTime.Parse(ttpXN.Ngaydat)).Days.ToString()))).ToString();
+                Session["doinut"] = "Đã xác nhận đặt phòng";
+            }
+            mymodel.HD = hd;
 
-
-            // err /*
-            //lấy list tên phòng theo list idp
-            ttpXN.CactenP = db.PHONGs.Where(p => dsPhong.Contains(p.Id)).Select(p => p.TenPhong).ToList();
-            //lấy list IDLP theo list tên phòng
-            List<string> dsLoaiP=db.PHONGs.Where(p => dsPhong.Contains(p.Id)).Select(p => p.Id_LP).ToList();
-            //lấy list tên loại phòng theo list idLP
-            ttpXN.Tenphong = db.LOAIPHONGs.Where(v => dsLoaiP.Contains(v.Id)).Select(v => v.TenLoai).ToList();
-            //lấy list giá theo id_DP
-            ttpXN.GiaLP = db.CTDATPHONGs.Where(x => x.Id_DatPhong == id).Select(z =>double.Parse((z.Gia).Value.ToString())).Distinct().ToList();
-
-            ttpXN.SoLuongLP = db.CTDATPHONGs.Where(x => x.Id_DatPhong == id).Select(z => z.)).ToList();
-
-            ttpXN.Slnl = db.LOAIPHONGs.Where(k => dsLoaiP.Contains(k.Id)).Select(k => k.SoLuongNguoiLon.ToString()).ToList();
-            ttpXN.Slte = db.LOAIPHONGs.Where(k => dsLoaiP.Contains(k.Id)).Select(k => k.SoLuongTreEm.ToString()).ToList();
-            
-
-            //CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-US"
-            //string g = double.Parse(ttpXN.Tongtien).ToString("#,###", cul.NumberFormat);
-            //ttpXN.Tongtien = g;
-            mymodel.TTDP = ttpXN;
-            Session["ThongTinPhong"] = CTDP;
-            Session["ThongTinDP"] = ttpXN;
-            */
             return View(mymodel);
         }
         [HttpPost]
