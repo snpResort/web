@@ -27,10 +27,10 @@
                         <p>@((1 + Math.Floor(double.Parse((DateTime.Parse(ttdp.NgTra) - DateTime.Parse(ttdp.NgDat)).Days.ToString()))))</p>
                         <p>@ttdp.SoLuongNgLon</p>
                         <p>@ttdp.SoLuongTreEm</p>
-                            @*<p>@Model.TTDP.Slnl</p>
-            <p>@Model.TTDP.Slte</p>*@
-                        </div>
+                        @*<p>@Model.TTDP.Slnl</p>
+                <p>@Model.TTDP.Slte</p>*@
                     </div>
+                </div>
                 <div class="row" style="padding-left: 15px; font-size: 15px">
                     <p>Phòng số:&nbsp</p>
                     <p>@string.Join(", ", listRoomBooked)</p>
@@ -72,13 +72,35 @@
                 </div>
                 <div class="row" style="font-size:15px">
                     <div class="col-md-6">
+                        <p>Đơn giá</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p>@ttdp.Ctdp.Sum(ct => int.Parse(ct.SoLuong))</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p>@string.Format("{0:0,0} ", ttdp.Ctdp.Sum(ct => int.Parse(ct.Gia))) <ins>đ</ins></p>
+                    </div>
+                </div>
+                <div class="row" style="font-size:15px">
+                    <div class="col-md-6">
+                        <p>Giảm giá</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p></p>
+                    </div>
+                    <div class="col-md-3">
+                        <p ali>@string.Format("{0:0.0}", (1 - ttdp.Gia / ttdp.Ctdp.Sum(ct => int.Parse(ct.Gia))) * 100) %</p>
+                    </div>
+                </div>
+                <div class="row" style="font-size:15px">
+                    <div class="col-md-6">
                         <p>Tổng hoá đơn</p>
                     </div>
                     <div class="col-md-3">
                         <p>@ttdp.Ctdp.Sum(ct => int.Parse(ct.SoLuong))</p>
                     </div>
                     <div class="col-md-3">
-                        <p>@string.Format("{0:0,0} ",ttdp.Gia) <ins>đ</ins></p>
+                        <p>@string.Format("{0:0,0} ", ttdp.Gia) <ins>đ</ins></p>
                     </div>
                 </div>
                 <div class="row" style="padding-left:200px; padding-top:50px">

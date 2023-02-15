@@ -121,6 +121,7 @@ namespace QL_Resort.Controllers
         {
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/Report/XuatHD.rpt")));
+
             var hd = db.HOADONs.Where(t => t.Id == idhd).FirstOrDefault();
             var ttdp = db.THONGTINDATPHONGs
                 .Where(dp => dp.Id == hd.Id_DP)
@@ -160,10 +161,9 @@ namespace QL_Resort.Controllers
                 SoLuong = tt.Count().ToString(),
                 TenLoai = tt.Key.TenLoai,
             }).ToList();
-            dynamic mymodel = new ExpandoObject();
 
             // thông tin dp
-            mymodel.ttdp = new ThongTinDP
+            var _ttdp = new ThongTinDP
             {
                 Gia = ttdp.Gia,
                 NgDat = ttdp.NgDat,
@@ -183,29 +183,8 @@ namespace QL_Resort.Controllers
                     .ToList(),
             };
 
-            mymodel.HD = hd;
-            var idtknv = db.NHANVIENs.Where(x => x.Id == hd.Id_NV).FirstOrDefault().Id_tk;
-            mymodel.usernv = db.THONGTINCANHANs.Where(ttcn => ttcn.Id_tk == idtknv).FirstOrDefault();
-            var nv= db.THONGTINCANHANs.Where(ttcn => ttcn.Id_tk == idtknv).FirstOrDefault();
-
-            var dsPhong = db.CTDATPHONGs.Where(b => b.Id_DatPhong == hd.Id_DP).Select(a => a.Id_P).ToList();
-
-            List<string> dsLoaiP = db.PHONGs.Where(p => dsPhong.Contains(p.Id)).Select(p => p.Id_LP).ToList();
-
-            // rooms list booked
-            mymodel.dsP = db.PHONGs.Where(p => dsPhong.Contains(p.Id)).Select(p => p.TenPhong).ToList();
-
-            // info user
-            var user_id = db.THONGTINDATPHONGs.Where(tt => tt.Id == hd.Id_DP).FirstOrDefault().Id_KH;
-            mymodel.userInfo = db.THONGTINCANHANs.Where(ttcn => ttcn.Id_tk == user_id).FirstOrDefault();
-            var kh= db.THONGTINCANHANs.Where(ttcn => ttcn.Id_tk == user_id).FirstOrDefault();
-
-            rd.SetParameterValue("@NgayTao", hd.NgayTao);
-            rd.SetParameterValue("@NgayDat", ttdp.NgDat);
-            rd.SetParameterValue("@NgayTra", ttdp.NgTra);
-            rd.SetParameterValue("@TongTien", ttdp.Gia);
-            rd.SetParameterValue("@HoTenNV", nv.HoTen);
-            rd.SetParameterValue("@HoTenKH", kh.HoTen);
+            rd.SetParameterValue("GiamGia", (1 - _ttdp.Gia / _ttdp.Ctdp.Sum(ct => int.Parse(ct.Gia))) * 100);
+            rd.SetParameterValue("Idhd", idhd);
             //rd.SetParameterValue("@TenLoai", );
 
             //rd.SetDataSource(ttlp);
