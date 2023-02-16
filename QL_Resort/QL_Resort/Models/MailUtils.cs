@@ -249,8 +249,8 @@ namespace QL_Resort.Models
         public static int SendMailVerifyCode(string _to)
         {
 
-            String _gmail_send = "noreply.pikanote@gmail.com";
-            String _gmail_password = "koapeozuqczpyewz";
+            String _gmail_send = "noreply1.moonlight@gmail.com";
+            String _gmail_password = "vqgdsfghfzodvxgx";
 
             // Tạo SmtpClient kết nối đến smtp.gmail.com
             using (SmtpClient client = new SmtpClient("smtp.gmail.com"))
@@ -271,8 +271,8 @@ namespace QL_Resort.Models
         public static bool SendMailBookSuccess(string _to, String id_dp, String tenLP, String giaPhong, String soNgayO, String soLuongNgLon, String soLuongTreEm)
         {
 
-            String _gmail_send = "noreply.pikanote@gmail.com";
-            String _gmail_password = "koapeozuqczpyewz";
+            String _gmail_send = "noreply1.moonlight@gmail.com";
+            String _gmail_password = "vqgdsfghfzodvxgx";
 
             // Tạo SmtpClient kết nối đến smtp.gmail.com
             using (SmtpClient client = new SmtpClient("smtp.gmail.com"))
@@ -289,8 +289,8 @@ namespace QL_Resort.Models
         public static bool SendMailVerifyBookSuccess(string _to, String id_dp, String tenLP, String giaPhong, String soNgayO, String soLuongNgLon, String soLuongTreEm)
         {
 
-            String _gmail_send = "noreply.pikanote@gmail.com";
-            String _gmail_password = "koapeozuqczpyewz";
+            String _gmail_send = "noreply1.moonlight@gmail.com";
+            String _gmail_password = "vqgdsfghfzodvxgx";
 
             // Tạo SmtpClient kết nối đến smtp.gmail.com
             using (SmtpClient client = new SmtpClient("smtp.gmail.com"))
@@ -307,8 +307,8 @@ namespace QL_Resort.Models
         public static bool SendMailBookSuccess(string _to, String id_dp)
         {
 
-            String _gmail_send = "noreply.pikanote@gmail.com";
-            String _gmail_password = "koapeozuqczpyewz";
+            String _gmail_send = "noreply1.moonlight@gmail.com";
+            String _gmail_password = "vqgdsfghfzodvxgx";
 
             // Tạo SmtpClient kết nối đến smtp.gmail.com
             using (SmtpClient client = new SmtpClient("smtp.gmail.com"))

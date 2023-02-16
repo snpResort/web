@@ -165,6 +165,14 @@ namespace QL_Resort.Controllers
             Session["dataPhong"] = data;
 
             mymodel.dataPhong = data;
+            Session["emptyEmail"] = null;
+            var TTCN = Session["TTCN"] as THONGTINCANHAN;
+            if (TTCN == null)
+            {
+                Session["emptyEmail"] = "Chưa có thông tin của khách hàng này. Vui lòng nhập thông tin khách hàng";
+                return RedirectToAction("Index", "Admin");
+            }
+
             return View(mymodel);
         }
         [HttpPost]
@@ -279,7 +287,7 @@ namespace QL_Resort.Controllers
                 ViewData["checkmail"] = "Email đã tồn tại!";
                 return View(mymodel);
             }    
-            else
+            else if(checkmail==null && hoten != string.Empty && ngaysinh != string.Empty && email != string.Empty && dienthoai != string.Empty && diachi != string.Empty)
             {
                 var kq = db.sp_AddAccKH(username, matkhau, hoten, DateTime.Parse(ngaysinh), cccd, gioitinh, email, dienthoai, diachi);
                 Session["XN"] = "Cập nhật thông tin khách hàng thành công";
@@ -295,11 +303,11 @@ namespace QL_Resort.Controllers
         {
             Session["emptyEmail"] = null;
             var TTCN = Session["TTCN"] as THONGTINCANHAN;
-            if(TTCN==null)
+            if (TTCN == null)
             {
                 Session["emptyEmail"] = "Chưa có thông tin của khách hàng này. Vui lòng nhập thông tin khách hàng";
                 return RedirectToAction("Index", "Admin");
-            }    
+            }
             var IDKH = Session["idtk"] as TAIKHOAN;
             var kh = db.KHACHHANGs.ToList();
             var idkh1s = db.KHACHHANGs.Where(t => t.Id_tk == TTCN.Id_tk).ToList();
